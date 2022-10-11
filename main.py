@@ -148,9 +148,6 @@ def inTie():
     for color in movePositions:
         if not True in movePositions[color]:
             return True
-    if bottomColorCheckCounter == 3 or topColorCheckCounter == 3:
-        return True
-    return False
         
 def canCastle(piece, moveTo):
     if pieces[piece].type == "king" and pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "rook" and not pieceInBetween(piece, moveTo):
