@@ -173,8 +173,6 @@ pygame.display.set_icon(icon)
 boardSize = 8
 topColor = "black"
 bottomColor = "white"
-turn = 1
-winner = ""
 winnerLogo = imgload("assets/EndingPictures/Winner.jpg")
 winnerLogo = pygame.transform.smoothscale(winnerLogo, [SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1]//2])
 loserLogo = imgload("assets/EndingPictures/Loser.jpg")
@@ -184,6 +182,7 @@ tieLogo = pygame.transform.smoothscale(tieLogo, [SCREEN_DIMENSIONS[0], SCREEN_DI
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 promotionPieces = {}
 promotionPieceTypes = ["bishop", "rook", "knight", "queen"]
+squareSize = SCREEN_DIMENSIONS[0]/boardSize
 for x in range(2):
     for y in range(len(promotionPieceTypes)):
         Piece = imgload("assets/GamePieces/" + (topColor if x == 1 else bottomColor).capitalize() + promotionPieceTypes[y].capitalize() + ".png")
@@ -209,32 +208,36 @@ LIGHT_BROWN = (222,202,175)
 # smallfont = pygame.font.SysFont('Corbel', 35)
 # smallerfont = pygame.font.SysFont('Corbel', 32)
 
-board = {}
-for x in range(boardSize):
-    for y in range(boardSize):
-        board[alphabet[x] + str(y+1)] = ""
-squareSize = SCREEN_DIMENSIONS[0]/boardSize
-pieces = {}
-topPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
-for i in range(len(topPieces)):
-    pieces[topColor + topPieces[i] + numberOf(topColor + topPieces[i], pieces.keys())] = piece(topColor, topPieces[i], [alphabet[boardSize-i - 1],1], topColor + topPieces[i] + numberOf(topColor + topPieces[i], pieces.keys()))
-for i in range(boardSize):
-    pieces[topColor + "pawn" + str(i)] = piece(topColor, "pawn", [alphabet[boardSize-i - 1],2], topColor + "pawn" + str(i))
-bottomPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
-for i in range(boardSize):
-    pieces[bottomColor + "pawn" + str(i)] = piece(bottomColor, "pawn", [alphabet[boardSize-i - 1],7], bottomColor + "pawn" + str(i))
-for i in range(len(bottomPieces)):
-    pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
-delete = []
-check = None
-tie = False
-overRideCanMove = False
-removePiece = False
-overRideTurns = False
-promotion = ""
-topColorCheckCounter = 0
-bottomColorCheckCounter = 0
+def reset():
+    global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, topColorCheckCounter, bottomColorCheckCounter, turn, winner
+    board = {}
+    for x in range(boardSize):
+        for y in range(boardSize):
+            board[alphabet[x] + str(y+1)] = ""
 
+    pieces = {}
+    topPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
+    for i in range(len(topPieces)):
+        pieces[topColor + topPieces[i] + numberOf(topColor + topPieces[i], pieces.keys())] = piece(topColor, topPieces[i], [alphabet[boardSize-i - 1],1], topColor + topPieces[i] + numberOf(topColor + topPieces[i], pieces.keys()))
+    for i in range(boardSize):
+        pieces[topColor + "pawn" + str(i)] = piece(topColor, "pawn", [alphabet[boardSize-i - 1],2], topColor + "pawn" + str(i))
+    bottomPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
+    for i in range(boardSize):
+        pieces[bottomColor + "pawn" + str(i)] = piece(bottomColor, "pawn", [alphabet[boardSize-i - 1],7], bottomColor + "pawn" + str(i))
+    for i in range(len(bottomPieces)):
+        pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
+    delete = []
+    check = None
+    tie = False
+    overRideCanMove = False
+    removePiece = False
+    overRideTurns = False
+    promotion = ""
+    topColorCheckCounter = 0
+    bottomColorCheckCounter = 0
+    turn = 1
+    winner = ""
+reset()
 
 running = True
 while running:
@@ -246,7 +249,6 @@ while running:
             if pieces[Piece].movedTwo != False:
                 if turn - 1 == pieces[Piece].movedTwo[1]:
                     pieces[Piece].movedTwo = False
-    print(topColorCheckCounter, bottomColorCheckCounter)
     if not removePiece:
         if inTie():
             if check != None:
@@ -438,6 +440,8 @@ while running:
                         overRideTurns = True
                     else:
                         overRideTurns = False
+                elif developerControl.lower() == "reset":
+                    reset()
         else:
             if event.type == pygame.MOUSEBUTTONUP:
                 promotionPiece = 0
