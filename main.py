@@ -209,7 +209,7 @@ LIGHT_BROWN = (222,202,175)
 # smallerfont = pygame.font.SysFont('Corbel', 32)
 
 def reset():
-    global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, topColorCheckCounter, bottomColorCheckCounter, turn, winner
+    global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, turn, winner
     board = {}
     for x in range(boardSize):
         for y in range(boardSize):
@@ -233,8 +233,6 @@ def reset():
     removePiece = False
     overRideTurns = False
     promotion = ""
-    topColorCheckCounter = 0
-    bottomColorCheckCounter = 0
     turn = 1
     winner = ""
 reset()
