@@ -4,6 +4,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame
 from PythonFiles.pieceCreation import numberOf, imgload, loadpiece
 from PythonFiles.pieceMovement import canMove, canCastle
+from PythonFiles.chessGameStates import inCheck, inTie
 
 # initializing the constructor
 pygame.init()
@@ -20,67 +21,33 @@ class piece():
         if type == "pawn":
             self.movedTwo = False
 
+## Base Variables of Game
+SCREEN_DIMENSIONS = [800, 800] #How wide the screen is by how tall the screen is in pixels
+developer = True #Whether or not you can hit left control to access developer commands
+boardSize = 8 #How many squares for the length and width
+topColor = "black" #Which color starts on the top of the board
+bottomColor = "white" #Which color starts at the bottom of the board and goes first
+promotionPieceTypes = ["bishop", "rook", "knight", "queen"] #Which pieces are available when a pawn is being promoted(must have a png to back it up)
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" #The alphabet which the game uses
+squareSize = SCREEN_DIMENSIONS[0]/boardSize #How large each square is
 
-def inCheck(pieces, board):
-    if not overRideCanMove:
-        for Piece in pieces:
-            if Piece != None and pieces[Piece] != "":
-                color = pieces[Piece].color
-                kingPosition = pieces[(bottomColor if color == topColor else topColor) + "king0"].position
-                if canMove(Piece, kingPosition, board, pieces, boardSize, bottomColor, overRideCanMove):
-                    return bottomColor if color == topColor else topColor
-    else:
-        return None
-
-
-        
-
-
-def inTie():
-    movePositions = {topColor:[], bottomColor:[]}
-    for x in range(boardSize):
-        for y in range(1, boardSize+1):
-            for Piece in pieces:
-                if Piece != None and pieces[Piece] != "" and canMove(Piece, [alphabet[x], y], board, pieces, boardSize, bottomColor, overRideCanMove) and pieces[Piece].position != [alphabet[x], y]:
-                    board1 = board.copy()
-                    pieces1 = pieces.copy()
-                    firstLocation = pieces1[Piece].position
-                    board1[pieces1[Piece].position[0] + str(int(pieces1[Piece].position[1]))] = ""
-                    pieces1[Piece].position = [alphabet[x], y]
-                    board1[alphabet[x] + str(int(y))] = pieces1[Piece].name
-                    checkState = inCheck(pieces1, board1)
-                    if checkState == pieces1[Piece].color:
-                        movePositions[pieces1[Piece].color].append(False)
-                    else:
-                        movePositions[pieces1[Piece].color].append(True)
-                    pieces1[Piece].position = firstLocation
-                    board1[pieces1[Piece].position[0] + str(int(pieces1[Piece].position[1]))] = pieces1[Piece].name
-                    board1[alphabet[x] + str(int(y))] = ""
-    for color in movePositions:
-        if not True in movePositions[color]:
-            return True
-        
-
-SCREEN_DIMENSIONS = [800, 800]
-developer = True
-screen = pygame.display.set_mode(SCREEN_DIMENSIONS)
+## Setting the game up
+screen = pygame.display.set_mode(SCREEN_DIMENSIONS) #P
 height, width = screen.get_height(), screen.get_width()
 pygame.display.set_caption("Chess")
 icon = imgload("assets/icon.png")
 pygame.display.set_icon(icon)
-boardSize = 8
-topColor = "black"
-bottomColor = "white"
+
 winnerLogo = imgload("assets/EndingPictures/Winner.jpg")
 winnerLogo = pygame.transform.smoothscale(winnerLogo, [SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1]//2])
 loserLogo = imgload("assets/EndingPictures/Loser.jpg")
 loserLogo = pygame.transform.smoothscale(loserLogo, [SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1]//2])
 tieLogo = imgload("assets/EndingPictures/Tie.jpg")
 tieLogo = pygame.transform.smoothscale(tieLogo, [SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1]])
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
 promotionPieces = {}
-promotionPieceTypes = ["bishop", "rook", "knight", "queen"]
-squareSize = SCREEN_DIMENSIONS[0]/boardSize
+
+
 for x in range(2):
     for y in range(len(promotionPieceTypes)):
         Piece = imgload("assets/GamePieces/" + (topColor if x == 1 else bottomColor).capitalize() + promotionPieceTypes[y].capitalize() + ".png")
@@ -101,10 +68,6 @@ DARK_ORANGE = (186, 172, 20)
 LIGHT_ORANGE = (230, 212, 25)
 BROWN = (169,126,92)
 LIGHT_BROWN = (222,202,175)
-
-
-# smallfont = pygame.font.SysFont('Corbel', 35)
-# smallerfont = pygame.font.SysFont('Corbel', 32)
 
 def reset():
     global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, turn, winner
@@ -140,6 +103,7 @@ while running:
     if delete:
         del pieces[delete[0]]
         delete = []
+    
     for Piece in pieces:
         if pieces[Piece].type == "pawn":
             if pieces[Piece].movedTwo != False:
@@ -191,10 +155,6 @@ while running:
                         pygame.draw.rect(screen, BROWN, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)*squareSize, squareSize, squareSize])
                     screen.blit(promotionPieces[promotion[2] + str(promotionPiece)], [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX + 10, SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)*squareSize + 10])
                 promotionPiece += 1
-
-            
-    # stores the (x,y) coordinates into
-    # the variable as a tuple
     mouse = pygame.mouse.get_pressed()
     if winner != "":
         if winner == bottomColor:
@@ -205,7 +165,6 @@ while running:
             screen.blit(winnerLogo, [0, SCREEN_DIMENSIONS[1]//2])
     if tie:
         screen.blit(tieLogo, [0, 0])
-    # screen.blit(logo, (93, 50))
     
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
@@ -237,7 +196,7 @@ while running:
                                 board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
                                 pieces[piecessss].position = moveTo
                                 board[moveTo[0] + str(int(moveTo[1]))] = pieces[piecessss].name
-                                checkState = inCheck(pieces, board)
+                                checkState = inCheck(pieces, board, overRideCanMove, bottomColor, topColor, boardSize)
                                 if pieces[piecessss].type == "pawn" and pieces[piecessss].position[1] == (8 if pieces[piecessss].color == topColor else 1):
                                     promotion = pieces[piecessss].position + [pieces[piecessss].color]
                                 if pieces[piecessss].type == "pawn" and abs(firstLocation[1] - int(moveTo[1])) == 2:
@@ -277,7 +236,7 @@ while running:
                                 pieces[board[moveTo[0] + str(int(moveTo[1]))]] = ""
                                 pieces[piecessss].position = moveTo
                                 board[moveTo[0] + str(int(moveTo[1]))] = pieces[piecessss].name
-                                checkState = inCheck(pieces, board)
+                                checkState = inCheck(pieces, board, overRideCanMove, bottomColor, topColor, boardSize)
                                 if pieces[piecessss].type == "pawn" and pieces[piecessss].position[1] == (8 if pieces[piecessss].color == topColor else 1):
                                     promotion = pieces[piecessss].position + [pieces[piecessss].color]
                                 if (checkState != None and check != None) or (checkState == pieces[piecessss].color):
