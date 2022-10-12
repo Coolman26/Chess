@@ -1,4 +1,3 @@
-import imp
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
@@ -28,7 +27,7 @@ def inCheck(pieces, board):
             if Piece != None and pieces[Piece] != "":
                 color = pieces[Piece].color
                 kingPosition = pieces[(bottomColor if color == topColor else topColor) + "king0"].position
-                if canMove(Piece, kingPosition, board):
+                if canMove(Piece, kingPosition, board, pieces, boardSize, bottomColor, overRideCanMove):
                     return bottomColor if color == topColor else topColor
     else:
         return None
@@ -42,7 +41,7 @@ def inTie():
     for x in range(boardSize):
         for y in range(1, boardSize+1):
             for Piece in pieces:
-                if Piece != None and pieces[Piece] != "" and canMove(Piece, [alphabet[x], y], board) and pieces[Piece].position != [alphabet[x], y]:
+                if Piece != None and pieces[Piece] != "" and canMove(Piece, [alphabet[x], y], board, pieces, boardSize, bottomColor, overRideCanMove) and pieces[Piece].position != [alphabet[x], y]:
                     board1 = board.copy()
                     pieces1 = pieces.copy()
                     firstLocation = pieces1[Piece].position
@@ -226,7 +225,7 @@ while running:
                 if not removePiece:
                     for piecessss in pieces:
                         moveTo = [alphabet[int(boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
-                        if pieces[piecessss].follow and not pieces[piecessss].position == moveTo and canMove(piecessss, moveTo, board):
+                        if pieces[piecessss].follow and not pieces[piecessss].position == moveTo and canMove(piecessss, moveTo, board, pieces, boardSize, bottomColor, overRideCanMove):
                             if board[moveTo[0] + str(int(moveTo[1]))] == "":
                                 if check == None:
                                     if turn % 2 == 1:
@@ -301,7 +300,7 @@ while running:
                             else:
                                 pieces[piecessss].follow = False
                         elif board[moveTo[0] + str(int(moveTo[1]))] != "":
-                            if canCastle(piecessss, moveTo, board):
+                            if canCastle(piecessss, moveTo, board, topColor, pieces, boardSize):
                                 pieces[piecessss].follow = False
                                 board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
                                 if moveTo[0] == "A":
