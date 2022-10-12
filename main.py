@@ -31,44 +31,35 @@ promotionPieceTypes = ["bishop", "rook", "knight", "queen"] #Which pieces are av
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" #The alphabet which the game uses
 squareSize = SCREEN_DIMENSIONS[0]/boardSize #How large each square is
 
-## Setting the game up
-screen = pygame.display.set_mode(SCREEN_DIMENSIONS) #P
-height, width = screen.get_height(), screen.get_width()
-pygame.display.set_caption("Chess")
-icon = imgload("assets/icon.png")
-pygame.display.set_icon(icon)
+## Setting the screen up
+screen = pygame.display.set_mode(SCREEN_DIMENSIONS) #Creating the screen with the dimensions established earlier #
+pygame.display.set_caption("Chess") #Setting the title for the game
+icon = imgload("assets/icon.png") #Loading in the icon for the game
+pygame.display.set_icon(icon) #Setting the icon loaded in as the icon of the screen
 
-winnerLogo = imgload("assets/EndingPictures/Winner.jpg")
-winnerLogo = pygame.transform.smoothscale(winnerLogo, [SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1]//2])
-loserLogo = imgload("assets/EndingPictures/Loser.jpg")
-loserLogo = pygame.transform.smoothscale(loserLogo, [SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1]//2])
-tieLogo = imgload("assets/EndingPictures/Tie.jpg")
-tieLogo = pygame.transform.smoothscale(tieLogo, [SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1]])
+## Importing logos
+winnerLogo = imgload("assets/EndingPictures/Winner.jpg") #Loads in the logo
+winnerLogo = pygame.transform.smoothscale(winnerLogo, [SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1]//2]) #Transforms the logo to the correct size(height is half)
+loserLogo = imgload("assets/EndingPictures/Loser.jpg") #Loads in the logo
+loserLogo = pygame.transform.smoothscale(loserLogo, [SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1]//2]) #Transforms the logo to the correct size(height is half)
+tieLogo = imgload("assets/EndingPictures/Tie.jpg") #Loads in the logo
+tieLogo = pygame.transform.smoothscale(tieLogo, [SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1]]) #Transforms the logo to the correct size
+
+## Importing Promotion Pieces
+# Using the promotionPieceTypes variable from earlier it goes through for each color and type and imports and scales each image correctly.
+# This is to be later used for promotion. 
 
 promotionPieces = {}
-
-
 for x in range(2):
     for y in range(len(promotionPieceTypes)):
         Piece = imgload("assets/GamePieces/" + (topColor if x == 1 else bottomColor).capitalize() + promotionPieceTypes[y].capitalize() + ".png")
         promotionPieces[(topColor if x == 1 else bottomColor) + str(y)] = pygame.transform.smoothscale(Piece, [squareSize-10, SCREEN_DIMENSIONS[1]/boardSize-20])
 
-# colors
-SKY_BLUE = (125, 175, 255)
-WHITE = (255, 255, 255)
-LIGHT_GREY = (175, 175, 175)
-DARK_GREY = (100, 100, 100)
-LIGHT_GREEN = (63, 196, 47)
-LIGHT_RED = (240, 36, 22)
-DARK_GREEN = (49, 158, 36)
-DARK_RED = (199, 30, 18)
-DARK_BLUE = (21, 42, 176)
-LIGHT_BLUE = (44, 71, 242)
-DARK_ORANGE = (186, 172, 20)
-LIGHT_ORANGE = (230, 212, 25)
+# Tile Colors
 BROWN = (169,126,92)
 LIGHT_BROWN = (222,202,175)
 
+#This function resets all of the variables back to their starting position. MUST NOT BE MOVED.
 def reset():
     global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, turn, winner
     board = {}
