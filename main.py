@@ -2,46 +2,23 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
 import pygame
+from PythonFiles.pieceCreation import piece, numberOf, imgload, loadpiece
 
 # initializing the constructor
 pygame.init()
-
-# shorthand events
-def imgload(img): return pygame.image.load(img)
 
 class piece():
     def __init__(self, color, type, position, name, follow=False) -> None:
         self.position = position
         self.color = color
         self.type = type
-        self.png = loadpiece(color + type)
+        self.png = loadpiece(color + type, squareSize, SCREEN_DIMENSIONS, boardSize)
         self.follow = follow
         self.name = name
         board[position[0] + str(position[1])] = name
         if type == "pawn":
             self.movedTwo = False
 
-
-def startscolor(name):
-    for color in ["black", "golden", "red", "white"]:
-        if name.lower().startswith(color):
-            return [True, color.capitalize()]
-
-    return [False]
-
-def endspiece(name):
-    for piece in ["bishop", "king", "knight", "pawn", "queen", "rook"]:
-        if name.lower().endswith(piece):
-            return [True, piece.capitalize()]
-    return [False]
-
-def loadpiece(name):
-    start = startscolor(name)
-    end = endspiece(name)
-    if start[0] and end[0]:
-        piece = imgload("assets/GamePieces/" + start[1] + end[1] + ".png")
-        piece = pygame.transform.smoothscale(piece, [squareSize-10, SCREEN_DIMENSIONS[1]/boardSize-20])
-        return piece
 def pieceInBetween(piece, moveTo):
     moveX = (boardSize - alphabet.index(pieces[piece].position[0])) - (boardSize - alphabet.index(moveTo[0]))
     moveY = int(pieces[piece].position[1] - moveTo[1])
@@ -118,12 +95,7 @@ def inCheck(pieces, board):
 
 
         
-def numberOf(key, list):
-    x = 0
-    for thing in list:
-        if thing.startswith(key):
-            x += 1
-    return str(x)
+
 
 def inTie():
     movePositions = {topColor:[], bottomColor:[]}
@@ -155,13 +127,8 @@ def canCastle(piece, moveTo):
             if moveTo[0] in ["A", "H"] and moveTo[1] == (1 if pieces[piece].color == topColor else 8):
                 return True
 
-# screen resolution
 SCREEN_DIMENSIONS = [800, 800]
 developer = True
-# bg = imgload("assets/other/backdrop.png")
-# bg = pygame.transform.scale(bg, SCREEN_DIMENSIONS)
-# logo = imgload("assets/other/logo.png")
-# logo = pygame.transform.scale(logo, [390, 130])
 screen = pygame.display.set_mode(SCREEN_DIMENSIONS)
 height, width = screen.get_height(), screen.get_width()
 pygame.display.set_caption("Chess")
