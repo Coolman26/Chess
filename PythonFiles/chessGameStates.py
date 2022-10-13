@@ -31,7 +31,7 @@ def inCheck(pieces, board, overRideCanMove, bottomColor, topColor, boardSize):
             if Piece != None and pieces[Piece] != "":
                 color = pieces[Piece].color
                 kingPosition = pieces[(bottomColor if color == topColor else topColor) + "king0"].position
-                if canMove(Piece, kingPosition, board, pieces, boardSize, bottomColor, overRideCanMove):
+                if canMove(Piece, kingPosition, board, pieces, boardSize, bottomColor, overRideCanMove, topColor):
                     return bottomColor if color == topColor else topColor
     else:
         return None
