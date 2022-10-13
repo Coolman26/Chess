@@ -91,6 +91,7 @@ reset()
 
 running = True
 while running:
+    
     mouseXY = pygame.mouse.get_pos()
     mouse = pygame.mouse.get_pressed()
 
@@ -192,6 +193,14 @@ while running:
                             
                             firstLocation = pieces[piecessss].position
                             pieces[piecessss].follow = False
+                            if pieces[piecessss].type == "pawn":
+                                if pieces[piecessss].position[1] == (8 if pieces[piecessss].color == topColor else 1):
+                                    promotion = pieces[piecessss].position + [pieces[piecessss].color]
+                                elif abs(firstLocation[1] - int(moveTo[1])) == 2:
+                                    pieces[piecessss].movedTwo = [True, turn+1]
+                                elif abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
+                                    delete = [board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piecessss].color == bottomColor else -1))]]
+                                    board[moveTo[0] + str(int(moveTo[1])+(-1 if pieces[piecessss].color == bottomColor else 1))] = ""
                             if not board[moveTo[0] + str(int(moveTo[1]))] == "":
                                 board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
                                 delete = [board[moveTo[0] + str(int(moveTo[1]))]]
@@ -219,14 +228,6 @@ while running:
                                 pieces[piecessss].position = moveTo
                                 board[moveTo[0] + str(int(moveTo[1]))] = pieces[piecessss].name
                             checkState = inCheck(pieces, board, overRideCanMove, bottomColor, topColor, boardSize)
-                            if pieces[piecessss].type == "pawn":
-                                if pieces[piecessss].position[1] == (8 if pieces[piecessss].color == topColor else 1):
-                                    promotion = pieces[piecessss].position + [pieces[piecessss].color]
-                                elif abs(firstLocation[1] - int(moveTo[1])) == 2:
-                                    pieces[piecessss].movedTwo = [True, turn+1]
-                                elif abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
-                                    delete = [board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piecessss].color == bottomColor else -1))]]
-                                    board[moveTo[0] + str(int(moveTo[1])+(-1 if pieces[piecessss].color == bottomColor else 1))] = ""
                             if (checkState != None and check != None) or (checkState == pieces[piecessss].color):
                                 pieces[piecessss].position = firstLocation
                                 board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = pieces[piecessss].name
