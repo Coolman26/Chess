@@ -24,7 +24,7 @@ def canMove(piece, moveTo, board, pieces, boardSize, bottomColor, overRideCanMov
     color = pieces[piece].color
     type = pieces[piece].type
     if not overRideCanMove:
-        if board[moveTo[0] + str(int(moveTo[1]))]
+        if board[moveTo[0] + str(int(moveTo[1]))] == "" or pieces[board[moveTo[0] + str(int(moveTo[1]))]].color != pieces[piece].color:
             if type == "bishop":
                 if abs(moveX) == abs(moveY) and not pieceInBetween(piece, moveTo, board, pieces, boardSize):
                     return True
@@ -59,7 +59,6 @@ def canMove(piece, moveTo, board, pieces, boardSize, bottomColor, overRideCanMov
             elif type == "knight":
                 if (abs(moveX) == 1 and abs(moveY) == 2) or (abs(moveY) == 1 and abs(moveX) == 2):
                     return True
-        
         elif canCastle(piece, moveTo, board, topColor, pieces, boardSize):
             return True
     else:
