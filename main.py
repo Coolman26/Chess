@@ -91,6 +91,9 @@ reset()
 
 running = True
 while running:
+    mouseXY = pygame.mouse.get_pos()
+    mouse = pygame.mouse.get_pressed()
+    
     if delete:
         del pieces[delete[0]]
         delete = []
@@ -101,15 +104,12 @@ while running:
                 if turn - 1 == pieces[Piece].movedTwo[1]:
                     pieces[Piece].movedTwo = False
     
-    if not removePiece:
-        if inTie():
+    if not removePiece and promotion != "":
+        if inTie(board, pieces, boardSize, bottomColor, overRideCanMove, topColor):
             if check != None:
                 winner = check
             else:
                 tie = True
-    
-    mouseXY = pygame.mouse.get_pos()
-    mouse = pygame.mouse.get_pressed()
 
     for y in range(boardSize):
         for x in range(boardSize):
@@ -184,17 +184,27 @@ while running:
                     for piecessss in pieces:
                         moveTo = [alphabet[int(boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
                         if pieces[piecessss].follow and not pieces[piecessss].position == moveTo and canMove(piecessss, moveTo, board, pieces, boardSize, bottomColor, overRideCanMove):
-                            if board[moveTo[0] + str(int(moveTo[1]))] == "":
+                            if board[moveTo[0] + str(int(moveTo[1]))] == "" or pieces[board[moveTo[0] + str(int(moveTo[1]))]].color != pieces[piecessss].color:
                                 if check == None:
                                     if turn % 2 == 1:
                                         bottomColorCheckCounter = 0
                                     else:
                                         topColorCheckCounter = 0
+                                
                                 firstLocation = pieces[piecessss].position
                                 pieces[piecessss].follow = False
-                                board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
-                                pieces[piecessss].position = moveTo
-                                board[moveTo[0] + str(int(moveTo[1]))] = pieces[piecessss].name
+                                if not board[moveTo[0] + str(int(moveTo[1]))] == "":
+                                    board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
+                                    delete = [board[moveTo[0] + str(int(moveTo[1]))]]
+                                    if pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "king":
+                                        winner = pieces[board[moveTo[0] + str(int(moveTo[1]))]].color
+                                        break
+                                    pieces[board[moveTo[0] + str(int(moveTo[1]))]] = ""
+                                    pieces[piecessss].position = moveTo
+                                else:
+                                    board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
+                                    pieces[piecessss].position = moveTo
+                                    board[moveTo[0] + str(int(moveTo[1]))] = pieces[piecessss].name
                                 checkState = inCheck(pieces, board, overRideCanMove, bottomColor, topColor, boardSize)
                                 if pieces[piecessss].type == "pawn":
                                     if pieces[piecessss].position[1] == (8 if pieces[piecessss].color == topColor else 1):
@@ -219,39 +229,6 @@ while running:
                                         topColorCheckCounter += 1
                                 turn += 1
                                 break
-                            elif pieces[board[moveTo[0] + str(int(moveTo[1]))]].color != pieces[piecessss].color:
-                                if check == None:
-                                    if turn % 2 == 1:
-                                        bottomColorCheckCounter = 0
-                                    else:
-                                        topColorCheckCounter = 0
-                                pieces[piecessss].follow = False
-                                board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
-                                delete = [board[moveTo[0] + str(int(moveTo[1]))]]
-                                if pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "king":
-                                    winner = pieces[board[moveTo[0] + str(int(moveTo[1]))]].color
-                                    break
-                                pieces[board[moveTo[0] + str(int(moveTo[1]))]] = ""
-                                pieces[piecessss].position = moveTo
-                                board[moveTo[0] + str(int(moveTo[1]))] = pieces[piecessss].name
-                                checkState = inCheck(pieces, board, overRideCanMove, bottomColor, topColor, boardSize)
-                                if pieces[piecessss].type == "pawn" and pieces[piecessss].position[1] == (8 if pieces[piecessss].color == topColor else 1):
-                                    promotion = pieces[piecessss].position + [pieces[piecessss].color]
-                                if (checkState != None and check != None) or (checkState == pieces[piecessss].color):
-                                    pieces[piecessss].position = firstLocation
-                                    board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = pieces[piecessss].name
-                                    board[moveTo[0] + str(int(moveTo[1]))] = ""
-                                    break
-                                elif checkState != None:
-                                    check = checkState
-                                elif checkState == None and check != None:
-                                    check = None
-                                    if turn % 2 == 1:
-                                        bottomColorCheckCounter += 1
-                                    else:
-                                        topColorCheckCounter += 1
-                                turn += 1
-                                break 
                             else:
                                 pieces[piecessss].follow = False
                         elif board[moveTo[0] + str(int(moveTo[1]))] != "":
@@ -274,25 +251,25 @@ while running:
                                 pieces[piecessss].follow = False
                         elif pieces[piecessss].follow:
                             pieces[piecessss].follow = False
-        elif pygame.key.get_pressed()[pygame.K_LCTRL] and developer:
-            developerControl = input("What would you like to do? ")
-            if developerControl.lower() == "override canmove":
-                if not overRideCanMove:
-                    overRideCanMove = True
-                else:
-                    overRideCanMove = False
-            elif developerControl.lower() == "remove piece":
-                if not removePiece:
-                    removePiece = True
-                else:
-                    removePiece = False
-            elif developerControl.lower() == "override turns":
-                if not overRideTurns:
-                    overRideTurns = True
-                else:
-                    overRideTurns = False
-            elif developerControl.lower() == "reset":
-                reset()
+            elif pygame.key.get_pressed()[pygame.K_LCTRL] and developer:
+                developerControl = input("What would you like to do? ")
+                if developerControl.lower() == "override canmove":
+                    if not overRideCanMove:
+                        overRideCanMove = True
+                    else:
+                        overRideCanMove = False
+                elif developerControl.lower() == "remove piece":
+                    if not removePiece:
+                        removePiece = True
+                    else:
+                        removePiece = False
+                elif developerControl.lower() == "override turns":
+                    if not overRideTurns:
+                        overRideTurns = True
+                    else:
+                        overRideTurns = False
+                elif developerControl.lower() == "reset":
+                    reset()
 
         else:
             if event.type == pygame.MOUSEBUTTONUP:

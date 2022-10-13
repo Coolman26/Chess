@@ -58,6 +58,8 @@ def canMove(piece, moveTo, board, pieces, boardSize, bottomColor, overRideCanMov
         elif type == "knight":
             if (abs(moveX) == 1 and abs(moveY) == 2) or (abs(moveY) == 1 and abs(moveX) == 2):
                 return True
+        
+        elif 
     else:
         return True
 

@@ -1,4 +1,5 @@
-from pieceMovement import canMove
+from PythonFiles.pieceMovement import canMove
+
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 def inTie(board, pieces, boardSize, bottomColor, overRideCanMove, topColor):
     movePositions = {topColor:[], bottomColor:[]}
@@ -12,7 +13,7 @@ def inTie(board, pieces, boardSize, bottomColor, overRideCanMove, topColor):
                     board1[pieces1[Piece].position[0] + str(int(pieces1[Piece].position[1]))] = ""
                     pieces1[Piece].position = [alphabet[x], y]
                     board1[alphabet[x] + str(int(y))] = pieces1[Piece].name
-                    checkState = inCheck(pieces1, board1)
+                    checkState = inCheck(pieces1, board1, overRideCanMove, bottomColor, topColor, boardSize)
                     if checkState == pieces1[Piece].color:
                         movePositions[pieces1[Piece].color].append(False)
                     else:
