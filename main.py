@@ -99,13 +99,14 @@ while running:
         del pieces[delete[0]]
         delete = []
     
+    #This changes any pawn that has movedTwo equal to True(which means they have moved two spaces) to equal False if it has been more than one turn.
     for Piece in pieces:
         if pieces[Piece].type == "pawn":
             if pieces[Piece].movedTwo != False:
                 if turn - 1 == pieces[Piece].movedTwo[1]:
                     pieces[Piece].movedTwo = False
     
-    if not removePiece and promotion != "":
+    if not removePiece and promotion != "": #This checks if the game is inTie if it is then it checks if one side is in check. If they are in check
         if inTie(board, pieces, boardSize, bottomColor, overRideCanMove, topColor):
             if check != None:
                 winner = check

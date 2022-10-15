@@ -72,7 +72,7 @@ def pawnCanTake(board, piece, pieces, topColor):
 
 
 def canCastle(piece, moveTo, board, topColor, pieces, boardSize):
-    if pieces[piece].type == "king" and pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "rook" and not pieceInBetween(piece, moveTo, board, pieces, boardSize):
+    if pieces[piece].type == "king" and board[moveTo[0] + str(int(moveTo[1]))] != "" and pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "rook" and not pieceInBetween(piece, moveTo, board, pieces, boardSize):
         if pieces[piece].position[0] == "D" and pieces[piece].position[1] == (1 if pieces[piece].color == topColor else 8):
             if moveTo[0] in ["A", "H"] and moveTo[1] == (1 if pieces[piece].color == topColor else 8):
                 return True
