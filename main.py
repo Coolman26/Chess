@@ -91,11 +91,11 @@ reset()
 
 running = True
 while running:
-    
-    mouseXY = pygame.mouse.get_pos()
-    mouse = pygame.mouse.get_pressed()
+    mouseXY = pygame.mouse.get_pos() #This gets the current mouse position
+    mouse = pygame.mouse.get_pressed() #This gets the current mouse buttons that are pressed
 
-    if delete:
+    if delete: #This deletes a piece in pieces if the delete list has something in it. 
+        # I did this because it activates inside of a for loop and I can't delete inside the for loop.
         del pieces[delete[0]]
         delete = []
     
@@ -131,10 +131,7 @@ while running:
 
     if promotion != "":
         promotionPiece = 0
-        if alphabet.index(promotion[0]) != 0:
-            newX = boardSize - alphabet.index(promotion[0]) - 1
-        else:
-            newX = boardSize - alphabet.index(promotion[0]) - 3
+        newX = boardSize - alphabet.index(promotion[0]) - (1 if alphabet.index(promotion[0]) != 0 else 3)
         for y in range(2):
             for x in range(2):
                 xEven = x % 2 == 0
