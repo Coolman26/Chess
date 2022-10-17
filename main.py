@@ -1,10 +1,12 @@
 import os
+
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
 import pygame
-from PythonFiles.pieceCreation import numberOf, imgload, loadpiece
-from PythonFiles.pieceMovement import canMove, canCastle
+
 from PythonFiles.chessGameStates import inCheck, inTie
+from PythonFiles.pieceCreation import imgload, loadpiece, numberOf
+from PythonFiles.pieceMovement import canCastle, canMove
 
 # initializing the constructor
 pygame.init()
@@ -20,6 +22,16 @@ class piece():
         board[position[0] + str(position[1])] = name
         if type == "pawn":
             self.movedTwo = False
+
+def nextTurn():
+    global turn, board
+    turn += 1
+    for x in range(boardSize):
+        for y in range(boardSize):
+            board[alphabet[x] + str(y+1)] = ""
+    for Piece in pieces:
+        pieces[Piece].position = [alphabet[7 - alphabet.index(pieces[Piece].position[0])], 9 - pieces[Piece].position[1]]
+        board[pieces[Piece].position[0] + str(int(pieces[Piece].position[1]))] = Piece
 
 ## Base Variables of Game
 SCREEN_DIMENSIONS = [800, 800] #How wide the screen is by how tall the screen is in pixels
@@ -91,6 +103,7 @@ reset()
 
 running = True
 while running:
+    print(board)
     mouseXY = pygame.mouse.get_pos() #This gets the current mouse position
     mouse = pygame.mouse.get_pressed() #This gets the current mouse buttons that are pressed
 
@@ -238,7 +251,7 @@ while running:
                                 bottomColorCheckCounter += 1
                             else:
                                 topColorCheckCounter += 1
-                        turn += 1
+                        nextTurn()
                         break
                     else:
                         pieces[piecessss].follow = False
