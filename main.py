@@ -24,14 +24,15 @@ class piece():
             self.movedTwo = False
 
 def nextTurn():
-    global turn, board
+    global turn, board, pieces
     turn += 1
     for x in range(boardSize):
         for y in range(boardSize):
             board[alphabet[x] + str(y+1)] = ""
     for Piece in pieces:
-        pieces[Piece].position = [alphabet[7 - alphabet.index(pieces[Piece].position[0])], 9 - pieces[Piece].position[1]]
-        board[pieces[Piece].position[0] + str(int(pieces[Piece].position[1]))] = Piece
+        if pieces[Piece] != "":
+            pieces[Piece].position = [alphabet[7 - alphabet.index(pieces[Piece].position[0])], 9 - pieces[Piece].position[1]]
+            board[pieces[Piece].position[0] + str(int(pieces[Piece].position[1]))] = Piece
 
 ## Base Variables of Game
 SCREEN_DIMENSIONS = [800, 800] #How wide the screen is by how tall the screen is in pixels
@@ -103,7 +104,6 @@ reset()
 
 running = True
 while running:
-    print(board)
     mouseXY = pygame.mouse.get_pos() #This gets the current mouse position
     mouse = pygame.mouse.get_pressed() #This gets the current mouse buttons that are pressed
 
@@ -195,6 +195,7 @@ while running:
                 for piecessss in pieces:
                     moveTo = [alphabet[int(boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
                     if pieces[piecessss].follow and not pieces[piecessss].position == moveTo and canMove(piecessss, moveTo, board, pieces, boardSize, bottomColor, overRideCanMove, topColor):
+                        print("HIIII")
                         if check == None:
                             if turn % 2 == 1:
                                 bottomColorCheckCounter = 0
@@ -210,7 +211,7 @@ while running:
                                 pieces[piecessss].movedTwo = [True, turn+1]
                             elif abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
                                 delete = [board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piecessss].color == bottomColor else -1))]]
-                                board[moveTo[0] + str(int(moveTo[1])+(-1 if pieces[piecessss].color == bottomColor else 1))] = ""
+                                board[moveTo[0] + str(int(moveTo[1])-1)] = ""
                         if not board[moveTo[0] + str(int(moveTo[1]))] == "":
                             board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
                             delete = [board[moveTo[0] + str(int(moveTo[1]))]]
