@@ -195,7 +195,6 @@ while running:
                 for piecessss in pieces:
                     moveTo = [alphabet[int(boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
                     if pieces[piecessss].follow and not pieces[piecessss].position == moveTo and canMove(piecessss, moveTo, board, pieces, boardSize, bottomColor, overRideCanMove, topColor):
-                        print("HIIII")
                         if check == None:
                             if turn % 2 == 1:
                                 bottomColorCheckCounter = 0
