@@ -96,11 +96,12 @@ def reset():
     # #     pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
     for i in range(boardSize):
         for Piece in settings[str(i+1) + "Row"]:
-            Piece = Piece.lower()
-            if Piece.startswith("top"):
-                pieces[topColor + Piece[3:] + numberOf(topColor + Piece[3:], pieces.keys())] = piece(topColor, Piece[3:], [alphabet[boardSize-i - 1],1], topColor + Piece[3:] + numberOf(topColor + Piece[3:], pieces.keys()))
-            else:
-                pieces[bottomColor + Piece[6:] + numberOf(bottomColor + Piece[6:], pieces.keys())] = piece(bottomColor, Piece[6:], [alphabet[boardSize-i - 1],8], bottomColor + Piece[6:] + numberOf(bottomColor + Piece[6:], pieces.keys()))
+            if Piece != "":
+                Piece = Piece.lower()
+                PieceType = Piece[3:] if Piece.startswith("top") else Piece[6:]
+                PieceColor = topColor if Piece.startswith("top") else bottomColor
+                print(Piece[3:])
+                pieces[PieceColor + PieceType + numberOf()]
 
     delete = []
     check = None
