@@ -19,6 +19,7 @@ class piece():
         self.png = loadpiece(color + type, squareSize, SCREEN_DIMENSIONS, boardSize)
         self.follow = follow
         self.name = name
+        print(position[0] + str(position[1]))
         board[position[0] + str(position[1])] = name
         if type == "pawn":
             self.movedTwo = False
@@ -95,13 +96,12 @@ def reset():
     # # for i in range(len(bottomPieces)):
     # #     pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
     for i in range(boardSize):
-        for Piece in settings[str(i+1) + "Row"]:
+        for Piece in settings["Row" + str(i+1)]:
             if Piece != "":
-                Piece = Piece.lower()
                 PieceType = Piece[3:] if Piece.startswith("top") else Piece[6:]
                 PieceColor = topColor if Piece.startswith("top") else bottomColor
-                print(Piece[3:])
-                pieces[PieceColor + PieceType + numberOf()]
+                PieceName = PieceColor + PieceType + numberOf(PieceColor + PieceType, pieces.keys())
+                pieces[PieceName] = piece(PieceColor, PieceType, [alphabet[settings["Row" + str(i+1)].index(Piece)], i+1], PieceName)
 
     delete = []
     check = None
@@ -113,10 +113,10 @@ def reset():
     turn = 1
     winner = ""
 reset()
+print(pieces.keys())
 
 running = True
 while running:
-    print(board)
     mouseXY = pygame.mouse.get_pos() #This gets the current mouse position
     mouse = pygame.mouse.get_pressed() #This gets the current mouse buttons that are pressed
 

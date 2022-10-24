@@ -2,12 +2,12 @@
     "topColor":"black",
     "bottomColor":"white",
     "boardSize":8,
-    "1Row": ["topRook", "topKnight", "topBishop", "topQueen", "topKing", "topBishop", "topKnight", "topRook"],
-    "2Row": ["topPawn", "topPawn","topPawn","topPawn","topPawn","topPawn","topPawn","topPawn"],
-    "3Row":["", "", "", "", "", "", "", ""], 
-    "4Row":["", "", "", "", "", "", "", ""],
-    "5Row":["", "", "", "", "", "", "", ""],
-    "6Row":["", "", "", "", "", "", "", ""],
-    "7Row":["bottomPawn", "bottomPawn","bottomPawn","bottomPawn","bottomPawn","bottomPawn","bottomPawn","bottomPawn"],
-    "8Row":["bottomRook", "bottomKnight", "bottomBishop", "bottomKing", "bottomQueen", "bottomBishop", "bottomKnight", "bottomRook"]
+    "Row1": ["toprook", "topknight", "topbishop", "topqueen", "topking", "topbishop", "topknight", "toprook"],
+    "Row2": ["toppawn", "toppawn","toppawn","toppawn","toppawn","toppawn","toppawn","toppawn"],
+    "Row3":["", "", "", "", "", "", "", ""], 
+    "Row4":["", "", "", "", "", "", "", ""],
+    "Row5":["", "", "", "", "", "", "", ""],
+    "Row6":["", "", "", "", "", "", "", ""],
+    "Row7":["bottompawn", "bottompawn","bottompawn","bottompawn","bottompawn","bottompawn","bottompawn","bottompawn"],
+    "Row8":["bottomrook", "bottomknight", "bottombishop", "bottomking", "bottomqueen", "bottombishop", "bottomknight", "bottomrook"]
 }
