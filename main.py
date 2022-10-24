@@ -37,14 +37,14 @@ def nextTurn():
 
 ## Base Variables of Game
 settings = json.load(open('profile.json'))
-SCREEN_DIMENSIONS = [800, 800] #How wide the screen is by how tall the screen is in pixels
-developer = True #Whether or not you can hit left control to access developer commands
-boardSize = settings["boardSize"] #How many squares for the length and width
-topColor = settings["topColor"] #Which color starts on the top of the board
-bottomColor = settings["bottomColor"] #Which color starts at the bottom of the board and goes first
-promotionPieceTypes = ["bishop", "rook", "knight", "queen"] #Which pieces are available when a pawn is being promoted(must have a png to back it up)
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" #The alphabet which the game uses
-squareSize = SCREEN_DIMENSIONS[0]/boardSize #How large each square is
+SCREEN_DIMENSIONS = [800, 800] # How wide the screen is by how tall the screen is in pixels
+developer = True # Whether or not you can hit left control to access developer commands
+boardSize = settings["boardSize"] # How many squares for the length and width
+topColor = settings["topColor"] # Which color starts on the top of the board
+bottomColor = settings["bottomColor"] # Which color starts at the bottom of the board and goes first
+promotionPieceTypes = ["bishop", "rook", "knight", "queen"] # Which pieces are available when a pawn is being promoted(must have a png to back it up)
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" # The alphabet which the game uses
+squareSize = SCREEN_DIMENSIONS[0]/boardSize # How large each square is
 
 
 
@@ -97,6 +97,7 @@ def reset():
     # #     pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
     for i in range(boardSize):
         for Piece in settings["Row" + str(i+1)]:
+            print([alphabet[settings["Row" + str(i+1)].index(Piece)], i+1])
             if Piece != "":
                 PieceType = Piece[3:] if Piece.startswith("top") else Piece[6:]
                 PieceColor = topColor if Piece.startswith("top") else bottomColor
@@ -113,7 +114,6 @@ def reset():
     turn = 1
     winner = ""
 reset()
-print(pieces.keys())
 
 running = True
 while running:
