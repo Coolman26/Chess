@@ -80,8 +80,8 @@ def reset():
     global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, turn, winner
     board = {}
     for i in range(boardSize):
-        for Piece in settings[str(i) + "Row"]:
-            board[alphabet[x] + str(y+1)] = Piece
+        for o in range(len(settings[str(i+1) + "Row"])):
+            board[alphabet[i] + str(o+1)] = settings[str(i+1) + "Row"]
 
     pieces = {}
     topPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
@@ -95,7 +95,7 @@ def reset():
     for i in range(len(bottomPieces)):
         pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
     for i in range(boardSize):
-        for Piece in settings[str(i) + "Row"]:
+        for Piece in settings[str(i+1) + "Row"]:
             pass
     delete = []
     check = None
