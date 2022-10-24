@@ -2,7 +2,7 @@ import os
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
-import pygame
+import pygame, json
 
 from PythonFiles.chessGameStates import inCheck, inTie
 from PythonFiles.pieceCreation import imgload, loadpiece, numberOf
@@ -35,14 +35,17 @@ def nextTurn():
             board[pieces[Piece].position[0] + str(int(pieces[Piece].position[1]))] = Piece
 
 ## Base Variables of Game
+settings = json.load(open('profile.json'))
 SCREEN_DIMENSIONS = [800, 800] #How wide the screen is by how tall the screen is in pixels
 developer = True #Whether or not you can hit left control to access developer commands
-boardSize = 8 #How many squares for the length and width
-topColor = "black" #Which color starts on the top of the board
-bottomColor = "white" #Which color starts at the bottom of the board and goes first
+boardSize = settings["boardSize"] #How many squares for the length and width
+topColor = settings["topColor"] #Which color starts on the top of the board
+bottomColor = settings["bottomColor"] #Which color starts at the bottom of the board and goes first
 promotionPieceTypes = ["bishop", "rook", "knight", "queen"] #Which pieces are available when a pawn is being promoted(must have a png to back it up)
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" #The alphabet which the game uses
 squareSize = SCREEN_DIMENSIONS[0]/boardSize #How large each square is
+
+
 
 ## Setting the screen up
 screen = pygame.display.set_mode(SCREEN_DIMENSIONS) #Creating the screen with the dimensions established earlier #
