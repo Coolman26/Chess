@@ -1,5 +1,11 @@
 {
     "topColor":"black",
     "bottomColor":"white",
-    "boardSize":8
+    "boardSize":8,
+    "1Row": ["topRook", "topKnight", "topBishop", "topQueen", "topKing", "topBishop", "topKnight", "topRook"],
+    "2Row": ["topPawn", "topPawn","topPawn","topPawn","topPawn","topPawn","topPawn","topPawn"],
+    "3Row":["", "", "", "", "", "", "", ""], 
+    "4Row":["", "", "", "", "", "", "", ""],
+    "5Row":["", "", "", "", "", "", "", ""],
+
 }
