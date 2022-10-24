@@ -7,5 +7,7 @@
     "3Row":["", "", "", "", "", "", "", ""], 
     "4Row":["", "", "", "", "", "", "", ""],
     "5Row":["", "", "", "", "", "", "", ""],
-
+    "6Row":["", "", "", "", "", "", "", ""],
+    "7Row":["bottomPawn", "bottomPawn","bottomPawn","bottomPawn","bottomPawn","bottomPawn","bottomPawn","bottomPawn"],
+    "8Row":["bottomRook", "bottomKnight", "bottomBishop", "bottomKing", "bottomQueen", "bottomBishop", "bottomKnight", "bottomRook"]
 }

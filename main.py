@@ -79,9 +79,9 @@ LIGHT_BROWN = (222,202,175)
 def reset():
     global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, turn, winner
     board = {}
-    for x in range(boardSize):
-        for y in range(boardSize):
-            board[alphabet[x] + str(y+1)] = ""
+    for i in range(boardSize):
+        for Piece in settings[str(i) + "Row"]:
+            board[alphabet[x] + str(y+1)] = Piece
 
     pieces = {}
     topPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
@@ -94,6 +94,9 @@ def reset():
         pieces[bottomColor + "pawn" + str(i)] = piece(bottomColor, "pawn", [alphabet[boardSize-i - 1],7], bottomColor + "pawn" + str(i))
     for i in range(len(bottomPieces)):
         pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
+    for i in range(boardSize):
+        for Piece in settings[str(i) + "Row"]:
+            pass
     delete = []
     check = None
     tie = False
