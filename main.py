@@ -79,24 +79,29 @@ LIGHT_BROWN = (222,202,175)
 def reset():
     global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, turn, winner
     board = {}
-    for i in range(boardSize):
-        for o in range(len(settings[str(i+1) + "Row"])):
-            board[alphabet[i] + str(o+1)] = settings[str(i+1) + "Row"]
+    for x in range(boardSize):
+        for y in range(boardSize):
+            board[alphabet[x] + str(y+1)] = ""
 
     pieces = {}
-    topPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
-    for i in range(len(topPieces)):
-        pieces[topColor + topPieces[i] + numberOf(topColor + topPieces[i], pieces.keys())] = piece(topColor, topPieces[i], [alphabet[boardSize-i - 1],1], topColor + topPieces[i] + numberOf(topColor + topPieces[i], pieces.keys()))
-    for i in range(boardSize):
-        pieces[topColor + "pawn" + str(i)] = piece(topColor, "pawn", [alphabet[boardSize-i - 1],2], topColor + "pawn" + str(i))
-    bottomPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
-    for i in range(boardSize):
-        pieces[bottomColor + "pawn" + str(i)] = piece(bottomColor, "pawn", [alphabet[boardSize-i - 1],7], bottomColor + "pawn" + str(i))
-    for i in range(len(bottomPieces)):
-        pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
+    # topPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
+    # # for i in range(len(topPieces)):
+    # #     pass
+    # # for i in range(boardSize):
+    # #     pieces[topColor + "pawn" + str(i)] = piece(topColor, "pawn", [alphabet[boardSize-i - 1],2], topColor + "pawn" + str(i))
+    # # bottomPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
+    # # for i in range(boardSize):
+    # #     pieces[bottomColor + "pawn" + str(i)] = piece(bottomColor, "pawn", [alphabet[boardSize-i - 1],7], bottomColor + "pawn" + str(i))
+    # # for i in range(len(bottomPieces)):
+    # #     pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
     for i in range(boardSize):
         for Piece in settings[str(i+1) + "Row"]:
-            pass
+            Piece = Piece.lower()
+            if Piece.startswith("top"):
+                pieces[topColor + Piece[3:] + numberOf(topColor + Piece[3:], pieces.keys())] = piece(topColor, Piece[3:], [alphabet[boardSize-i - 1],1], topColor + Piece[3:] + numberOf(topColor + Piece[3:], pieces.keys()))
+            else:
+                pieces[bottomColor + Piece[6:] + numberOf(bottomColor + Piece[6:], pieces.keys())] = piece(bottomColor, Piece[6:], [alphabet[boardSize-i - 1],8], bottomColor + Piece[6:] + numberOf(bottomColor + Piece[6:], pieces.keys()))
+
     delete = []
     check = None
     tie = False
@@ -110,6 +115,7 @@ reset()
 
 running = True
 while running:
+    print(board)
     mouseXY = pygame.mouse.get_pos() #This gets the current mouse position
     mouse = pygame.mouse.get_pressed() #This gets the current mouse buttons that are pressed
 
