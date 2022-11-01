@@ -30,10 +30,9 @@ def canMove(piece, moveTo, board, pieces, boardSize, bottomColor, overRideCanMov
                     return True
 
             elif type == "pawn":
-                print(moveTo[0] + str(int(moveTo[1])) + 1])
                 if abs(moveX) == 1 and abs(moveY) == 1 and board[moveTo[0] + str(int(moveTo[1]))] != "":
                     return True
-                elif abs(moveX) == 1 and abs(moveY) == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < boardSize and "pawn" in board[moveTo[0] + str(int(moveTo[1])) + 1]:
+                elif abs(moveX) == 1 and abs(moveY) == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < boardSize and "pawn" in board[moveTo[0] + str(int(moveTo[1])+1)]:
                     if pieces[board[moveTo[0] + str(int(moveTo[1]) + 1)]].movedTwo != False:
                         return True
                 else:
