@@ -19,7 +19,6 @@ class piece():
         self.png = loadpiece(color + type, squareSize, SCREEN_DIMENSIONS, boardSize)
         self.follow = follow
         self.name = name
-        print(position[0] + str(position[1]))
         board[position[0] + str(position[1])] = name
         if type == "pawn":
             self.movedTwo = False
@@ -73,8 +72,8 @@ for x in range(2):
         promotionPieces[(topColor if x == 1 else bottomColor) + str(y)] = pygame.transform.smoothscale(Piece, [squareSize-10, SCREEN_DIMENSIONS[1]/boardSize-20])
 
 # Tile Colors
-BROWN = (169,126,92)
-LIGHT_BROWN = (222,202,175)
+tileColor1 = settings["tileColor1"]
+tileColor2 = settings["tileColor2"]
 
 #This function resets all of the variables back to their starting position. MUST NOT BE MOVED.
 def reset():
@@ -96,13 +95,13 @@ def reset():
     # # for i in range(len(bottomPieces)):
     # #     pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
     for i in range(boardSize):
-        for Piece in settings["Row" + str(i+1)]:
-            print([alphabet[settings["Row" + str(i+1)].index(Piece)], i+1])
-            if Piece != "":
-                PieceType = Piece[3:] if Piece.startswith("top") else Piece[6:]
-                PieceColor = topColor if Piece.startswith("top") else bottomColor
+        for Piece in range(len(settings["Row" + str(i+1)])):
+            PieceName = settings["Row" + str(i+1)][Piece]
+            if PieceName != "":
+                PieceType = PieceName[3:] if PieceName.startswith("top") else PieceName[6:]
+                PieceColor = topColor if PieceName.startswith("top") else bottomColor
                 PieceName = PieceColor + PieceType + numberOf(PieceColor + PieceType, pieces.keys())
-                pieces[PieceName] = piece(PieceColor, PieceType, [alphabet[settings["Row" + str(i+1)].index(Piece)], i+1], PieceName)
+                pieces[PieceName] = piece(PieceColor, PieceType, [alphabet[Piece], i+1], PieceName)
 
     delete = []
     check = None
@@ -144,9 +143,9 @@ while running:
             xEven = x % 2 == 0
             yEven = y % 2 == 0
             if (xEven and yEven) or (not xEven and not yEven): 
-                pygame.draw.rect(screen, LIGHT_BROWN, [squareSize*(x), squareSize*(y), squareSize*(x+1), squareSize*(y+1)])
+                pygame.draw.rect(screen, tileColor2, [squareSize*(x), squareSize*(y), squareSize*(x+1), squareSize*(y+1)])
             else: 
-                pygame.draw.rect(screen, BROWN, [squareSize*(x), squareSize*(y), squareSize*(x+1), squareSize*(y+1)])
+                pygame.draw.rect(screen, tileColor1, [squareSize*(x), squareSize*(y), squareSize*(x+1), squareSize*(y+1)])
 
     for activePiece in pieces:
         if not pieces[activePiece].follow:
@@ -165,15 +164,15 @@ while running:
                 yEven = y % 2 == 0
                 if promotion[1] == 1:
                     if (xEven and yEven) or (not xEven and not yEven): 
-                        pygame.draw.rect(screen, LIGHT_BROWN, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, squareSize//2*(y+1) + squareSize//2*y, squareSize, squareSize])
+                        pygame.draw.rect(screen, tileColor2, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, squareSize//2*(y+1) + squareSize//2*y, squareSize, squareSize])
                     else: 
-                        pygame.draw.rect(screen, BROWN, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, squareSize//2*(y+1) + squareSize//2*y, squareSize, squareSize])
+                        pygame.draw.rect(screen, tileColor1, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, squareSize//2*(y+1) + squareSize//2*y, squareSize, squareSize])
                     screen.blit(promotionPieces[promotion[2] + str(promotionPiece)], [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX + 10, squareSize//2*(y+1) + squareSize//2*y + 10])
                 else:
                     if (xEven and yEven) or (not xEven and not yEven): 
-                        pygame.draw.rect(screen, LIGHT_BROWN, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)* squareSize, squareSize, squareSize])
+                        pygame.draw.rect(screen, tileColor2, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)* squareSize, squareSize, squareSize])
                     else: 
-                        pygame.draw.rect(screen, BROWN, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)*squareSize, squareSize, squareSize])
+                        pygame.draw.rect(screen, tileColor1, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)*squareSize, squareSize, squareSize])
                     screen.blit(promotionPieces[promotion[2] + str(promotionPiece)], [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX + 10, SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)*squareSize + 10])
                 promotionPiece += 1
 

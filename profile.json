@@ -9,5 +9,7 @@
     "Row5":["", "", "", "", "", "", "", ""],
     "Row6":["", "", "", "", "", "", "", ""],
     "Row7":["bottompawn", "bottompawn","bottompawn","bottompawn","bottompawn","bottompawn","bottompawn","bottompawn"],
-    "Row8":["bottomrook", "bottomknight", "bottombishop", "bottomking", "bottomqueen", "bottombishop", "bottomknight", "bottomrook"]
+    "Row8":["bottomrook", "bottomknight", "bottombishop", "bottomking", "bottomqueen", "bottombishop", "bottomknight", "bottomrook"],
+    "tileColor1": [169,126,92],
+    "tileColor2": [222,202,175]
 }
