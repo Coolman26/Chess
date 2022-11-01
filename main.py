@@ -215,7 +215,9 @@ while running:
                             elif abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
                                 delete = [board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piecessss].color == bottomColor else -1))]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
-                        if not board[moveTo[0] + str(int(moveTo[1]))] == "":
+                        if canCastle(piecessss, moveTo, board, topColor, pieces, boardSize):
+                            castle(piecessss, moveTo, board, pieces)
+                        elif not board[moveTo[0] + str(int(moveTo[1]))] == "":
                             board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
                             delete = [board[moveTo[0] + str(int(moveTo[1]))]]
                             if pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "king":
@@ -223,12 +225,11 @@ while running:
                                 break
                             pieces[board[moveTo[0] + str(int(moveTo[1]))]] = ""
                             pieces[piecessss].position = moveTo
-                        elif canCastle(piecessss, moveTo, board, topColor, pieces, boardSize):
-                            castle(piecessss, moveTo, board, pieces)
                         else:
                             board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
                             pieces[piecessss].position = moveTo
                             board[moveTo[0] + str(int(moveTo[1]))] = pieces[piecessss].name
+                        
                         checkState = inCheck(pieces, board, overRideCanMove, bottomColor, topColor, boardSize)
                         if (checkState != None and check != None) or (checkState == pieces[piecessss].color):
                             pieces[piecessss].position = firstLocation
