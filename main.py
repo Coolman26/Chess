@@ -84,16 +84,6 @@ def reset():
             board[alphabet[x] + str(y+1)] = ""
 
     pieces = {}
-    # topPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
-    # # for i in range(len(topPieces)):
-    # #     pass
-    # # for i in range(boardSize):
-    # #     pieces[topColor + "pawn" + str(i)] = piece(topColor, "pawn", [alphabet[boardSize-i - 1],2], topColor + "pawn" + str(i))
-    # # bottomPieces = ["rook", "knight", "bishop", "queen", "king", "bishop", "knight", "rook"]
-    # # for i in range(boardSize):
-    # #     pieces[bottomColor + "pawn" + str(i)] = piece(bottomColor, "pawn", [alphabet[boardSize-i - 1],7], bottomColor + "pawn" + str(i))
-    # # for i in range(len(bottomPieces)):
-    # #     pieces[bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys())] = piece(bottomColor, bottomPieces[i], [alphabet[boardSize-i - 1],8], bottomColor + bottomPieces[i] + numberOf(bottomColor + bottomPieces[i], pieces.keys()))
     for i in range(boardSize):
         for Piece in range(len(settings["Row" + str(i+1)])):
             PieceName = settings["Row" + str(i+1)][Piece]
@@ -293,14 +283,15 @@ while running:
                     for x in range(2):
                         xEven = x % 2 == 0
                         yEven = y % 2 == 0
+                        pieceName = promotion[2] + promotionPieceTypes[promotionPiece] + numberOf(promotion[2] + promotionPieceTypes[promotionPiece], pieces.keys())
                         if promotion[1] == 1:
                             if squareSize//2*(x+1) + squareSize//2*x + squareSize*newX <= mouseXY[0] <= squareSize//2*(x+1) + squareSize//2*x + squareSize*newX + squareSize and squareSize//2*(y+1) + squareSize//2*y <= mouseXY[1] <= squareSize//2*(y+1) + squareSize//2*y + squareSize:
-                                pieces[promotion[2] + promotionPieceTypes[promotionPiece] + numberOf(promotion[2] + promotionPieceTypes[promotionPiece], pieces.keys())] = piece(promotion[2], promotionPieceTypes[promotionPiece], [promotion[0], promotion[1]], promotion[2] + promotionPieceTypes[promotionPiece] + numberOf(promotion[2] + promotionPieceTypes[promotionPiece], pieces.keys()))
+                                pieces[pieceName] = piece(promotion[2], promotionPieceTypes[promotionPiece], [promotion[0], promotion[1]], pieceName)
                                 promotion = ""
                                 break
                         else:
                             if squareSize//2*(x+1) + squareSize//2*x + squareSize*newX <= mouseXY[0] <= squareSize//2*(x+1) + squareSize//2*x + squareSize*newX and SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)* squareSize <= mouseXY[1] <= SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)* squareSize + squareSize:
-                                pieces[promotion[2] + promotionPieceTypes[promotionPiece] + numberOf(promotion[2] + promotionPieceTypes[promotionPiece], pieces.keys())] = piece(promotion[2], promotionPieceTypes[promotionPiece], [promotion[0], promotion[1]], promotion[2] + promotionPieceTypes[promotionPiece] + numberOf(promotion[2] + promotionPieceTypes[promotionPiece], pieces.keys()))
+                                pieces[pieceName] = piece(promotion[2], promotionPieceTypes[promotionPiece], [promotion[0], promotion[1]], pieceName)
                                 promotion = ""
                                 break
                         promotionPiece += 1
