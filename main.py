@@ -121,13 +121,15 @@ while running:
                 if turn - 1 == pieces[Piece].movedTwo[1]:
                     pieces[Piece].movedTwo = False
     
-    if not removePiece and promotion != "": #This checks if the game is inTie if it is then it checks if one side is in check. If they are in check
+    if not removePiece and promotion != "": # This checks if the game is inTie if it is then it checks if one side is in check. 
+    # If they are in check then it is a checkmate and it ends.
         if inTie(board, pieces, boardSize, bottomColor, overRideCanMove, topColor):
             if check != None:
                 winner = check
             else:
                 tie = True
 
+    #Loads the board tiles
     for y in range(boardSize):
         for x in range(boardSize):
             xEven = x % 2 == 0
