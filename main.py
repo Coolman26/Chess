@@ -6,7 +6,7 @@ import pygame, json
 
 from PythonFiles.chessGameStates import inCheck, inTie
 from PythonFiles.pieceCreation import imgload, loadpiece, numberOf
-from PythonFiles.pieceMovement import canCastle, canMove
+from PythonFiles.pieceMovement import canCastle, canMove, castle
 
 # initializing the constructor
 pygame.init()
@@ -224,19 +224,7 @@ while running:
                             pieces[board[moveTo[0] + str(int(moveTo[1]))]] = ""
                             pieces[piecessss].position = moveTo
                         elif canCastle(piecessss, moveTo, board, topColor, pieces, boardSize):
-                            pieces[piecessss].follow = False
-                            board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
-                            if moveTo[0] == "A":
-                                pieces[piecessss].position = ["B" , pieces[piecessss].position[1]]
-                                board["B" + str(int(pieces[piecessss].position[1]))] = pieces[piecessss].name
-                                pieces[board[moveTo[0] + str(int(moveTo[1]))]].position = ["C" , pieces[board[moveTo[0] + str(int(moveTo[1]))]].position[1]]
-                                board["C" + str(int(pieces[board[moveTo[0] + str(int(moveTo[1]))]].position[1]))] = pieces[board[moveTo[0] + str(int(moveTo[1]))]].name
-                            else:
-                                pieces[piecessss].position = ["G" , pieces[piecessss].position[1]]
-                                board["G" + str(int(pieces[piecessss].position[1]))] = pieces[piecessss].name
-                                pieces[board[moveTo[0] + str(int(moveTo[1]))]].position = ["F" , pieces[board[moveTo[0] + str(int(moveTo[1]))]].position[1]]
-                                board["F" + str(int(pieces[board[moveTo[0] + str(int(moveTo[1]))]].position[1]))] = pieces[board[moveTo[0] + str(int(moveTo[1]))]].name
-                            board[moveTo[0] + str(int(moveTo[1]))] = ""
+                            castle(piecessss, moveTo, board, pieces)
                         else:
                             board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
                             pieces[piecessss].position = moveTo

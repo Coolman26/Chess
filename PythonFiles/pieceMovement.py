@@ -76,3 +76,18 @@ def canCastle(piece, moveTo, board, topColor, pieces, boardSize):
         if pieces[piece].position[0] == "D" and pieces[piece].position[1] == 8:
             if moveTo[0] in ["A", "H"] and moveTo[1] == 8:
                 return True
+
+def castle(piecessss, moveTo, board, pieces):
+    pieces[piecessss].follow = False
+    board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
+    if moveTo[0] == "A":
+        pieces[piecessss].position = ["B" , pieces[piecessss].position[1]]
+        board["B" + str(int(pieces[piecessss].position[1]))] = pieces[piecessss].name
+        pieces[board[moveTo[0] + str(int(moveTo[1]))]].position = ["C" , pieces[board[moveTo[0] + str(int(moveTo[1]))]].position[1]]
+        board["C" + str(int(pieces[board[moveTo[0] + str(int(moveTo[1]))]].position[1]))] = pieces[board[moveTo[0] + str(int(moveTo[1]))]].name
+    else:
+        pieces[piecessss].position = ["G" , pieces[piecessss].position[1]]
+        board["G" + str(int(pieces[piecessss].position[1]))] = pieces[piecessss].name
+        pieces[board[moveTo[0] + str(int(moveTo[1]))]].position = ["F" , pieces[board[moveTo[0] + str(int(moveTo[1]))]].position[1]]
+        board["F" + str(int(pieces[board[moveTo[0] + str(int(moveTo[1]))]].position[1]))] = pieces[board[moveTo[0] + str(int(moveTo[1]))]].name
+    board[moveTo[0] + str(int(moveTo[1]))] = ""
