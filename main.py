@@ -25,6 +25,9 @@ class piece():
         if type == "pawn":
             self.movedTwo = False
 
+    def moveTo(self, XY):
+        self.position = XY
+
 
 def nextTurn():
     global turn, board, pieces
@@ -274,19 +277,19 @@ while running:
                                                       str(int(moveTo[1]))]].color
                                 break
                             pieces[board[moveTo[0] + str(int(moveTo[1]))]] = ""
-                            pieces[piecessss].position = moveTo
+                            pieces[piecessss].moveTo(moveTo)
 
                         else:
                             board[pieces[piecessss].position[0] +
                                   str(int(pieces[piecessss].position[1]))] = ""
-                            pieces[piecessss].position = moveTo
+                            pieces[piecessss].moveTo(moveTo) 
                             board[moveTo[0] +
                                   str(int(moveTo[1]))] = pieces[piecessss].name
 
                         checkState = inCheck(
                             pieces, board, overRideCanMove, bottomColor, topColor, boardSize)
                         if (checkState != None and check != None) or (checkState == pieces[piecessss].color):
-                            pieces[piecessss].position = firstLocation
+                            pieces[piecessss].moveTo(firstLocation)
                             board[pieces[piecessss].position[0] +
                                   str(int(pieces[piecessss].position[1]))] = pieces[piecessss].name
                             board[moveTo[0] + str(int(moveTo[1]))] = ""
