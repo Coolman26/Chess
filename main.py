@@ -12,7 +12,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 pygame.init()
 
 
-class piece():
+class Piece():
     def __init__(self, color, type, position, name, follow=False) -> None:
         self.position = position
         self.color = color
@@ -35,12 +35,12 @@ def nextTurn():
     for x in range(boardSize):
         for y in range(boardSize):
             board[alphabet[x] + str(y+1)] = ""
-    for Piece in pieces:
-        if pieces[Piece] != "":
-            pieces[Piece].position = [
-                alphabet[7 - alphabet.index(pieces[Piece].position[0])], 9 - pieces[Piece].position[1]]
-            board[pieces[Piece].position[0] +
-                  str(int(pieces[Piece].position[1]))] = Piece
+    for piece in pieces:
+        if pieces[piece] != "":
+            pieces[piece].position = [
+                alphabet[7 - alphabet.index(pieces[piece].position[0])], 9 - pieces[piece].position[1]]
+            board[pieces[piece].position[0] +
+                  str(int(pieces[piece].position[1]))] = piece
 
 
 # Base Variables of Game
@@ -87,10 +87,10 @@ tieLogo = pygame.transform.smoothscale(
 promotionPieces = {}
 for x in range(2):
     for y in range(len(promotionPieceTypes)):
-        Piece = imgload("assets/GamePieces/" + (topColor if x ==
+        piece = imgload("assets/GamePieces/" + (topColor if x ==
                         1 else bottomColor).capitalize() + promotionPieceTypes[y].capitalize() + ".png")
         promotionPieces[(topColor if x == 1 else bottomColor) + str(y)] = pygame.transform.smoothscale(
-            Piece, [squareSize-10, SCREEN_DIMENSIONS[1]/boardSize-20])
+            piece, [squareSize-10, SCREEN_DIMENSIONS[1]/boardSize-20])
 
 # Tile Colors
 tileColor1 = settings["tileColor1"]
@@ -108,8 +108,8 @@ def reset():
 
     pieces = {}
     for i in range(boardSize):
-        for Piece in range(len(settings["Row" + str(i+1)])):
-            PieceName = settings["Row" + str(i+1)][Piece]
+        for piece in range(len(settings["Row" + str(i+1)])):
+            PieceName = settings["Row" + str(i+1)][piece]
             if PieceName != "":
                 PieceType = PieceName[3:] if PieceName.startswith(
                     "top") else PieceName[6:]
@@ -117,8 +117,7 @@ def reset():
                     "top") else bottomColor
                 PieceName = PieceColor + PieceType + \
                     numberOf(PieceColor + PieceType, pieces.keys())
-                pieces[PieceName] = piece(PieceColor, PieceType, [
-                                          alphabet[Piece], i+1], PieceName)
+                pieces[PieceName] = Piece(PieceColor, PieceType, [alphabet[piece]], i+1], PieceName)
 
     delete = []
     check = None
@@ -145,11 +144,11 @@ while running:
         delete = []
 
     # This changes any pawn that has movedTwo equal to True(which means they have moved two spaces) to equal False if it has been more than one turn.
-    for Piece in pieces:
-        if pieces[Piece].type == "pawn":
-            if pieces[Piece].movedTwo != False:
-                if turn - 1 == pieces[Piece].movedTwo[1]:
-                    pieces[Piece].movedTwo = False
+    for piece in pieces:
+        if pieces[piece].type == "pawn":
+            if pieces[piece].movedTwo != False:
+                if turn - 1 == pieces[piece].movedTwo[1]:
+                    pieces[piece].movedTwo = False
 
     # This checks if the game is inTie if it is then it checks if one side is in check.
     if not removePiece and promotion != "":
@@ -171,7 +170,8 @@ while running:
             else:
                 pygame.draw.rect(screen, tileColor1, [
                                  squareSize*(x), squareSize*(y), squareSize*(x+1), squareSize*(y+1)])
-
+                                 
+    # Loads the pieces 
     for activePiece in pieces:
         if not pieces[activePiece].follow:
             x = boardSize - alphabet.index(pieces[activePiece].position[0])
@@ -182,6 +182,7 @@ while running:
             screen.blit(pieces[activePiece].png, [
                         mouseXY[0]-(squareSize/3), mouseXY[1]-(SCREEN_DIMENSIONS[1]/boardSize/3)])
 
+    # Deals with promotion
     if promotion != "":
         promotionPiece = 0
         newX = boardSize - \
@@ -336,13 +337,13 @@ while running:
                             promotion[2] + promotionPieceTypes[promotionPiece], pieces.keys())
                         if promotion[1] == 1:
                             if squareSize//2*(x+1) + squareSize//2*x + squareSize*newX <= mouseXY[0] <= squareSize//2*(x+1) + squareSize//2*x + squareSize*newX + squareSize and squareSize//2*(y+1) + squareSize//2*y <= mouseXY[1] <= squareSize//2*(y+1) + squareSize//2*y + squareSize:
-                                pieces[pieceName] = piece(promotion[2], promotionPieceTypes[promotionPiece], [
+                                pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
                                                           promotion[0], promotion[1]], pieceName)
                                 promotion = ""
                                 break
                         else:
                             if squareSize//2*(x+1) + squareSize//2*x + squareSize*newX <= mouseXY[0] <= squareSize//2*(x+1) + squareSize//2*x + squareSize*newX and SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1) * squareSize <= mouseXY[1] <= SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1) * squareSize + squareSize:
-                                pieces[pieceName] = piece(promotion[2], promotionPieceTypes[promotionPiece], [
+                                pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
                                                           promotion[0], promotion[1]], pieceName)
                                 promotion = ""
                                 break
