@@ -117,7 +117,7 @@ def reset():
                     "top") else bottomColor
                 PieceName = PieceColor + PieceType + \
                     numberOf(PieceColor + PieceType, pieces.keys())
-                pieces[PieceName] = Piece(PieceColor, PieceType, [alphabet[piece]], i+1], PieceName)
+                pieces[PieceName] = Piece(PieceColor, PieceType, [alphabet[piece], i+1], PieceName)
 
     delete = []
     check = None
