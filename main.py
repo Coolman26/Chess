@@ -1,11 +1,12 @@
 import json
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame
 from PythonFiles.pieceMovement import canCastle, canMove, castle
 from PythonFiles.pieceCreation import imgload, loadpiece, numberOf
 from PythonFiles.chessGameStates import inCheck, inTie
-import os
 
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
+
 
 
 # initializing the constructor
@@ -50,7 +51,12 @@ def globalVariables():
         "boardSize": boardSize,
         "overRideCanMove": overRideCanMove,
         "squareSize": squareSize,
-        "screenDems": screenDems
+        "screenDems": screenDems,
+        "promotion": promotion,
+        "screen": screen,
+        "tileColor1": tileColor1,
+        "tileColor2": tileColor2,
+        "promotionPieces": promotionPieces
     }
 
 def reset():
@@ -95,14 +101,23 @@ bottomColor = settings["bottomColor"]
 promotionPieceTypes = ["bishop", "rook", "knight", "queen"]
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
 squareSize = screenDems[0]/boardSize 
-reset()
-
+tileColor1 = settings["tileColor1"]
+tileColor2 = settings["tileColor2"]
 
 # Setting the screen up
 screen = pygame.display.set_mode(screenDems)
 pygame.display.set_caption("Chess")  
 icon = imgload("assets/icon.png")
 pygame.display.set_icon(icon)
+
+# Importing Promotion Pieces
+promotionPieces = {}
+for x in range(2):
+    for y in range(len(promotionPieceTypes)):
+        piece = imgload("assets/GamePieces/" + (topColor if x ==
+                        1 else bottomColor).capitalize() + promotionPieceTypes[y].capitalize() + ".png")
+        promotionPieces[(topColor if x == 1 else bottomColor) + str(y)] = pygame.transform.smoothscale(
+            piece, [squareSize-10, screenDems[1]/boardSize-20])
 
 # Importing logos
 winnerLogo = imgload("assets/EndingPictures/Winner.jpg")  
@@ -115,21 +130,7 @@ tieLogo = imgload("assets/EndingPictures/Tie.jpg")
 tieLogo = pygame.transform.smoothscale(
     tieLogo, [screenDems[0], screenDems[1]])
 
-# Importing Promotion Pieces
-
-promotionPieces = {}
-for x in range(2):
-    for y in range(len(promotionPieceTypes)):
-        piece = imgload("assets/GamePieces/" + (topColor if x ==
-                        1 else bottomColor).capitalize() + promotionPieceTypes[y].capitalize() + ".png")
-        promotionPieces[(topColor if x == 1 else bottomColor) + str(y)] = pygame.transform.smoothscale(
-            piece, [squareSize-10, screenDems[1]/boardSize-20])
-
-# Tile Colors
-tileColor1 = settings["tileColor1"]
-tileColor2 = settings["tileColor2"]
-
-
+reset()
 
 running = True
 while running:
