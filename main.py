@@ -88,45 +88,34 @@ def reset():
 # Base Variables of Game
 settings = json.load(open('profile.json'))
 boardSize = settings["boardSize"]
-# How wide the screen is by how tall the screen is in pixels
 screenDems = [800, 800]
-developer = True  # Whether or not you can hit left control to access developer commands
-  # How many squares for the length and width
-topColor = settings["topColor"]  # Which color starts on the top of the board
-# Which color starts at the bottom of the board and goes first
+developer = True 
+topColor = settings["topColor"] 
 bottomColor = settings["bottomColor"]
-# Which pieces are available when a pawn is being promoted(must have a png to back it up)
 promotionPieceTypes = ["bishop", "rook", "knight", "queen"]
-alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  # The alphabet which the game uses
-squareSize = screenDems[0]/boardSize  # How large each square is
+alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
+squareSize = screenDems[0]/boardSize 
 reset()
 
 
 # Setting the screen up
-# Creating the screen with the dimensions established earlier #
 screen = pygame.display.set_mode(screenDems)
-pygame.display.set_caption("Chess")  # Setting the title for the game
-icon = imgload("assets/icon.png")  # Loading in the icon for the game
-# Setting the icon loaded in as the icon of the screen
+pygame.display.set_caption("Chess")  
+icon = imgload("assets/icon.png")
 pygame.display.set_icon(icon)
 
 # Importing logos
-winnerLogo = imgload("assets/EndingPictures/Winner.jpg")  # Loads in the logo
-# Transforms the logo to the correct size(height is half)
+winnerLogo = imgload("assets/EndingPictures/Winner.jpg")  
 winnerLogo = pygame.transform.smoothscale(
     winnerLogo, [screenDems[0], screenDems[1]//2])
-loserLogo = imgload("assets/EndingPictures/Loser.jpg")  # Loads in the logo
-# Transforms the logo to the correct size(height is half)
+loserLogo = imgload("assets/EndingPictures/Loser.jpg")  
 loserLogo = pygame.transform.smoothscale(
     loserLogo, [screenDems[0], screenDems[1]//2])
-tieLogo = imgload("assets/EndingPictures/Tie.jpg")  # Loads in the logo
-# Transforms the logo to the correct size
+tieLogo = imgload("assets/EndingPictures/Tie.jpg") 
 tieLogo = pygame.transform.smoothscale(
     tieLogo, [screenDems[0], screenDems[1]])
 
 # Importing Promotion Pieces
-# Using the promotionPieceTypes variable from earlier it goes through for each color and type and imports and scales each image correctly.
-# This is to be later used for promotion.
 
 promotionPieces = {}
 for x in range(2):
@@ -140,15 +129,12 @@ for x in range(2):
 tileColor1 = settings["tileColor1"]
 tileColor2 = settings["tileColor2"]
 
-# This function resets all of the variables back to their starting position. MUST NOT BE MOVED.
-
 
 
 running = True
 while running:
-    mouseXY = pygame.mouse.get_pos()  # This gets the current mouse position
-    # This gets the current mouse buttons that are pressed
-    mouse = pygame.mouse.get_pressed()
+    mouseXY = pygame.mouse.get_pos() 
+    mousePressed = pygame.mouse.get_pressed()
 
     if delete:  # This deletes a piece in pieces if the delete list has something in it.
         # I did this because it activates inside of a for loop and I can't delete inside the for loop.
