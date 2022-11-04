@@ -56,6 +56,15 @@ def globalVariables():
 def reset():
     global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, turn, winner
     board = {}
+    delete = []
+    check = None
+    tie = False
+    overRideCanMove = False
+    removePiece = False
+    overRideTurns = False
+    promotion = ""
+    turn = 1
+    winner = ""
     for x in range(boardSize):
         for y in range(boardSize):
             board[alphabet[x] + str(y+1)] = ""
@@ -73,25 +82,16 @@ def reset():
                     numberOf(PieceColor + PieceType, pieces.keys())
                 pieces[PieceName] = Piece(PieceColor, PieceType, [alphabet[piece], i+1], PieceName)
 
-    delete = []
-    check = None
-    tie = False
-    overRideCanMove = False
-    removePiece = False
-    overRideTurns = False
-    promotion = ""
-    turn = 1
-    winner = ""
+    
 
-
-reset()
 
 # Base Variables of Game
 settings = json.load(open('profile.json'))
+boardSize = settings["boardSize"]
 # How wide the screen is by how tall the screen is in pixels
 screenDems = [800, 800]
 developer = True  # Whether or not you can hit left control to access developer commands
-boardSize = settings["boardSize"]  # How many squares for the length and width
+  # How many squares for the length and width
 topColor = settings["topColor"]  # Which color starts on the top of the board
 # Which color starts at the bottom of the board and goes first
 bottomColor = settings["bottomColor"]
@@ -99,6 +99,7 @@ bottomColor = settings["bottomColor"]
 promotionPieceTypes = ["bishop", "rook", "knight", "queen"]
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"  # The alphabet which the game uses
 squareSize = screenDems[0]/boardSize  # How large each square is
+reset()
 
 
 # Setting the screen up
@@ -279,8 +280,8 @@ while running:
                                     board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
 
-                        if canCastle(piece, moveTo, board, topColor, pieces, boardSize):
-                            castle(piece, moveTo, board, pieces)
+                        if canCastle(piece, moveTo, globalVariables()):
+                            castle(piece, moveTo, globalVariables())
 
                         elif not board[moveTo[0] + str(int(moveTo[1]))] == "":
                             board[pieces[piece].position[0] +

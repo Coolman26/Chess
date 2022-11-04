@@ -1,5 +1,5 @@
 {
-    "topColor":"golden",
+    "topColor":"black",
     "bottomColor":"white",
     "boardSize":8,
     "Row1": ["toprook", "topknight", "topbishop", "topqueen", "topking", "topbishop", "topknight", "toprook"],
