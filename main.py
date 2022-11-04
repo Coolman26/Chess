@@ -42,6 +42,16 @@ def nextTurn():
             board[pieces[piece].position[0] +
                   str(int(pieces[piece].position[1]))] = piece
 
+def globalVariables():
+    return {
+        "board":board,
+        "topColor":topColor,
+        "bottomColor":bottomColor,
+        "pieces": pieces,
+        "boardSize": boardSize,
+        "overRideCanMove": overRideCanMove
+    }
+
 
 # Base Variables of Game
 settings = json.load(open('profile.json'))
@@ -212,6 +222,7 @@ while running:
                                 squareSize*newX + 10, SCREEN_DIMENSIONS[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)*squareSize + 10])
                 promotionPiece += 1
 
+    # Loads the winning and losing logo
     if winner != "":
         if winner == bottomColor:
             screen.blit(winnerLogo, [0, 0])
@@ -220,6 +231,7 @@ while running:
             screen.blit(loserLogo, [0, 0])
             screen.blit(winnerLogo, [0, SCREEN_DIMENSIONS[1]//2])
 
+    # Loads the tie logo
     if tie:
         screen.blit(tieLogo, [0, 0])
 
@@ -245,7 +257,7 @@ while running:
                 for piecessss in pieces:
                     moveTo = [alphabet[int(
                         boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
-                    if pieces[piecessss].follow and not pieces[piecessss].position == moveTo and canMove(piecessss, moveTo, board, pieces, boardSize, bottomColor, overRideCanMove, topColor):
+                    if pieces[piecessss].follow and not pieces[piecessss].position == moveTo and canMove(piecessss, moveTo, globalVariables()):
                         if check == None:
                             if turn % 2 == 1:
                                 bottomColorCheckCounter = 0
