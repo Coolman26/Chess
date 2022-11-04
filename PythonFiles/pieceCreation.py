@@ -19,12 +19,12 @@ def endspiece(name):
             return [True, piece.capitalize()]
     return [False]
 
-def loadpiece(name, squareSize, SCREEN_DIMENSIONS, boardSize):
+def loadpiece(name, vars):
     start = startscolor(name)
     end = endspiece(name)
     if start[0] and end[0]:
         piece = imgload("assets/GamePieces/" + start[1] + end[1] + ".png")
-        piece = pygame.transform.smoothscale(piece, [squareSize-10, SCREEN_DIMENSIONS[1]/boardSize-20])
+        piece = pygame.transform.smoothscale(piece, [vars["squareSize"]-10, vars["screenDems"][1]/vars["boardSize"]-20])
         return piece
 
 def numberOf(key, list):
