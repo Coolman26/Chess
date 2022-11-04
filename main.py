@@ -132,6 +132,7 @@ tieLogo = pygame.transform.smoothscale(
 
 reset()
 
+
 running = True
 while running:
     mouseXY = pygame.mouse.get_pos() 
@@ -182,7 +183,7 @@ while running:
                         mouseXY[0]-(squareSize/3), mouseXY[1]-(screenDems[1]/boardSize/3)])
 
     # Deals with promotion
-    if promotion != "":
+    if promotion != "" and False:
         promotionPiece = 0
         newX = boardSize - \
             alphabet.index(promotion[0]) - \
@@ -229,7 +230,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        if promotion == "":
+        if promotion == "" or True:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if not removePiece:
                     for piece in pieces:
@@ -326,6 +327,9 @@ while running:
                         overRideTurns = False
                 elif developerControl.lower() == "reset":
                     reset()
+                elif developerControl.lower() == "print":
+                    for piece in pieces:
+                        print(pieces[piece].position)
         else:
             if event.type == pygame.MOUSEBUTTONUP:
                 promotionPiece = 0
