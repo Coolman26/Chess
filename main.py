@@ -163,7 +163,7 @@ while running:
     # This checks if the game is inTie if it is then it checks if one side is in check.
     if not removePiece and promotion != "":
         # If they are in check then it is a checkmate and it ends.
-        if inTie(board, pieces, boardSize, bottomColor, overRideCanMove, topColor):
+        if inTie(globalVariables()):
             if check != None:
                 winner = check
             else:
@@ -299,8 +299,7 @@ while running:
                             board[moveTo[0] +
                                   str(int(moveTo[1]))] = pieces[piecessss].name
 
-                        checkState = inCheck(
-                            pieces, board, overRideCanMove, bottomColor, topColor, boardSize)
+                        checkState = inCheck(globalVariables())
                         if (checkState != None and check != None) or (checkState == pieces[piecessss].color):
                             pieces[piecessss].moveTo(firstLocation)
                             board[pieces[piecessss].position[0] +
