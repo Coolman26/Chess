@@ -72,7 +72,7 @@ def reset():
     pieces = {}
     for i in range(boardSize):
         for piece in range(len(settings["Row" + str(i+1)])):
-            PieceName = settings["Row" + str(i+1)][piece]
+            PieceName = settings["Row" + str(i+1)][::-1][piece]
             if PieceName != "":
                 PieceType = PieceName[3:] if PieceName.startswith(
                     "top") else PieceName[6:]
