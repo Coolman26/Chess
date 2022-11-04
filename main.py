@@ -26,7 +26,7 @@ class Piece():
             self.movedTwo = False
 
     def moveTo(self, XY):
-        self.position = XY
+        self.position = [XY[0], int(XY[1])]
 
 
 def nextTurn():
@@ -183,7 +183,7 @@ while running:
                         mouseXY[0]-(squareSize/3), mouseXY[1]-(screenDems[1]/boardSize/3)])
 
     # Deals with promotion
-    if promotion != "" and False:
+    if promotion != "":
         promotionPiece = 0
         newX = boardSize - \
             alphabet.index(promotion[0]) - \
@@ -230,7 +230,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        if promotion == "" or True:
+        if promotion == "":
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if not removePiece:
                     for piece in pieces:
@@ -256,17 +256,6 @@ while running:
 
                         firstLocation = pieces[piece].position
                         pieces[piece].follow = False
-
-                        if pieces[piece].type == "pawn":
-                            if pieces[piece].position[1] == 7:
-                                promotion = pieces[piece].position + \
-                                    [pieces[piece].color]
-                            if abs(firstLocation[1] - int(moveTo[1])) == 2:
-                                pieces[piece].movedTwo = [True, turn+1]
-                            if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
-                                delete = [
-                                    board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
-                                board[moveTo[0] + str(int(moveTo[1])-1)] = ""
 
                         if canCastle(piece, moveTo, globalVariables()):
                             castle(piece, moveTo, globalVariables())
@@ -304,6 +293,17 @@ while running:
                                 bottomColorCheckCounter += 1
                             else:
                                 topColorCheckCounter += 1
+                        
+                        if pieces[piece].type == "pawn":
+                            if pieces[piece].position[1] == 7:
+                                promotion = pieces[piece].position + \
+                                    [pieces[piece].color]
+                            if abs(firstLocation[1] - int(moveTo[1])) == 2:
+                                pieces[piece].movedTwo = [True, turn+1]
+                            if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
+                                delete = [
+                                    board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
+                                board[moveTo[0] + str(int(moveTo[1])-1)] = ""
                         nextTurn()
                         break
                     else:
