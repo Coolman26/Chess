@@ -257,12 +257,12 @@ while running:
                         pieces[piece].follow = False
 
                         if pieces[piece].type == "pawn":
-                            if pieces[piece].position[1] == (8 if pieces[piece].color == topColor else 1):
+                            if pieces[piece].position[1] == 7:
                                 promotion = pieces[piece].position + \
                                     [pieces[piece].color]
-                            elif abs(firstLocation[1] - int(moveTo[1])) == 2:
+                            if abs(firstLocation[1] - int(moveTo[1])) == 2:
                                 pieces[piece].movedTwo = [True, turn+1]
-                            elif abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
+                            if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
                                 delete = [
                                     board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""

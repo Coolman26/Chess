@@ -13,7 +13,7 @@ def inTie(vars):
                     board1[pieces1[Piece].position[0] + str(int(pieces1[Piece].position[1]))] = ""
                     pieces1[Piece].position = [alphabet[x], y]
                     board1[alphabet[x] + str(int(y))] = pieces1[Piece].name
-                    checkState = inCheck(pieces1, board1, vars)
+                    checkState = inCheck(vars)
                     if checkState == pieces1[Piece].color:
                         movePositions[pieces1[Piece].color].append(False)
                     else:
