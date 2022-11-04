@@ -17,8 +17,7 @@ class Piece():
         self.position = position
         self.color = color
         self.type = type
-        self.png = loadpiece(color + type, squareSize,
-                             screenDems, boardSize)
+        self.png = loadpiece(color + type, globalVariables())
         self.follow = follow
         self.name = name
         board[position[0] + str(position[1])] = name
@@ -54,6 +53,38 @@ def globalVariables():
         "screenDems": screenDems
     }
 
+def reset():
+    global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, turn, winner
+    board = {}
+    for x in range(boardSize):
+        for y in range(boardSize):
+            board[alphabet[x] + str(y+1)] = ""
+
+    pieces = {}
+    for i in range(boardSize):
+        for piece in range(len(settings["Row" + str(i+1)])):
+            PieceName = settings["Row" + str(i+1)][piece]
+            if PieceName != "":
+                PieceType = PieceName[3:] if PieceName.startswith(
+                    "top") else PieceName[6:]
+                PieceColor = topColor if PieceName.startswith(
+                    "top") else bottomColor
+                PieceName = PieceColor + PieceType + \
+                    numberOf(PieceColor + PieceType, pieces.keys())
+                pieces[PieceName] = Piece(PieceColor, PieceType, [alphabet[piece], i+1], PieceName)
+
+    delete = []
+    check = None
+    tie = False
+    overRideCanMove = False
+    removePiece = False
+    overRideTurns = False
+    promotion = ""
+    turn = 1
+    winner = ""
+
+
+reset()
 
 # Base Variables of Game
 settings = json.load(open('profile.json'))
@@ -111,38 +142,6 @@ tileColor2 = settings["tileColor2"]
 # This function resets all of the variables back to their starting position. MUST NOT BE MOVED.
 
 
-def reset():
-    global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, turn, winner
-    board = {}
-    for x in range(boardSize):
-        for y in range(boardSize):
-            board[alphabet[x] + str(y+1)] = ""
-
-    pieces = {}
-    for i in range(boardSize):
-        for piece in range(len(settings["Row" + str(i+1)])):
-            PieceName = settings["Row" + str(i+1)][piece]
-            if PieceName != "":
-                PieceType = PieceName[3:] if PieceName.startswith(
-                    "top") else PieceName[6:]
-                PieceColor = topColor if PieceName.startswith(
-                    "top") else bottomColor
-                PieceName = PieceColor + PieceType + \
-                    numberOf(PieceColor + PieceType, pieces.keys())
-                pieces[PieceName] = Piece(PieceColor, PieceType, [alphabet[piece], i+1], PieceName)
-
-    delete = []
-    check = None
-    tie = False
-    overRideCanMove = False
-    removePiece = False
-    overRideTurns = False
-    promotion = ""
-    turn = 1
-    winner = ""
-
-
-reset()
 
 running = True
 while running:

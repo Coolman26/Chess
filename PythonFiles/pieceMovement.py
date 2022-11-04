@@ -1,19 +1,22 @@
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 def pieceInBetween(piece, moveTo, vars):
-    moveX = (vars["boardSize"] - alphabet.index(vars["pieces"][piece].position[0])) - (vars["boardSize"] - alphabet.index(moveTo[0]))
-    moveY = int(vars["pieces"][piece].position[1] - moveTo[1])
+    pieces = vars["pieces"]
+    board = vars["board"]
+    boardSize = vars["boardSize"]
+    moveX = (boardSize - alphabet.index(pieces[piece].position[0])) - (boardSize - alphabet.index(moveTo[0]))
+    moveY = int(pieces[piece].position[1] - moveTo[1])
     if moveX == 0:
         for i in range(-1 if moveY > 0 else 1, moveY*-1, -1 if moveY > 0 else 1):
-            if vars["board"][vars["pieces"][piece].position[0] + str(int(vars["pieces"][piece].position[1] + i))] != "":
+            if board[pieces[piece].position[0] + str(int(pieces[piece].position[1] + i))] != "":
                 return True
     elif moveY == 0:
         for i in range(-1 if moveX > 0 else 1, moveX*-1, -1 if moveX > 0 else 1):
-            if vars["board"][alphabet[alphabet.index(vars["pieces"][piece].position[0]) - i] + str(int(vars["pieces"][piece].position[1]))] != "":
+            if board[alphabet[alphabet.index(pieces[piece].position[0]) - i] + str(int(pieces[piece].position[1]))] != "":
                 return True
     else:
         for x in range(-1 if moveX > 0 else 1, moveX*-1, -1 if moveX > 0 else 1):
             for y in range(-1 if moveY > 0 else 1, moveY*-1, -1 if moveY > 0 else 1):
-                if vars["board"][alphabet[alphabet.index(vars["pieces"][piece].position[0]) - x] + str(int(vars["pieces"][piece].position[1] + y))] != "" and abs(x) == abs(y):
+                if board[alphabet[alphabet.index(pieces[piece].position[0]) - x] + str(int(pieces[piece].position[1] + y))] != "" and abs(x) == abs(y):
                     return True
     return False
 
@@ -21,23 +24,25 @@ def pieceInBetween(piece, moveTo, vars):
 def canMove(piece, moveTo, vars):
     pieces = vars["pieces"]
     board = vars["board"]
-    moveX = (vars["boardSize"] - alphabet.index(pieces[piece].position[0])) - (vars["boardSize"] - alphabet.index(moveTo[0]))
+    boardSize = vars["boardSize"]
+    overRideCanMove = vars["overRideCanMove"]
+    moveX = (boardSize - alphabet.index(pieces[piece].position[0])) - (boardSize - alphabet.index(moveTo[0]))
     moveY = pieces[piece].position[1] - moveTo[1]
     type = pieces[piece].type
-    if not vars["overRideCanMove"]:
+    if not overRideCanMove:
         if board[moveTo[0] + str(int(moveTo[1]))] == "" or pieces[board[moveTo[0] + str(int(moveTo[1]))]].color != pieces[piece].color:
             if type == "bishop":
-                if abs(moveX) == abs(moveY) and not pieceInBetween(piece, moveTo, board, pieces, vars["boardSize"]):
+                if abs(moveX) == abs(moveY) and not pieceInBetween(piece, moveTo, vars):
                     return True
 
             elif type == "pawn":
                 if abs(moveX) == 1 and abs(moveY) == 1 and board[moveTo[0] + str(int(moveTo[1]))] != "":
                     return True
-                elif abs(moveX) == 1 and abs(moveY) == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < vars["boardSize"] and "pawn" in board[moveTo[0] + str(int(moveTo[1])+1)]:
+                elif abs(moveX) == 1 and abs(moveY) == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < boardSize and "pawn" in board[moveTo[0] + str(int(moveTo[1])+1)]:
                     if pieces[board[moveTo[0] + str(int(moveTo[1]) + 1)]].movedTwo != False:
                         return True
                 else:
-                    if (moveY in ([1, 2] if pieces[piece].position[1] == 7 else [1]) and moveX == 0 and board[moveTo[0] + str(int(moveTo[1]))] == ""  and not pieceInBetween(piece, moveTo, board, pieces, vars["boardSize"])) and (pawnCanTake(piece, vars)):
+                    if (moveY in ([1, 2] if pieces[piece].position[1] == 7 else [1]) and moveX == 0 and board[moveTo[0] + str(int(moveTo[1]))] == ""  and not pieceInBetween(piece, moveTo, vars)) and (pawnCanTake(piece, vars)):
                         return True
 
             elif type == "king":
