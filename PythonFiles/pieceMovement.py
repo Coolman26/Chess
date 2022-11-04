@@ -13,29 +13,31 @@ def pieceInBetween(piece, moveTo, vars):
     else:
         for x in range(-1 if moveX > 0 else 1, moveX*-1, -1 if moveX > 0 else 1):
             for y in range(-1 if moveY > 0 else 1, moveY*-1, -1 if moveY > 0 else 1):
-                if vars["board"][alphabet[alphabet.index(vars["pieces[piece].position[0]) - x] + str(int(pieces[piece].position[1] + y))] != "" and abs(x) == abs(y):
+                if vars["board"][alphabet[alphabet.index(vars["pieces"][piece].position[0]) - x] + str(int(vars["pieces"][piece].position[1] + y))] != "" and abs(x) == abs(y):
                     return True
     return False
 
 
 def canMove(piece, moveTo, vars):
-    moveX = (vars["boardSize"] - alphabet.index(vars["pieces"][piece].position[0])) - (vars["boardSize"] - alphabet.index(moveTo[0]))
-    moveY = vars["pieces"][piece].position[1] - moveTo[1]
-    type = vars["pieces"][piece].type
+    pieces = vars["pieces"]
+    board = vars["board"]
+    moveX = (vars["boardSize"] - alphabet.index(pieces[piece].position[0])) - (vars["boardSize"] - alphabet.index(moveTo[0]))
+    moveY = pieces[piece].position[1] - moveTo[1]
+    type = pieces[piece].type
     if not vars["overRideCanMove"]:
-        if vars["board"][moveTo[0] + str(int(moveTo[1]))] == "" or vars["pieces"][vars["board"][moveTo[0] + str(int(moveTo[1]))]].color != vars["pieces"][piece].color:
+        if board[moveTo[0] + str(int(moveTo[1]))] == "" or pieces[board[moveTo[0] + str(int(moveTo[1]))]].color != pieces[piece].color:
             if type == "bishop":
-                if abs(moveX) == abs(moveY) and not pieceInBetween(piece, moveTo, vars["board"], vars["pieces"], vars["boardSize"]):
+                if abs(moveX) == abs(moveY) and not pieceInBetween(piece, moveTo, board, pieces, vars["boardSize"]):
                     return True
 
             elif type == "pawn":
-                if abs(moveX) == 1 and abs(moveY) == 1 and vars["board"][moveTo[0] + str(int(moveTo[1]))] != "":
+                if abs(moveX) == 1 and abs(moveY) == 1 and board[moveTo[0] + str(int(moveTo[1]))] != "":
                     return True
-                elif abs(moveX) == 1 and abs(moveY) == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < vars["boardSize"] and "pawn" in vars["board"][moveTo[0] + str(int(moveTo[1])+1)]:
-                    if vars["pieces"][vars["board"][moveTo[0] + str(int(moveTo[1]) + 1)]].movedTwo != False:
+                elif abs(moveX) == 1 and abs(moveY) == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < vars["boardSize"] and "pawn" in board[moveTo[0] + str(int(moveTo[1])+1)]:
+                    if pieces[board[moveTo[0] + str(int(moveTo[1]) + 1)]].movedTwo != False:
                         return True
                 else:
-                    if (moveY in ([1, 2] if vars["pieces"][piece].position[1] == 7 else [1]) and moveX == 0 and vars["board"][moveTo[0] + str(int(moveTo[1]))] == ""  and not pieceInBetween(piece, moveTo, vars["board"], vars["pieces"], vars["boardSize"])) and (pawnCanTake(piece, vars)):
+                    if (moveY in ([1, 2] if pieces[piece].position[1] == 7 else [1]) and moveX == 0 and board[moveTo[0] + str(int(moveTo[1]))] == ""  and not pieceInBetween(piece, moveTo, board, pieces, vars["boardSize"])) and (pawnCanTake(piece, vars)):
                         return True
 
             elif type == "king":
@@ -46,37 +48,43 @@ def canMove(piece, moveTo, vars):
 
             
             elif type == "queen":
-                if abs(moveX) == abs(moveY) and not pieceInBetween(piece, moveTo, vars["board"], vars["pieces"], vars["boardSize"]):
+                if abs(moveX) == abs(moveY) and not pieceInBetween(piece, moveTo, vars):
                     return True
-                elif ((moveX == 0 and moveY != 0) or (moveY == 0 and moveX != 0)) and not pieceInBetween(piece, moveTo, vars["board"], vars["pieces"], vars["boardSize"]):
+                elif ((moveX == 0 and moveY != 0) or (moveY == 0 and moveX != 0)) and not pieceInBetween(piece, moveTo, vars):
                     return True
             
             elif type == "rook":
-                if ((moveX == 0 and moveY != 0) or (moveY == 0 and moveX != 0)) and not pieceInBetween(piece, moveTo, vars["board"], vars["pieces"], vars["boardSize"]):
+                if ((moveX == 0 and moveY != 0) or (moveY == 0 and moveX != 0)) and not pieceInBetween(piece, moveTo, vars):
                     return True
 
             elif type == "knight":
                 if (abs(moveX) == 1 and abs(moveY) == 2) or (abs(moveY) == 1 and abs(moveX) == 2):
                     return True
-        elif canCastle(piece, moveTo, vars["board"], vars["topColor"], vars["pieces"], vars["boardSize"]):
+        elif canCastle(piece, moveTo, vars):
             return True
     else:
         return True
 
 def pawnCanTake(piece, vars):
+    pieces = vars["pieces"]
+    board = vars["board"]
     for x in [-1, 1]:
-        if vars["board"][alphabet[alphabet.index(vars["pieces"][piece].position[0]) + x] + str(int(vars["pieces"][piece].position[1] + 1))] != "":
+        if board[alphabet[alphabet.index(pieces[piece].position[0]) + x] + str(int(pieces[piece].position[1] + 1))] != "":
             return True
     
 
 
-def canCastle(piece, moveTo, board, topColor, pieces, boardSize):
-    if pieces[piece].type == "king" and board[moveTo[0] + str(int(moveTo[1]))] != "" and pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "rook" and not pieceInBetween(piece, moveTo, board, pieces, boardSize):
+def canCastle(piece, moveTo, vars):
+    pieces = vars["pieces"]
+    board = vars["board"]
+    if pieces[piece].type == "king" and board[moveTo[0] + str(int(moveTo[1]))] != "" and pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "rook" and not pieceInBetween(piece, moveTo, vars):
         if pieces[piece].position[0] == "D" and pieces[piece].position[1] == 8:
             if moveTo[0] in ["A", "H"] and moveTo[1] == 8:
                 return True
 
-def castle(piecessss, moveTo, board, pieces):
+def castle(piecessss, moveTo, vars):
+    pieces = vars["pieces"]
+    board = vars["board"]
     pieces[piecessss].follow = False
     board[pieces[piecessss].position[0] + str(int(pieces[piecessss].position[1]))] = ""
     if moveTo[0] == "A":
