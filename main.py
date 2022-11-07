@@ -135,7 +135,6 @@ reset()
 
 running = True
 while running:
-    print(promotion)
     mouseXY = pygame.mouse.get_pos() 
     mousePressed = pygame.mouse.get_pressed()
 
@@ -184,23 +183,6 @@ while running:
                         mouseXY[0]-(squareSize/3), mouseXY[1]-(screenDems[1]/boardSize/3)])
 
     # Deals with promotion
-    if promotion != "":
-        promotionPiece = 0
-        newX = boardSize - \
-            alphabet.index(promotion[0]) - (3 if promotion[0] != "G" else 1)
-        for y in range(2):
-            for x in range(2):
-                xEven = x % 2 == 0
-                yEven = y % 2 == 0
-                if (xEven and yEven) or (not xEven and not yEven):
-                        pygame.draw.rect(screen, tileColor2, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, screenDems[1] - squareSize//2*(
-                            y+1) + squareSize//2*y - (y+1) * squareSize, squareSize, squareSize])
-                else:
-                        pygame.draw.rect(screen, tileColor1, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, screenDems[1] - squareSize//2*(
-                            y+1) + squareSize//2*y - (y+1)*squareSize, squareSize, squareSize])
-                screen.blit(promotionPieces[promotion[2] + str(promotionPiece)], [squareSize//2*(x+1) + squareSize//2*x +
-                                squareSize*newX + 10, screenDems[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)*squareSize + 10])
-                promotionPiece += 1
 
     # Loads the winning and losing logo
     if winner != "":
@@ -283,12 +265,12 @@ while running:
                                 bottomColorCheckCounter += 1
                             else:
                                 topColorCheckCounter += 1
-                        
                         if pieces[piece].type == "pawn":
                             print(pieces[piece].position[1])
                             if pieces[piece].position[1] == 1:
                                 promotion = pieces[piece].position + \
                                     [pieces[piece].color]
+                        if pieces[piece].type == "pawn":
                             if abs(firstLocation[1] - int(moveTo[1])) == 2:
                                 pieces[piece].movedTwo = [True, turn+1]
                             if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
@@ -297,6 +279,7 @@ while running:
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
                         nextTurn()
                         
+                        print(pieces[piece].position)
                         break
                     else:
                         pieces[piece].follow = False
@@ -323,6 +306,7 @@ while running:
                     for piece in pieces:
                         print(pieces[piece].position)
         else:
+            newX = boardSize - alphabet.index(promotion[0]) - (3 if promotion[0] != "G" else 1)
             if event.type == pygame.MOUSEBUTTONUP:
                 promotionPiece = 0
                 for y in range(2):
