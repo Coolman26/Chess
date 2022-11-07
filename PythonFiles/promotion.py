@@ -2,9 +2,10 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame
 from PythonFiles.pieceMovement import nextTurn
-from PythonFiles.pieceCreation import numberOf
+from PythonFiles.pieceCreation import numberOf, Piece
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 def promotionBoard(vars, event, mouseXY):
+    print("Hi")
     boardSize = vars["boardSize"]
     promotion = vars["promotion"]
     screen = vars["screen"]
@@ -14,6 +15,7 @@ def promotionBoard(vars, event, mouseXY):
     screenDems = vars["screenDems"]
     promotionPieces = vars["promotionPieces"]
     pieces = vars["pieces"]
+    promotionPieceTypes = vars["promotionPieceTypes"]
 
     promotionPiece = 0
     newX = boardSize - alphabet.index(promotion[0]) - (3 if promotion[0] != "G" else 1)
@@ -41,15 +43,17 @@ def promotionBoard(vars, event, mouseXY):
                         if promotion[1] == 1:
                             if squareSize//2*(x+1) + squareSize//2*x + squareSize*newX <= mouseXY[0] <= squareSize//2*(x+1) + squareSize//2*x + squareSize*newX + squareSize and squareSize//2*(y+1) + squareSize//2*y <= mouseXY[1] <= squareSize//2*(y+1) + squareSize//2*y + squareSize:
                                 pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
-                                                          promotion[0], promotion[1]], pieceName)
+                                                          promotion[0], promotion[1]], pieceName, vars)
                                 promotion = ""
                                 break
                         else:
                             if squareSize//2*(x+1) + squareSize//2*x + squareSize*newX <= mouseXY[0] <= squareSize//2*(x+1) + squareSize//2*x + squareSize*newX and screenDems[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1) * squareSize <= mouseXY[1] <= screenDems[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1) * squareSize + squareSize:
                                 pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
-                                                          promotion[0], promotion[1]], pieceName)
+                                                          promotion[0], promotion[1]], pieceName, vars)
                                 promotion = ""
                                 break
                         promotionPiece += 1
                     break
+    if promotion == "":
+        nextTurn(vars)
     

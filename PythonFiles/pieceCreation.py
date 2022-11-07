@@ -10,7 +10,7 @@ class Piece():
         self.png = loadpiece(color + type, vars)
         self.follow = follow
         self.name = name
-        board[position[0] + str(position[1])] = name
+        vars["board"][position[0] + str(position[1])] = name
         if type == "pawn":
             self.movedTwo = False
 

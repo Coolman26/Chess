@@ -3,7 +3,7 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame
 from PythonFiles.pieceMovement import canCastle, canMove, castle, nextTurn
-from PythonFiles.pieceCreation import imgload, loadpiece, numberOf
+from PythonFiles.pieceCreation import imgload, loadpiece, numberOf, Piece
 from PythonFiles.chessGameStates import inCheck, inTie
 from PythonFiles.promotion import promotionBoard
 
@@ -64,7 +64,7 @@ def reset():
                     "top") else bottomColor
                 PieceName = PieceColor + PieceType + \
                     numberOf(PieceColor + PieceType, pieces.keys())
-                pieces[PieceName] = Piece(PieceColor, PieceType, [alphabet[piece], i+1], PieceName)
+                pieces[PieceName] = Piece(PieceColor, PieceType, [alphabet[piece], i+1], PieceName, globalVariables())
 
     
 
@@ -115,6 +115,9 @@ running = True
 while running:
     mouseXY = pygame.mouse.get_pos() 
     mousePressed = pygame.mouse.get_pressed()
+
+    if promotion != "":
+        promotionBoard(globalVariables(), event, mouseXY)
 
     if delete:  # This deletes a piece in pieces if the delete list has something in it.
         # I did this because it activates inside of a for loop and I can't delete inside the for loop.
@@ -248,17 +251,15 @@ while running:
                             if pieces[piece].position[1] == 1:
                                 promotion = pieces[piece].position + \
                                     [pieces[piece].color]
-                        if pieces[piece].type == "pawn":
                             if abs(firstLocation[1] - int(moveTo[1])) == 2:
                                 pieces[piece].movedTwo = [True, turn+1]
                             if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
                                 delete = [
                                     board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
+                        print(promotion, "hi")
                         if promotion != "": 
                             nextTurn(globalVariables())
-                        
-                        print(pieces[piece].position)
                         break
                     else:
                         pieces[piece].follow = False
