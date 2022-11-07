@@ -135,6 +135,7 @@ reset()
 
 running = True
 while running:
+    print(promotion)
     mouseXY = pygame.mouse.get_pos() 
     mousePressed = pygame.mouse.get_pressed()
 
@@ -186,29 +187,18 @@ while running:
     if promotion != "":
         promotionPiece = 0
         newX = boardSize - \
-            alphabet.index(promotion[0]) - \
-            (1 if alphabet.index(promotion[0]) != 0 else 3)
+            alphabet.index(promotion[0]) - (3 if promotion[0] != "G" else 1)
         for y in range(2):
             for x in range(2):
                 xEven = x % 2 == 0
                 yEven = y % 2 == 0
-                if promotion[1] == 1:
-                    if (xEven and yEven) or (not xEven and not yEven):
-                        pygame.draw.rect(screen, tileColor2, [
-                                         squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, squareSize//2*(y+1) + squareSize//2*y, squareSize, squareSize])
-                    else:
-                        pygame.draw.rect(screen, tileColor1, [
-                                         squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, squareSize//2*(y+1) + squareSize//2*y, squareSize, squareSize])
-                    screen.blit(promotionPieces[promotion[2] + str(promotionPiece)], [squareSize//2*(
-                        x+1) + squareSize//2*x + squareSize*newX + 10, squareSize//2*(y+1) + squareSize//2*y + 10])
-                else:
-                    if (xEven and yEven) or (not xEven and not yEven):
+                if (xEven and yEven) or (not xEven and not yEven):
                         pygame.draw.rect(screen, tileColor2, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, screenDems[1] - squareSize//2*(
                             y+1) + squareSize//2*y - (y+1) * squareSize, squareSize, squareSize])
-                    else:
+                else:
                         pygame.draw.rect(screen, tileColor1, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, screenDems[1] - squareSize//2*(
                             y+1) + squareSize//2*y - (y+1)*squareSize, squareSize, squareSize])
-                    screen.blit(promotionPieces[promotion[2] + str(promotionPiece)], [squareSize//2*(x+1) + squareSize//2*x +
+                screen.blit(promotionPieces[promotion[2] + str(promotionPiece)], [squareSize//2*(x+1) + squareSize//2*x +
                                 squareSize*newX + 10, screenDems[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)*squareSize + 10])
                 promotionPiece += 1
 
@@ -295,7 +285,8 @@ while running:
                                 topColorCheckCounter += 1
                         
                         if pieces[piece].type == "pawn":
-                            if pieces[piece].position[1] == 7:
+                            print(pieces[piece].position[1])
+                            if pieces[piece].position[1] == 1:
                                 promotion = pieces[piece].position + \
                                     [pieces[piece].color]
                             if abs(firstLocation[1] - int(moveTo[1])) == 2:
@@ -305,6 +296,7 @@ while running:
                                     board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
                         nextTurn()
+                        
                         break
                     else:
                         pieces[piece].follow = False
