@@ -2,6 +2,20 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame
 
+class Piece():
+    def __init__(self, color, type, position, name, vars, follow=False) -> None:
+        self.position = position
+        self.color = color
+        self.type = type
+        self.png = loadpiece(color + type, vars)
+        self.follow = follow
+        self.name = name
+        board[position[0] + str(position[1])] = name
+        if type == "pawn":
+            self.movedTwo = False
+
+    def moveTo(self, XY):
+        self.position = [XY[0], int(XY[1])]
 
 def imgload(img): 
     return pygame.image.load(img)

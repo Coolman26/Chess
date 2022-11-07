@@ -2,10 +2,10 @@ import json
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame
-from PythonFiles.pieceMovement import canCastle, canMove, castle
+from PythonFiles.pieceMovement import canCastle, canMove, castle, nextTurn
 from PythonFiles.pieceCreation import imgload, loadpiece, numberOf
 from PythonFiles.chessGameStates import inCheck, inTie
-
+from PythonFiles.promotion import promotionBoard
 
 
 
@@ -13,34 +13,10 @@ from PythonFiles.chessGameStates import inCheck, inTie
 pygame.init()
 
 
-class Piece():
-    def __init__(self, color, type, position, name, follow=False) -> None:
-        self.position = position
-        self.color = color
-        self.type = type
-        self.png = loadpiece(color + type, globalVariables())
-        self.follow = follow
-        self.name = name
-        board[position[0] + str(position[1])] = name
-        if type == "pawn":
-            self.movedTwo = False
-
-    def moveTo(self, XY):
-        self.position = [XY[0], int(XY[1])]
 
 
-def nextTurn():
-    global turn, board, pieces
-    turn += 1
-    for x in range(boardSize):
-        for y in range(boardSize):
-            board[alphabet[x] + str(y+1)] = ""
-    for piece in pieces:
-        if pieces[piece] != "":
-            pieces[piece].position = [
-                alphabet[7 - alphabet.index(pieces[piece].position[0])], 9 - pieces[piece].position[1]]
-            board[pieces[piece].position[0] +
-                  str(int(pieces[piece].position[1]))] = piece
+
+
 
 def globalVariables():
     return {
@@ -56,7 +32,9 @@ def globalVariables():
         "screen": screen,
         "tileColor1": tileColor1,
         "tileColor2": tileColor2,
-        "promotionPieces": promotionPieces
+        "promotionPieces": promotionPieces,
+        "turn": turn,
+        "promotionPieceTypes": promotionPieceTypes
     }
 
 def reset():
@@ -277,7 +255,8 @@ while running:
                                 delete = [
                                     board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
-                        nextTurn()
+                        if promotion != "": 
+                            nextTurn(globalVariables())
                         
                         print(pieces[piece].position)
                         break
@@ -307,28 +286,7 @@ while running:
                         print(pieces[piece].position)
         else:
             newX = boardSize - alphabet.index(promotion[0]) - (3 if promotion[0] != "G" else 1)
-            if event.type == pygame.MOUSEBUTTONUP:
-                promotionPiece = 0
-                for y in range(2):
-                    for x in range(2):
-                        xEven = x % 2 == 0
-                        yEven = y % 2 == 0
-                        pieceName = promotion[2] + promotionPieceTypes[promotionPiece] + numberOf(
-                            promotion[2] + promotionPieceTypes[promotionPiece], pieces.keys())
-                        if promotion[1] == 1:
-                            if squareSize//2*(x+1) + squareSize//2*x + squareSize*newX <= mouseXY[0] <= squareSize//2*(x+1) + squareSize//2*x + squareSize*newX + squareSize and squareSize//2*(y+1) + squareSize//2*y <= mouseXY[1] <= squareSize//2*(y+1) + squareSize//2*y + squareSize:
-                                pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
-                                                          promotion[0], promotion[1]], pieceName)
-                                promotion = ""
-                                break
-                        else:
-                            if squareSize//2*(x+1) + squareSize//2*x + squareSize*newX <= mouseXY[0] <= squareSize//2*(x+1) + squareSize//2*x + squareSize*newX and screenDems[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1) * squareSize <= mouseXY[1] <= screenDems[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1) * squareSize + squareSize:
-                                pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
-                                                          promotion[0], promotion[1]], pieceName)
-                                promotion = ""
-                                break
-                        promotionPiece += 1
-                    break
+            
 
     # updates the frames of the game
     pygame.display.update()

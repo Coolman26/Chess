@@ -103,3 +103,20 @@ def castle(piecessss, moveTo, vars):
         pieces[board[moveTo[0] + str(int(moveTo[1]))]].position = ["F" , pieces[board[moveTo[0] + str(int(moveTo[1]))]].position[1]]
         board["F" + str(int(pieces[board[moveTo[0] + str(int(moveTo[1]))]].position[1]))] = pieces[board[moveTo[0] + str(int(moveTo[1]))]].name
     board[moveTo[0] + str(int(moveTo[1]))] = ""
+
+def nextTurn(vars):
+    boardSize = vars["boardSize"]
+    board = vars["board"]
+    pieces = vars["pieces"]
+    turn = vars["turn"]
+    turn += 1
+    for x in range(boardSize):
+        for y in range(boardSize):
+            board[alphabet[x] + str(y+1)] = ""
+    for piece in pieces:
+        if pieces[piece] != "":
+            pieces[piece].position = [
+                alphabet[7 - alphabet.index(pieces[piece].position[0])], 9 - pieces[piece].position[1]]
+            board[pieces[piece].position[0] +
+                  str(int(pieces[piece].position[1]))] = piece
+    
