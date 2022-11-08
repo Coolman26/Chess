@@ -116,8 +116,6 @@ while running:
     mouseXY = pygame.mouse.get_pos() 
     mousePressed = pygame.mouse.get_pressed()
 
-    if promotion != "":
-        promotionBoard(globalVariables(), event, mouseXY)
 
     if delete:  # This deletes a piece in pieces if the delete list has something in it.
         # I did this because it activates inside of a for loop and I can't delete inside the for loop.
@@ -258,7 +256,7 @@ while running:
                                     board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
                         print(promotion, "hi")
-                        if promotion != "": 
+                        if promotion == "": 
                             nextTurn(globalVariables())
                         break
                     else:
@@ -285,8 +283,8 @@ while running:
                 elif developerControl.lower() == "print":
                     for piece in pieces:
                         print(pieces[piece].position)
-        else:
-            newX = boardSize - alphabet.index(promotion[0]) - (3 if promotion[0] != "G" else 1)
+    if promotion != "":
+        promotionBoard(globalVariables(), pygame.event.get(), mouseXY)
             
 
     # updates the frames of the game
