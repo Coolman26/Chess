@@ -215,7 +215,6 @@ while running:
                                     winner = pieces[board[moveTo[0] + str(int(moveTo[1]))]].color
                                     break
                             board[moveTo[0] + str(int(moveTo[1]))] = pieces[piece].name
-                            print(board[moveTo[0] + str(int(moveTo[1]))])
                             pieces[piece].moveTo(moveTo) 
                             
 
@@ -249,7 +248,7 @@ while running:
                             if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == pieces[piece].name:
                                 delete = [board[moveTo[0] + str(int(moveTo[1])+ 1)]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
-                        
+                        moveTo[0] + str(int(moveTo[1]))
                         if promotion == "": 
                             nextTurn(globalVariables())
                         break
