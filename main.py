@@ -193,72 +193,71 @@ while running:
                               str(int(mouseXY[1] // squareSize + 1))] = ""
             elif event.type == pygame.MOUSEBUTTONUP:
                 for piece in pieces:
+                    # Finds the coords of where a piece was dropped
                     moveTo = [alphabet[int(
                         boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
                     if pieces[piece].follow and not pieces[piece].position == moveTo and canMove(piece, moveTo, globalVariables()):
-                        if check == None:
-                            if turn[0] % 2 == 1:
-                                bottomColorCheckCounter = 0
-                            else:
-                                topColorCheckCounter = 0
-
+                        # Saves the original location of the piece
                         firstLocation = pieces[piece].position
                         pieces[piece].follow = False
 
                         if canCastle(piece, moveTo, globalVariables()):
                             castle(piece, moveTo, globalVariables())
-
-                        elif not board[moveTo[0] + str(int(moveTo[1]))] == "":
-                            board[pieces[piece].position[0] +
-                                  str(int(pieces[piece].position[1]))] = ""
-                            delete = [board[moveTo[0] + str(int(moveTo[1]))]]
-                            if pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "king":
-                                winner = pieces[board[moveTo[0] +
-                                                      str(int(moveTo[1]))]].color
-                                break
-                            pieces[board[moveTo[0] + str(int(moveTo[1]))]] = ""
-                            pieces[piece].moveTo(moveTo)
-
+                        
+                        # How it moves the piece and what to do if the new position isn't empty
                         else:
                             board[pieces[piece].position[0] +
                                   str(int(pieces[piece].position[1]))] = ""
+                            if not board[moveTo[0] + str(int(moveTo[1]))] == "":
+                                delete = [board[moveTo[0] + str(int(moveTo[1]))]]
+                                if pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "king":
+                                    winner = pieces[board[moveTo[0] +
+                                                        str(int(moveTo[1]))]].color
+                                    break
                             pieces[piece].moveTo(moveTo) 
                             board[moveTo[0] +
                                   str(int(moveTo[1]))] = pieces[piece].name
 
-                        #Deals with Check
+                        # Deals with Check
                         checkState = inCheck(globalVariables())
+                        # Resets the piece if it makes their king get into check
                         if (checkState != None and check != None) or (checkState == pieces[piece].color):
                             pieces[piece].moveTo(firstLocation)
                             board[pieces[piece].position[0] +
                                   str(int(pieces[piece].position[1]))] = pieces[piece].name
                             board[moveTo[0] + str(int(moveTo[1]))] = ""
                             break
+                        # Declares check if the board is in check
                         elif checkState != None:
                             check = checkState
+                        # Resets check if need be
                         elif checkState == None and check != None:
                             check = None
-                            if turn % 2 == 1:
-                                bottomColorCheckCounter += 1
-                            else:
-                                topColorCheckCounter += 1
                         
+                        # Extra pawn functions
                         if pieces[piece].type == "pawn":
+                            # Activates promotion
                             if pieces[piece].position[1] == 1:
                                 promotion = pieces[piece].position + \
                                     [pieces[piece].color]
+
+                            # Makes the pawn have movedTwo equal to true if it movedTwo(used for Au Passant)
                             if abs(firstLocation[1] - int(moveTo[1])) == 2:
                                 pieces[piece].movedTwo = [True, turn[0]+1]
+                            
+                            # Deletes the pawn that got Au Passant-ed
                             if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
                                 delete = [
                                     board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
+                        
                         if promotion == "": 
                             nextTurn(globalVariables())
                         break
                     else:
                         pieces[piece].follow = False
-            # Developer Controls
+                        
+            # Developer Controls(activated by the left control if developer is True)
             elif pygame.key.get_pressed()[pygame.K_LCTRL] and developer:
                 developerControl = input("What would you like to do? ")
                 if developerControl.lower() == "override canmove":
