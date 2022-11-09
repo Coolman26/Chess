@@ -116,7 +116,6 @@ while running:
     mouseXY = pygame.mouse.get_pos() 
     mousePressed = pygame.mouse.get_pressed()
 
-
     if delete:  # This deletes a piece in pieces if the delete list has something in it.
         # I did this because it activates inside of a for loop and I can't delete inside the for loop.
         del pieces[delete[0]]
@@ -176,7 +175,9 @@ while running:
     if tie:
         screen.blit(tieLogo, [0, 0])
 
-    for event in pygame.event.get():
+    eventGet = pygame.event.get()
+    print(promotion)
+    for event in eventGet:
 
         if event.type == pygame.QUIT:
             running = False
@@ -245,7 +246,6 @@ while running:
                             else:
                                 topColorCheckCounter += 1
                         if pieces[piece].type == "pawn":
-                            print(pieces[piece].position[1])
                             if pieces[piece].position[1] == 1:
                                 promotion = pieces[piece].position + \
                                     [pieces[piece].color]
@@ -255,7 +255,6 @@ while running:
                                 delete = [
                                     board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
-                        print(promotion, "hi")
                         if promotion == "": 
                             nextTurn(globalVariables())
                         break
@@ -284,7 +283,7 @@ while running:
                     for piece in pieces:
                         print(pieces[piece].position)
     if promotion != "":
-        promotionBoard(globalVariables(), pygame.event.get(), mouseXY)
+        promotionBoard(globalVariables(), eventGet, mouseXY)
             
 
     # updates the frames of the game

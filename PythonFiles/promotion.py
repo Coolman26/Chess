@@ -43,10 +43,10 @@ def promotionBoard(vars, eventGet, mouseXY):
                         pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
                                                     promotion[0], promotion[1]], pieceName, vars)
                         promotion = ""
+                        vars["promotion"] = ""
                         break
                     promotionPiece += 1
                 break
     if promotion == "":
-        print("Hi")
         nextTurn(vars)
     
