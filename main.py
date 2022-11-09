@@ -220,7 +220,7 @@ while running:
 
                         # Deals with Check
                         checkState = inCheck(globalVariables())
-                        # Resets the piece if it makes their king get into check
+                        # Resets the piece if it makes their king get into check because of the movement
                         if (checkState != None and check != None) or (checkState == pieces[piece].color):
                             pieces[piece].moveTo(firstLocation)
                             board[pieces[piece].position[0] +
@@ -244,11 +244,11 @@ while running:
                             # Makes the pawn have movedTwo equal to true if it movedTwo(used for Au Passant)
                             if abs(firstLocation[1] - int(moveTo[1])) == 2:
                                 pieces[piece].movedTwo = [True, turn[0]+1]
-                            
+                            print(abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1)
                             # Deletes the pawn that got Au Passant-ed
                             if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
-                                delete = [
-                                    board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]
+                                print("Hi")
+                                delete = [board[moveTo[0] + str(int(moveTo[1])+ 1)]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
                         
                         if promotion == "": 
