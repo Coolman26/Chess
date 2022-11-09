@@ -42,7 +42,7 @@ def reset():
     removePiece = False
     overRideTurns = False
     promotion = ""
-    turn = 1
+    turn = [1]
     winner = ""
     for x in range(boardSize):
         for y in range(boardSize):
@@ -120,7 +120,7 @@ while running:
     for piece in pieces:
         if pieces[piece].type == "pawn":
             if pieces[piece].movedTwo != False:
-                if turn - 1 == pieces[piece].movedTwo[1]:
+                if turn[0] - 1 == pieces[piece].movedTwo[1]:
                     pieces[piece].movedTwo = False
 
     # This checks if the game is inTie if it is then it checks if one side is in check.
@@ -181,7 +181,7 @@ while running:
                 if not removePiece:
                     # Picks up a piece
                     for piece in pieces:
-                        if turn % 2 == 1 or overRideTurns:
+                        if (turn[0] % 2 == 0 if pieces[piece].color == topColor else turn[0] % 2 == 1) or overRideTurns:
                             if mouseXY[0] // squareSize + 1 == (boardSize - alphabet.index(pieces[piece].position[0])) and mouseXY[1] // squareSize + 1 == pieces[piece].position[1]:
                                 pieces[piece].follow = True
                 else:
@@ -197,7 +197,7 @@ while running:
                         boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
                     if pieces[piece].follow and not pieces[piece].position == moveTo and canMove(piece, moveTo, globalVariables()):
                         if check == None:
-                            if turn % 2 == 1:
+                            if turn[0] % 2 == 1:
                                 bottomColorCheckCounter = 0
                             else:
                                 topColorCheckCounter = 0
@@ -248,7 +248,7 @@ while running:
                                 promotion = pieces[piece].position + \
                                     [pieces[piece].color]
                             if abs(firstLocation[1] - int(moveTo[1])) == 2:
-                                pieces[piece].movedTwo = [True, turn+1]
+                                pieces[piece].movedTwo = [True, turn[0]+1]
                             if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
                                 delete = [
                                     board[moveTo[0] + str(int(moveTo[1])+(1 if pieces[piece].color == bottomColor else -1))]]

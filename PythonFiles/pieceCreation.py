@@ -3,12 +3,12 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame
 
 class Piece():
-    def __init__(self, color, type, position, name, vars, follow=False) -> None:
+    def __init__(self, color, type, position, name, vars) -> None:
         self.position = position
         self.color = color
         self.type = type
         self.png = loadpiece(color + type, vars)
-        self.follow = follow
+        self.follow = False
         self.name = name
         vars["board"][position[0] + str(position[1])] = name
         if type == "pawn":

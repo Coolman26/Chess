@@ -38,7 +38,7 @@ def canMove(piece, moveTo, vars):
             elif type == "pawn":
                 if moveX == 0 and moveY == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
                     return True
-                elif abs(moveX) == 1 and abs(moveY) == 1:
+                elif abs(moveX) == 1 and moveY == 1:
                     if board[moveTo[0] + str(int(moveTo[1]))] != "":
                         return True
                     elif abs(moveX) == 1 and moveY == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < boardSize and "pawn" in board[moveTo[0] + str(int(moveTo[1])+1)]:
@@ -112,7 +112,7 @@ def nextTurn(vars):
     board = vars["board"]
     pieces = vars["pieces"]
     turn = vars["turn"]
-    turn += 1
+    turn[0] += 1
     for x in range(boardSize):
         for y in range(boardSize):
             board[alphabet[x] + str(y+1)] = ""
