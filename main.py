@@ -51,8 +51,8 @@ def reset():
 
     pieces = {}
     for i in range(boardSize):
-        for piece in range(len(settings["Row" + str(i+1)])):
-            PieceName = settings["Row" + str(i+1)][::-1][piece]
+        for piece in range(len(settings["row" + str(i+1)])):
+            PieceName = settings["row" + str(i+1)][::-1][piece]
             if PieceName != "":
                 PieceType = PieceName[3:] if PieceName.startswith(
                     "top") else PieceName[6:]
@@ -109,11 +109,10 @@ reset()
 
 running = True
 while running:
-    print(board)
     mouseXY = pygame.mouse.get_pos() 
     mousePressed = pygame.mouse.get_pressed()
 
-    if delete:  # This deletes a piece in pieces if the delete list has something in it.
+    if delete and delete[0] != "":  # This deletes a piece in pieces if the delete list has something in it.
         del pieces[delete[0]]
         delete = []
 
@@ -209,12 +208,12 @@ while running:
                         else:
                             board[pieces[piece].position[0] +
                                   str(int(pieces[piece].position[1]))] = ""
-                            
+                            print(board[moveTo[0] + str(int(moveTo[1]))])
                             if board[moveTo[0] + str(int(moveTo[1]))] != "":
                                 delete = [board[moveTo[0] + str(int(moveTo[1]))]]
+                                print(delete)
                                 if pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "king":
-                                    winner = pieces[board[moveTo[0] +
-                                                        str(int(moveTo[1]))]].color
+                                    winner = pieces[board[moveTo[0] + str(int(moveTo[1]))]].color
                                     break
                             board[moveTo[0] + str(int(moveTo[1]))] = pieces[piece].name
                             pieces[piece].moveTo(moveTo) 
