@@ -11,5 +11,7 @@
     "row7":["bottompawn", "bottompawn","bottompawn","bottompawn","bottompawn","bottompawn","bottompawn","bottompawn"],
     "row8":["bottomrook", "bottomknight", "bottombishop", "bottomqueen", "bottomking", "bottombishop", "bottomknight", "bottomrook"],
     "tileColor1": [169,126,92],
-    "tileColor2": [222,202,175]
+    "tileColor2": [222,202,175],
+    
+    "pawn":[]
 }
