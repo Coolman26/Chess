@@ -5,7 +5,6 @@ from PythonFiles.pieceMovement import nextTurn
 from PythonFiles.pieceCreation import numberOf, Piece
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 def promotionBoard(vars, eventGet, mouseXY):
-    print(eventGet)
     boardSize = vars["boardSize"]
     promotion = vars["promotion"]
     screen = vars["screen"]
@@ -49,4 +48,5 @@ def promotionBoard(vars, eventGet, mouseXY):
                 break
     if promotion == "":
         nextTurn(vars)
+    return promotion
     

@@ -13,11 +13,6 @@ from PythonFiles.promotion import promotionBoard
 pygame.init()
 
 
-
-
-
-
-
 def globalVariables():
     return {
         "board":board,
@@ -160,8 +155,6 @@ while running:
             screen.blit(pieces[activePiece].png, [
                         mouseXY[0]-(squareSize/3), mouseXY[1]-(screenDems[1]/boardSize/3)])
 
-    # Deals with promotion
-
     # Loads the winning and losing logo
     if winner != "":
         if winner == bottomColor:
@@ -176,7 +169,8 @@ while running:
         screen.blit(tieLogo, [0, 0])
 
     eventGet = pygame.event.get()
-    print(promotion)
+    if promotion != "":
+        promotion = promotionBoard(globalVariables(), eventGet, mouseXY)
     for event in eventGet:
 
         if event.type == pygame.QUIT:
@@ -282,8 +276,7 @@ while running:
                 elif developerControl.lower() == "print":
                     for piece in pieces:
                         print(pieces[piece].position)
-    if promotion != "":
-        promotionBoard(globalVariables(), eventGet, mouseXY)
+    
             
 
     # updates the frames of the game
