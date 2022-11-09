@@ -5,14 +5,13 @@ from PythonFiles.pieceMovement import nextTurn
 from PythonFiles.pieceCreation import numberOf, Piece
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 def promotionBoard(vars, eventGet, mouseXY):
-    
+    print(eventGet)
     boardSize = vars["boardSize"]
     promotion = vars["promotion"]
     screen = vars["screen"]
     tileColor1 = vars["tileColor1"]
     tileColor2 = vars["tileColor2"]
     squareSize = vars["squareSize"]
-    screenDems = vars["screenDems"]
     promotionPieces = vars["promotionPieces"]
     pieces = vars["pieces"]
     promotionPieceTypes = vars["promotionPieceTypes"]
@@ -21,7 +20,7 @@ def promotionBoard(vars, eventGet, mouseXY):
     for y in range(2):
         for x in range(2):
             tileX = squareSize//2*(x+1) + squareSize//2*x + squareSize*newX
-            tileY =  squareSize//2*(y+1) + squareSize//2*y + (y+1) * squareSize
+            tileY =  squareSize//2*(y+1) + squareSize//2*y
             xEven = x % 2 == 0
             yEven = y % 2 == 0
             if (xEven and yEven) or (not xEven and not yEven):
@@ -37,20 +36,14 @@ def promotionBoard(vars, eventGet, mouseXY):
                 for x in range(2):
                     xEven = x % 2 == 0
                     yEven = y % 2 == 0
-                    pieceName = promotion[2] + promotionPieceTypes[promotionPiece] + numberOf(
-                        promotion[2] + promotionPieceTypes[promotionPiece], pieces.keys())
-                    if promotion[1] == 1:
-                        if squareSize//2*(x+1) + squareSize//2*x + squareSize*newX <= mouseXY[0] <= squareSize//2*(x+1) + squareSize//2*x + squareSize*newX + squareSize and squareSize//2*(y+1) + squareSize//2*y <= mouseXY[1] <= squareSize//2*(y+1) + squareSize//2*y + squareSize:
-                            pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
-                                                        promotion[0], promotion[1]], pieceName, vars)
-                            promotion = ""
-                            break
-                    else:
-                        if squareSize//2*(x+1) + squareSize//2*x + squareSize*newX <= mouseXY[0] <= squareSize//2*(x+1) + squareSize//2*x + squareSize*newX and screenDems[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1) * squareSize <= mouseXY[1] <= screenDems[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1) * squareSize + squareSize:
-                            pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
-                                                        promotion[0], promotion[1]], pieceName, vars)
-                            promotion = ""
-                            break
+                    topLeftX = squareSize//2*(x+1) + squareSize//2*x + squareSize*newX
+                    topLeftY = squareSize//2*(y+1) + squareSize//2*y
+                    pieceName = promotion[2] + promotionPieceTypes[promotionPiece] + numberOf(promotion[2] + promotionPieceTypes[promotionPiece], pieces.keys())
+                    if topLeftX <= mouseXY[0] <= topLeftX + squareSize and topLeftY <= mouseXY[1] <= topLeftY + squareSize:
+                        pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
+                                                    promotion[0], promotion[1]], pieceName, vars)
+                        promotion = ""
+                        break
                     promotionPiece += 1
                 break
     if promotion == "":
