@@ -28,6 +28,7 @@ def promotionBoard(vars, eventGet, mouseXY):
                 pygame.draw.rect(screen, tileColor1, [tileX, tileY, squareSize, squareSize])
             screen.blit(promotionPieces[promotion[2] + str(promotionPiece)], [tileX + 10, tileY + 10])
             promotionPiece += 1
+
     for event in eventGet:
         if event.type == pygame.MOUSEBUTTONUP:
             promotionPiece = 0
@@ -37,15 +38,15 @@ def promotionBoard(vars, eventGet, mouseXY):
                     yEven = y % 2 == 0
                     topLeftX = squareSize//2*(x+1) + squareSize//2*x + squareSize*newX
                     topLeftY = squareSize//2*(y+1) + squareSize//2*y
-                    pieceName = promotion[2] + promotionPieceTypes[promotionPiece] + numberOf(promotion[2] + promotionPieceTypes[promotionPiece], pieces.keys())
+                    color = promotion[2]
+                    newPieceType = promotionPieceTypes[promotionPiece]
+                    pieceName = color + newPieceType + numberOf(color + newPieceType, pieces.keys())
                     if topLeftX <= mouseXY[0] <= topLeftX + squareSize and topLeftY <= mouseXY[1] <= topLeftY + squareSize:
-                        pieces[pieceName] = Piece(promotion[2], promotionPieceTypes[promotionPiece], [
+                        pieces[pieceName] = Piece(color, promotionPieceTypes[promotionPiece], [
                                                     promotion[0], promotion[1]], pieceName, vars)
                         promotion = ""
-                        vars["promotion"] = ""
                         break
                     promotionPiece += 1
-                break
     if promotion == "":
         nextTurn(vars)
     return promotion
