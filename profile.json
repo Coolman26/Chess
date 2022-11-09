@@ -12,6 +12,6 @@
     "row8":["bottomrook", "bottomknight", "bottombishop", "bottomqueen", "bottomking", "bottombishop", "bottomknight", "bottomrook"],
     "tileColor1": [169,126,92],
     "tileColor2": [222,202,175],
-    
-    "pawn":[]
+    "pieces": ["pawn", "bishop", "king", "queen", "knight", "rook"],
+    "pawn":["up1", "up2 first", "en passant", "take diagonal"]
 }

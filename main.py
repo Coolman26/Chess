@@ -28,7 +28,8 @@ def globalVariables():
         "tileColor2": tileColor2,
         "promotionPieces": promotionPieces,
         "turn": turn,
-        "promotionPieceTypes": promotionPieceTypes
+        "promotionPieceTypes": promotionPieceTypes,
+        "settings": settings
     }
 
 # Resets the global variables
