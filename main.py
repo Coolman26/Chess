@@ -112,7 +112,6 @@ while running:
     mousePressed = pygame.mouse.get_pressed()
 
     if delete:  # This deletes a piece in pieces if the delete list has something in it.
-        # I did this because it activates inside of a for loop and I can't delete inside the for loop.
         del pieces[delete[0]]
         delete = []
 
@@ -244,10 +243,8 @@ while running:
                             # Makes the pawn have movedTwo equal to true if it movedTwo(used for Au Passant)
                             if abs(firstLocation[1] - int(moveTo[1])) == 2:
                                 pieces[piece].movedTwo = [True, turn[0]+1]
-                            print(abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1)
                             # Deletes the pawn that got Au Passant-ed
-                            if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
-                                print("Hi")
+                            if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == pieces[piece].name:
                                 delete = [board[moveTo[0] + str(int(moveTo[1])+ 1)]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
                         
