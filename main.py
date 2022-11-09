@@ -194,28 +194,32 @@ while running:
             elif event.type == pygame.MOUSEBUTTONUP:
                 for piece in pieces:
                     # Finds the coords of where a piece was dropped
-                    moveTo = [alphabet[int(
+                    moveToList = [alphabet[int(
                         boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
-                    if pieces[piece].follow and not pieces[piece].position == moveTo and canMove(piece, moveTo, globalVariables()):
+                    if pieces[piece].follow and not pieces[piece].position == moveToList and canMove(piece, moveToList, globalVariables()):
                         # Saves the original location of the piece
                         firstLocation = pieces[piece].position
                         pieces[piece].follow = False
 
-                        if canCastle(piece, moveTo, globalVariables()):
-                            castle(piece, moveTo, globalVariables())
+                        if canCastle(piece, moveToList, globalVariables()):
+                            castle(piece, moveToList, globalVariables())
                         
                         # How it moves the piece and what to do if the new position isn't empty
                         else:
                             board[pieces[piece].position[0] +
                                   str(int(pieces[piece].position[1]))] = ""
-                            if board[moveTo[0] + str(int(moveTo[1]))] != "":
-                                delete = [board[moveTo[0] + str(int(moveTo[1]))]]
-                                print(delete)
-                                if pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "king":
-                                    winner = pieces[board[moveTo[0] + str(int(moveTo[1]))]].color
+                            if board[moveToList[0] + str(int(moveToList[1]))] != "":
+                                takenPieceName = board[moveToList[0] + str(int(moveToList[1]))]
+                                delete = [takenPieceName]
+                                if pieces[takenPieceName].type == "king":
+                                    winner = pieces[board[moveToList[0] +
+                                                        str(int(moveToList[1]))]].color
                                     break
-                            board[moveTo[0] + str(int(moveTo[1]))] = pieces[piece].name
-                            pieces[piece].moveTo(moveTo) 
+                                pieces[takenPieceName] = ""
+                            else:
+                                board[moveToList[0] + str(int(moveToList[1]))] = pieces[piece].name
+                            pieces[piece].moveTo(moveToList) 
+                            
                             
 
                         # Deals with Check
@@ -225,7 +229,7 @@ while running:
                             pieces[piece].moveTo(firstLocation)
                             board[pieces[piece].position[0] +
                                   str(int(pieces[piece].position[1]))] = pieces[piece].name
-                            board[moveTo[0] + str(int(moveTo[1]))] = ""
+                            board[moveToList[0] + str(int(moveToList[1]))] = ""
                             break
                         # Declares check if the board is in check
                         elif checkState != None:
@@ -242,12 +246,12 @@ while running:
                                     [pieces[piece].color]
 
                             # Makes the pawn have movedTwo equal to true if it movedTwo(used for Au Passant)
-                            if abs(firstLocation[1] - int(moveTo[1])) == 2:
+                            if abs(firstLocation[1] - int(moveToList[1])) == 2:
                                 pieces[piece].movedTwo = [True, turn[0]+1]
                             # Deletes the pawn that got Au Passant-ed
-                            if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == pieces[piece].name:
-                                delete = [board[moveTo[0] + str(int(moveTo[1])+ 1)]]
-                                board[moveTo[0] + str(int(moveTo[1])-1)] = ""
+                            if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveToList[0])) == 1 and board[moveToList[0] + str(int(moveToList[1]))] == pieces[piece].name:
+                                delete = [board[moveToList[0] + str(int(moveToList[1])+ 1)]]
+                                board[moveToList[0] + str(int(moveToList[1])-1)] = ""
                         print(board)
                         if promotion == "": 
                             for i in range(3):
