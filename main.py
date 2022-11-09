@@ -248,9 +248,10 @@ while running:
                             if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveTo[0])) == 1 and board[moveTo[0] + str(int(moveTo[1]))] == pieces[piece].name:
                                 delete = [board[moveTo[0] + str(int(moveTo[1])+ 1)]]
                                 board[moveTo[0] + str(int(moveTo[1])-1)] = ""
-                        moveTo[0] + str(int(moveTo[1]))
+                        print(board)
                         if promotion == "": 
-                            nextTurn(globalVariables())
+                            for i in range(3):
+                                nextTurn(globalVariables())
                         break
                     else:
                         pieces[piece].follow = False
