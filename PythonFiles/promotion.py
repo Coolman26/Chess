@@ -21,16 +21,14 @@ def promotionBoard(vars, eventGet, mouseXY):
     for y in range(2):
         for x in range(2):
             tileX = squareSize//2*(x+1) + squareSize//2*x + squareSize*newX
+            tileY =  squareSize//2*(y+1) + squareSize//2*y + (y+1) * squareSize
             xEven = x % 2 == 0
             yEven = y % 2 == 0
             if (xEven and yEven) or (not xEven and not yEven):
-                pygame.draw.rect(screen, tileColor2, [tileX, screenDems[1] - squareSize//2*(
-                    y+1) + squareSize//2*y - (y+1) * squareSize, squareSize, squareSize])
+                pygame.draw.rect(screen, tileColor2, [tileX, tileY, squareSize, squareSize])
             else:
-                    pygame.draw.rect(screen, tileColor1, [tile, screenDems[1] - squareSize//2*(
-                        y+1) + squareSize//2*y - (y+1)*squareSize, squareSize, squareSize])
-            screen.blit(promotionPieces[promotion[2] + str(promotionPiece)], [squareSize//2*(x+1) + squareSize//2*x +
-                            squareSize*newX + 10, screenDems[1] - squareSize//2*(y+1) + squareSize//2*y - (y+1)*squareSize + 10])
+                pygame.draw.rect(screen, tileColor1, [tileX, tileY, squareSize, squareSize])
+            screen.blit(promotionPieces[promotion[2] + str(promotionPiece)], [tileX + 10, tileY + 10])
             promotionPiece += 1
     for event in eventGet:
         if event.type == pygame.MOUSEBUTTONUP:
