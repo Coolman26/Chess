@@ -3,16 +3,16 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame
 from PythonFiles.pieceMovement import canCastle, canMove, castle, nextTurn
-from PythonFiles.pieceCreation import imgload, loadpiece, numberOf, Piece
+from PythonFiles.pieceCreation import imgload, numberOf, Piece
 from PythonFiles.chessGameStates import inCheck, inTie
 from PythonFiles.promotion import promotionBoard
 
 
 
-# initializing the constructor
+# Initializing the constructor
 pygame.init()
 
-
+# Used to plug the global variables into the other py's
 def globalVariables():
     return {
         "board":board,
@@ -32,6 +32,7 @@ def globalVariables():
         "promotionPieceTypes": promotionPieceTypes
     }
 
+# Resets the global variables
 def reset():
     global board, pieces, delete, check, tie, overRideCanMove, removePiece, overRideTurns, promotion, turn, winner
     board = {}
@@ -64,7 +65,7 @@ def reset():
     
 
 
-# Base Variables of Game
+# Base Settings of the Game
 settings = json.load(open('profile.json'))
 boardSize = settings["boardSize"]
 screenDems = [800, 800]
@@ -280,7 +281,7 @@ while running:
     
             
 
-    # updates the frames of the game
+    # Updates the frames of the game
     pygame.display.update()
 
 pygame.quit()
