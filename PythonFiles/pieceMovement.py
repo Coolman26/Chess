@@ -36,13 +36,16 @@ def canMove(piece, moveTo, vars):
                     return True
 
             elif type == "pawn":
-                if abs(moveX) == 1 and abs(moveY) == 1 and board[moveTo[0] + str(int(moveTo[1]))] != "":
+                if moveX == 0 and moveY == 1 and board[moveTo[0] + str(int(moveTo[1]))] == "":
                     return True
-                elif abs(moveX) == 1 and abs(moveY) == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < boardSize and "pawn" in board[moveTo[0] + str(int(moveTo[1])+1)]:
-                    if pieces[board[moveTo[0] + str(int(moveTo[1]) + 1)]].movedTwo != False:
+                elif abs(moveX) == 1 and abs(moveY) == 1:
+                    if board[moveTo[0] + str(int(moveTo[1]))] != "":
                         return True
+                    elif abs(moveX) == 1 and moveY == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < boardSize and "pawn" in board[moveTo[0] + str(int(moveTo[1])+1)]:
+                        if pieces[board[moveTo[0] + str(int(moveTo[1]) + 1)]].movedTwo != False:
+                            return True
                 else:
-                    if (moveY in ([1, 2] if pieces[piece].position[1] == 7 else [1]) and moveX == 0 and board[moveTo[0] + str(int(moveTo[1]))] == ""  and not pieceInBetween(piece, moveTo, vars)) and (pawnCanTake(piece, vars)):
+                    if (moveY == 2 and moveX == 0 and board[moveTo[0] + str(int(moveTo[1]))] == ""  and not pieceInBetween(piece, moveTo, vars)) and (pawnCanTake(piece, vars)):
                         return True
 
             elif type == "king":
