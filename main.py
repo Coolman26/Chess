@@ -208,7 +208,6 @@ while running:
                         else:
                             board[pieces[piece].position[0] +
                                   str(int(pieces[piece].position[1]))] = ""
-                            print(board[moveTo[0] + str(int(moveTo[1]))])
                             if board[moveTo[0] + str(int(moveTo[1]))] != "":
                                 delete = [board[moveTo[0] + str(int(moveTo[1]))]]
                                 print(delete)
@@ -216,6 +215,7 @@ while running:
                                     winner = pieces[board[moveTo[0] + str(int(moveTo[1]))]].color
                                     break
                             board[moveTo[0] + str(int(moveTo[1]))] = pieces[piece].name
+                            print(board[moveTo[0] + str(int(moveTo[1]))])
                             pieces[piece].moveTo(moveTo) 
                             
 
