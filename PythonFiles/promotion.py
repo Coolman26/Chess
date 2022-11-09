@@ -16,16 +16,16 @@ def promotionBoard(vars, eventGet, mouseXY):
     promotionPieces = vars["promotionPieces"]
     pieces = vars["pieces"]
     promotionPieceTypes = vars["promotionPieceTypes"]
-    print(promotion)
     promotionPiece = 0
     newX = boardSize - alphabet.index(promotion[0]) - (3 if promotion[0] != "G" else 1)
     for y in range(2):
         for x in range(2):
+            
             xEven = x % 2 == 0
             yEven = y % 2 == 0
             if (xEven and yEven) or (not xEven and not yEven):
-                    pygame.draw.rect(screen, tileColor2, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, screenDems[1] - squareSize//2*(
-                        y+1) + squareSize//2*y - (y+1) * squareSize, squareSize, squareSize])
+                pygame.draw.rect(screen, tileColor2, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, screenDems[1] - squareSize//2*(
+                    y+1) + squareSize//2*y - (y+1) * squareSize, squareSize, squareSize])
             else:
                     pygame.draw.rect(screen, tileColor1, [squareSize//2*(x+1) + squareSize//2*x + squareSize*newX, screenDems[1] - squareSize//2*(
                         y+1) + squareSize//2*y - (y+1)*squareSize, squareSize, squareSize])
