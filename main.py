@@ -8,7 +8,6 @@ from PythonFiles.chessGameStates import inCheck, inTie
 from PythonFiles.promotion import promotionBoard
 
 
-
 # Initializing the constructor
 pygame.init()
 
@@ -196,6 +195,7 @@ while running:
                     # Finds the coords of where a piece was dropped
                     moveToList = [alphabet[int(
                         boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
+                    moveToStr = moveToList[0] + str(int(moveToList[1]))
                     if pieces[piece].follow and not pieces[piece].position == moveToList and canMove(piece, moveToList, globalVariables()):
                         # Saves the original location of the piece
                         firstLocation = pieces[piece].position
@@ -208,8 +208,8 @@ while running:
                         else:
                             board[pieces[piece].position[0] +
                                   str(int(pieces[piece].position[1]))] = ""
-                            if board[moveToList[0] + str(int(moveToList[1]))] != "":
-                                takenPieceName = board[moveToList[0] + str(int(moveToList[1]))]
+                            if board[moveToStr] != "":
+                                takenPieceName = board[moveToStr]
                                 delete = [takenPieceName]
                                 if pieces[takenPieceName].type == "king":
                                     winner = pieces[board[moveToList[0] +
@@ -217,7 +217,7 @@ while running:
                                     break
                                 pieces[takenPieceName] = ""
                             else:
-                                board[moveToList[0] + str(int(moveToList[1]))] = pieces[piece].name
+                                board[moveToStr] = pieces[piece].name
                             pieces[piece].moveTo(moveToList) 
                             
                             
@@ -229,7 +229,7 @@ while running:
                             pieces[piece].moveTo(firstLocation)
                             board[pieces[piece].position[0] +
                                   str(int(pieces[piece].position[1]))] = pieces[piece].name
-                            board[moveToList[0] + str(int(moveToList[1]))] = ""
+                            board[moveToStr] = ""
                             break
                         # Declares check if the board is in check
                         elif checkState != None:
@@ -245,14 +245,13 @@ while running:
                                 promotion = pieces[piece].position + \
                                     [pieces[piece].color]
 
-                            # Makes the pawn have movedTwo equal to true if it movedTwo(used for Au Passant)
+                            # Makes the pawn have movedTwo equal to true if it movedTwo(used for En Passant)
                             if abs(firstLocation[1] - int(moveToList[1])) == 2:
                                 pieces[piece].movedTwo = [True, turn[0]+1]
-                            # Deletes the pawn that got Au Passant-ed
-                            if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveToList[0])) == 1 and board[moveToList[0] + str(int(moveToList[1]))] == pieces[piece].name:
+                            # Deletes the pawn that got En Passant-ed
+                            if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveToList[0])) == 1 and board[moveToStr] == pieces[piece].name:
                                 delete = [board[moveToList[0] + str(int(moveToList[1])+ 1)]]
                                 board[moveToList[0] + str(int(moveToList[1])-1)] = ""
-                        print(board)
                         if promotion == "": 
                             for i in range(3):
                                 nextTurn(globalVariables())
