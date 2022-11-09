@@ -179,11 +179,13 @@ while running:
         if promotion == "":
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if not removePiece:
+                    # Picks up a piece
                     for piece in pieces:
-                        if (turn % 2 == 0 if pieces[piece].color == topColor else turn % 2 == 1) or overRideTurns:
+                        if turn % 2 == 1 or overRideTurns:
                             if mouseXY[0] // squareSize + 1 == (boardSize - alphabet.index(pieces[piece].position[0])) and mouseXY[1] // squareSize + 1 == pieces[piece].position[1]:
                                 pieces[piece].follow = True
                 else:
+                    # Removes a piece if that mode is on
                     if not board[alphabet[int(boardSize - mouseXY[0] // squareSize - 1)] + str(int(mouseXY[1] // squareSize + 1))] == "":
                         del pieces[board[alphabet[int(
                             boardSize - mouseXY[0] // squareSize - 1)] + str(int(mouseXY[1] // squareSize + 1))]]
@@ -224,6 +226,7 @@ while running:
                             board[moveTo[0] +
                                   str(int(moveTo[1]))] = pieces[piece].name
 
+                        #Deals with Check
                         checkState = inCheck(globalVariables())
                         if (checkState != None and check != None) or (checkState == pieces[piece].color):
                             pieces[piece].moveTo(firstLocation)
@@ -239,6 +242,7 @@ while running:
                                 bottomColorCheckCounter += 1
                             else:
                                 topColorCheckCounter += 1
+                        
                         if pieces[piece].type == "pawn":
                             if pieces[piece].position[1] == 1:
                                 promotion = pieces[piece].position + \
@@ -254,6 +258,7 @@ while running:
                         break
                     else:
                         pieces[piece].follow = False
+            # Developer Controls
             elif pygame.key.get_pressed()[pygame.K_LCTRL] and developer:
                 developerControl = input("What would you like to do? ")
                 if developerControl.lower() == "override canmove":
