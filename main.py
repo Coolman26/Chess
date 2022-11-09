@@ -109,6 +109,7 @@ reset()
 
 running = True
 while running:
+    print(board)
     mouseXY = pygame.mouse.get_pos() 
     mousePressed = pygame.mouse.get_pressed()
 
@@ -208,15 +209,16 @@ while running:
                         else:
                             board[pieces[piece].position[0] +
                                   str(int(pieces[piece].position[1]))] = ""
-                            if not board[moveTo[0] + str(int(moveTo[1]))] == "":
+                            
+                            if board[moveTo[0] + str(int(moveTo[1]))] != "":
                                 delete = [board[moveTo[0] + str(int(moveTo[1]))]]
                                 if pieces[board[moveTo[0] + str(int(moveTo[1]))]].type == "king":
                                     winner = pieces[board[moveTo[0] +
                                                         str(int(moveTo[1]))]].color
                                     break
+                            board[moveTo[0] + str(int(moveTo[1]))] = pieces[piece].name
                             pieces[piece].moveTo(moveTo) 
-                            board[moveTo[0] +
-                                  str(int(moveTo[1]))] = pieces[piece].name
+                            
 
                         # Deals with Check
                         checkState = inCheck(globalVariables())
