@@ -13,5 +13,10 @@
     "tileColor1": [169,126,92],
     "tileColor2": [222,202,175],
     "pieces": ["pawn", "bishop", "king", "queen", "knight", "rook"],
-    "pawn":["up1", "up2 first", "en passant", "diagonal 1 take"]
+    "pawn":["up1", "up2 first", "en passant", "diagonal 1 take"],
+    "bishop":["diagonal"],
+    "king":["up1", "down1", "horizontal1"],
+    "queen":["diagonal", "up", "down"],
+    "knight":["L"],
+    "rook":["up", "down"]
 }
