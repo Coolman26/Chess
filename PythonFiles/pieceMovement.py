@@ -146,6 +146,19 @@ def canMove(piece, moveTo, vars):
                                     if vars["settings"][ogRow][ogCol] == ("top" if color == topColor else "bottom") + type:
                                         if not pieceInBetween(piece, moveTo, vars):
                                             return True
+                    elif "right" in movementType:
+                        if movementType == "right":
+                            if moveX > 0:
+                                return True
+                        elif len(movementType.split()) == 1:
+                            if movementType[-1]*-1 == moveX:
+                                return True
+                        elif len(movementType.split()) == 2:
+                            if movementType.split()[0][-1]*-1 == moveX:
+                                if movementType.split()[1] == "first":
+                                    if vars["settings"][ogRow][ogCol] == ("top" if color == topColor else "bottom") + type:
+                                        if not pieceInBetween(piece, moveTo, vars):
+                                            return True
 
         
     else:

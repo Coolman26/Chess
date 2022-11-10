@@ -7,6 +7,7 @@ class Piece():
         self.position = position
         self.color = color
         self.type = type
+        print()
         self.png = loadpiece(color + type, vars)
         self.follow = False
         self.name = name
@@ -27,15 +28,15 @@ def startscolor(name):
 
     return [False]
 
-def endspiece(name):
-    for piece in ["bishop", "king", "knight", "pawn", "queen", "rook"]:
+def endspiece(name, vars):
+    for piece in vars["settings"]["pieces"]:
         if name.lower().endswith(piece):
             return [True, piece.capitalize()]
     return [False]
 
 def loadpiece(name, vars):
     start = startscolor(name)
-    end = endspiece(name)
+    end = endspiece(name, vars)
     if start[0] and end[0]:
         piece = imgload("assets/GamePieces/" + start[1] + end[1] + ".png")
         piece = pygame.transform.smoothscale(piece, [vars["squareSize"]-10, vars["screenDems"][1]/vars["boardSize"]-20])
