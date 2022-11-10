@@ -34,6 +34,7 @@ def canMove(piece, moveTo, vars):
     color = pieces[piece].color
     if not overRideCanMove:
         if type != "pawn":
+            print("HIII")
             if board[moveTo[0] + str(int(moveTo[1]))] == "" or pieces[board[moveTo[0] + str(int(moveTo[1]))]].color != pieces[piece].color:
                 if type == "bishop":
                     if abs(moveX) == abs(moveY) and not pieceInBetween(piece, moveTo, vars):
@@ -80,30 +81,31 @@ def canMove(piece, moveTo, vars):
             ogCol = alphabet.index(pieces[piece].position[0]) if color != topColor else boardSize-alphabet.index(pieces[piece].position[0])-1
             for movementType in movementTypes:
                 if moveX == 0 and moveY != 0:
-                        if "up" in movementType:
-                            if movementType.isalpha():
+                    if "up" in movementType:
+                        if movementType == "up":
+                            return True
+                        elif len(movementType.split()) == 1:
+                            print(int(movementType[2]) == moveY)
+                            if int(movementType[2]) == moveY:
                                 return True
-                            elif len(movementType.split()) == 1:
-                                if int(movementType[2]) == moveY:
-                                    return True
-                            elif len(movementType.split()) == 2:
-                                if int(movementType[2]) == moveY:
-                                    if movementType.split()[1] == "first":
-                                        if vars["settings"][ogRow][ogCol] == ("top" if color == topColor else "bottom") + type:
-                                            if not pieceInBetween(piece, moveTo, vars):
-                                                return True
-                        elif "down" in movementType:
-                            if movementType.isalpha():
+                        elif len(movementType.split()) == 2:
+                            if int(movementType[2]) == moveY:
+                                if movementType.split()[1] == "first":
+                                    if vars["settings"][ogRow][ogCol] == ("top" if color == topColor else "bottom") + type:
+                                        if not pieceInBetween(piece, moveTo, vars):
+                                            return True
+                    elif "down" in movementType:
+                        if movementType == "down":
+                            return True
+                        elif len(movementType.split()) == 1:
+                            if int(movementType[2])*-1 == moveY:
                                 return True
-                            elif len(movementType.split()) == 1:
-                                if int(movementType[2])*-1 == moveY:
-                                    return True
-                            elif len(movementType.split()) == 2:
-                                if int(movementType[2])*-1 == moveY:
-                                    if movementType.split()[1] == "first":
-                                        if vars["settings"][ogRow][ogCol] == ("top" if color == topColor else "bottom") + type:
-                                            if not pieceInBetween(piece, moveTo, vars):
-                                                return True
+                        elif len(movementType.split()) == 2:
+                            if int(movementType[2])*-1 == moveY:
+                                if movementType.split()[1] == "first":
+                                    if vars["settings"][ogRow][ogCol] == ("top" if color == topColor else "bottom") + type:
+                                        if not pieceInBetween(piece, moveTo, vars):
+                                            return True
                 elif moveX != 0 and moveY != 0:
                     if movementType == "en passant":
                         if abs(moveX) == 1 and moveY == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < boardSize and type in board[moveTo[0] + str(int(moveTo[1])+1)]:
@@ -120,7 +122,7 @@ def canMove(piece, moveTo, vars):
                 
                 elif moveX != 0 and moveY == 0:
                     if "left" in movementType:
-                            if movementType.isalpha():
+                            if movementType == "left":
                                 return True
                             elif len(movementType.split()) == 1:
                                 if int(movementType[-1]) == moveX:

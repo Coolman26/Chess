@@ -15,8 +15,8 @@
     "pieces": ["pawn", "bishop", "king", "queen", "knight", "rook"],
     "pawn":["up1", "up2 first", "en passant", "diagonal 1 take"],
     "bishop":["diagonal"],
-    "king":["up1", "down1", "horizontal1"],
-    "queen":["diagonal", "up", "down"],
+    "king":["up1", "down1", "left1", "right1"],
+    "queen":["diagonal", "up", "down", "left", "right"],
     "knight":["L"],
-    "rook":["up", "down"]
+    "rook":["up", "down", "left", "right"]
 }
