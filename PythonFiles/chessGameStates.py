@@ -26,12 +26,14 @@ def inTie(vars):
             return True
 
 def inCheck(vars):
+    pieces = vars["pieces"]
     if not vars["overRideCanMove"]:
-        for Piece in vars["pieces"]:
-            if Piece != None and vars["pieces"][Piece] != "":
-                color = vars["pieces"][Piece].color
-                kingPosition = vars["pieces"][(vars["bottomColor"] if color == vars["topColor"] else vars["topColor"]) + "king0"].position
-                if canMove(Piece, kingPosition, vars):
+        for piece in pieces:
+            if piece != None and pieces[piece] != "":
+                color = pieces[piece].color
+                kingPosition = pieces[(vars["bottomColor"] if color == vars["topColor"] else vars["topColor"]) + "king0"].position
+                if canMove(piece, kingPosition, vars):
+                    print(pieces[piece].name)
                     return vars["bottomColor"] if color == vars["topColor"] else vars["topColor"]
     else:
         return None
