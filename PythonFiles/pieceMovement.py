@@ -116,14 +116,17 @@ def canMove(piece, moveTo, vars):
                             if pieces[board[moveTo[0] + str(int(moveTo[1]) + 1)]].movedTwo != False:
                                 if not pieceInBetween(piece, moveTo, vars):
                                     return True
-                    if "diagonal" in movementType:
+                    elif "diagonal" in movementType:
                         if len(movementType.split()) == 3:
                             if moveX == int(movementType.split()[1]) and moveY == int(movementType.split()[1]):
                                 if movementType.split()[2] == "take":
                                     if board[moveTo[0] + str(int(moveTo[1]))] != "":
                                         if not pieceInBetween(piece, moveTo, vars):
                                             return True
-                        elif not pieceInBetween(piece, moveTo, vars):
+                        elif abs(moveX) == abs(moveY) and not pieceInBetween(piece, moveTo, vars):
+                            return True
+                    elif "L" in movementType:
+                        if (abs(moveX) == 1 and abs(moveY) == 2) or (abs(moveY) == 1 and abs(moveX) == 2):
                             return True
                         
                 
