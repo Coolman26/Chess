@@ -18,5 +18,6 @@
     "king":["up1", "down1", "left1", "right1"],
     "queen":["diagonal", "up", "down", "left", "right"],
     "knight":["L"],
-    "rook":["up", "down", "left", "right"]
+    "rook":["up", "down", "left", "right"],
+    "knook": ["up", "down", "left", "right", "L"]
 }

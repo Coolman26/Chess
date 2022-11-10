@@ -83,8 +83,9 @@ def canMove(piece, moveTo, vars):
                 if moveX == 0 and moveY != 0:
                     if "up" in movementType:
                         if movementType == "up":
-                            if not pieceInBetween(piece, moveTo, vars):
-                                return True
+                            if moveY > 0:
+                                if not pieceInBetween(piece, moveTo, vars):
+                                    return True
                         elif len(movementType.split()) == 1:
                             print(int(movementType[2]) == moveY)
                             if int(movementType[2]) == moveY:
@@ -98,8 +99,9 @@ def canMove(piece, moveTo, vars):
                                             return True
                     elif "down" in movementType:
                         if movementType == "down":
-                            if not pieceInBetween(piece, moveTo, vars):
-                                return True
+                            if moveY < 0:
+                                if not pieceInBetween(piece, moveTo, vars):
+                                    return True
                         elif len(movementType.split()) == 1:
                             if movementType[2]*-1 == moveY:
                                 if not pieceInBetween(piece, moveTo, vars):
@@ -132,17 +134,18 @@ def canMove(piece, moveTo, vars):
                 
                 elif moveX != 0 and moveY == 0:
                     if "left" in movementType:
-                            if movementType == "left":
+                        if movementType == "left":
+                            if moveX < 0:
                                 return True
-                            elif len(movementType.split()) == 1:
-                                if int(movementType[-1]) == moveX:
-                                    return True
-                            elif len(movementType.split()) == 2:
-                                if int(movementType.split()[0][-1]) == moveX:
-                                    if movementType.split()[1] == "first":
-                                        if vars["settings"][ogRow][ogCol] == ("top" if color == topColor else "bottom") + type:
-                                            if not pieceInBetween(piece, moveTo, vars):
-                                                return True
+                        elif len(movementType.split()) == 1:
+                            if int(movementType[-1]) == moveX:
+                                return True
+                        elif len(movementType.split()) == 2:
+                            if int(movementType.split()[0][-1]) == moveX:
+                                if movementType.split()[1] == "first":
+                                    if vars["settings"][ogRow][ogCol] == ("top" if color == topColor else "bottom") + type:
+                                        if not pieceInBetween(piece, moveTo, vars):
+                                            return True
 
         
     else:
