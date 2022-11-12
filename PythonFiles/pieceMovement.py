@@ -55,7 +55,6 @@ def canMove(piece, moveTo, vars):
             
             if movementType[1] != "":
                 if move == "up":
-                    print("Hi")
                     isAmtMovedCorrect = int(movementType[1]) == moveY
                 elif move == "down":
                     isAmtMovedCorrect = int(movementType[1])*-1 == moveY
@@ -68,15 +67,14 @@ def canMove(piece, moveTo, vars):
                 
 
             if movementType[2] != "":
-                isAmtMovedCorrect = movementType[2] == pieces[piece].timesMoved+1
+                isTurnCorrect = int(movementType[2]) == pieces[piece].timesMoved+1
             
             if movementType[3] != "":
                 if movementType[3] == "move":
                     canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
                 elif movementType[3] == "take":
                     canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
-            print(isAmtMovedCorrect)
-            
+                                
             if not(isAmtMovedCorrect and isTurnCorrect and canMoveToThatSpot and isMovingInDirection):
                 continue
             else:
