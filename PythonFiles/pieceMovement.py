@@ -72,7 +72,10 @@ def canMove(piece, moveTo, vars):
             
             if movementType[3] != "":
                 if movementType[3] == "move":
-                    canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
+                    if movementType[4] == "takediagonal":
+                        canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == "" and pieceCanTakeDiagonal(piece, vars)
+                    else:
+                        canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
                 elif movementType[3] == "take":
                     canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] != ""
 
@@ -84,7 +87,7 @@ def canMove(piece, moveTo, vars):
     else:
         return True
 
-def pawnCanTake(piece, vars):
+def pieceCanTakeDiagonal(piece, vars):
     pieces = vars["pieces"]
     board = vars["board"]
     for x in [-1, 1]:

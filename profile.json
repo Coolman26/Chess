@@ -13,7 +13,7 @@
     "tileColor1": [169,126,92],
     "tileColor2": [222,202,175],
     "pieces": ["pawn", "bishop", "king", "queen", "knight", "rook", "knook"],
-    "pawn":[["up", "1", "", "move"], ["up", "2", "1", "move"], ["en passant", "", "", ""], ["diagonal", "1", "", "take"]],
+    "pawn":[["up", "1", "", "move", "takediagonal"], ["up", "2", "1", "move", "takediagonal"], ["en passant", "", "", ""], ["diagonal", "1", "", "take", ""]],
     "bishop":[["diagonal", "", "", ""]],
     "king":[["up", "1", "", ""], ["down", "1", "", ""], ["left", "1", "", ""], ["right", "1", "", ""]],
     "queen":[["diagonal", "", "", ""], ["up", "", "", ""], ["down", "", "", ""], ["left", "", "", ""], ["right", "", "", ""]],
