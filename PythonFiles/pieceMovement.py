@@ -38,8 +38,34 @@ def canMove(piece, moveTo, vars):
         ogCol = alphabet.index(pieces[piece].position[0]) if color != topColor else boardSize-alphabet.index(pieces[piece].position[0])-1
         for movementType in movementTypes:
             move = movementType[0]
+            isAmtMovedCorrect = True
+            isTurnCorrect = True
+            canMoveToThatSpot = True
+            if movementType[1] != "":
+                if not pieceInBetween(piece, moveTo, vars):
+                    if move == "up":
+                        if not int(movementType[1]) == moveY:
+                            isAmtMovedCorrect = False
+                    elif move == "down":
+                        if not int(movementType[1])*-1 == moveY:
+                            isAmtMovedCorrect = False
+                    elif move == "left":
+                        if not int(movementType[1]) == moveX:
+                            isAmtMovedCorrect = False
+                    elif move == "right":
+                        if not movementType[1]*-1 == moveX:
+                            isAmtMovedCorrect = False
+                    elif move == "diagonal":
+                        if not (moveX == int(movementType[1]) and moveY == int(movementType[1])):
+
+                else:
+                    isAmtMovedCorrect = False
+
+
+            if movementType[2] != "":
+
             
-            if movementType[1] 
+            return isAmtMovedCorrect and isTurnCorrect and canMoveToThatSpot
 
         # for movementType in movementTypes:
         #     if moveX == 0 and moveY != 0:
