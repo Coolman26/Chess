@@ -174,132 +174,130 @@ while running:
         eventGet = pygame.event.get()
         if promotion != "":
             promotion = promotionBoard(globalVariables(), eventGet, mouseXY)
-        for event in eventGet:
-
-            if event.type == pygame.QUIT:
-                running = False
-
-            if promotion == "":
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if not removePiece:
-                        # Picks up a piece
-                        for piece in pieces:
-                            if (turn[0] % 2 == 0 if pieces[piece].color == topColor else turn[0] % 2 == 1) or overRideTurns:
-                                if mouseXY[0] // squareSize + 1 == (boardSize - alphabet.index(pieces[piece].position[0])) and mouseXY[1] // squareSize + 1 == pieces[piece].position[1]:
-                                    pieces[piece].follow = True
-                    else:
-                        # Removes a piece if that mode is on
-                        if not board[alphabet[int(boardSize - mouseXY[0] // squareSize - 1)] + str(int(mouseXY[1] // squareSize + 1))] == "":
-                            del pieces[board[alphabet[int(
-                                boardSize - mouseXY[0] // squareSize - 1)] + str(int(mouseXY[1] // squareSize + 1))]]
-                            board[alphabet[int(boardSize - mouseXY[0] // squareSize - 1)] +
-                                str(int(mouseXY[1] // squareSize + 1))] = ""
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    for piece in pieces:
-                        # Finds the coords of where a piece was dropped
-                        moveToList = [alphabet[int(
-                            boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
-                        moveToStr = moveToList[0] + str(int(moveToList[1]))
-                        if pieces[piece].follow and not pieces[piece].position == moveToList and canMove(piece, moveToList, globalVariables()):
-                            # Saves the original location of the piece
-                            firstLocation = pieces[piece].position
-                            pieces[piece].follow = False
-
-                            if canCastle(piece, moveToList, globalVariables()):
-                                castle(piece, moveToList, globalVariables())
-                            
-                            # How it moves the piece and what to do if the new position isn't empty
-                            else:
-                                board[pieces[piece].position[0] +
-                                    str(int(pieces[piece].position[1]))] = ""
-                                if board[moveToStr] != "":
-                                    takenPieceName = board[moveToStr]
-                                    delete = [takenPieceName]
-                                    if pieces[takenPieceName].type == "king":
-                                        winner = pieces[board[moveToList[0] +
-                                                            str(int(moveToList[1]))]].color
-                                        break
-                                    pieces[takenPieceName] = ""
-                                    T = threading.Thread(target=playSound, args=("take", globalVariables()))
-
-                                else:
-                                    board[moveToStr] = pieces[piece].name
-                                    T = threading.Thread(target=playSound, args=("move", globalVariables()))
-                                pieces[piece].moveTo(moveToList) 
-                                
-                                
-                            # Deals with Check
-                            checkState = inCheck(globalVariables())
-                            # Resets the piece if it makes their king get into check because of the movement
-                            if (checkState != None and check != None) or (checkState == pieces[piece].color):
-                                pieces[piece].moveTo(firstLocation)
-                                board[pieces[piece].position[0] +
-                                    str(int(pieces[piece].position[1]))] = pieces[piece].name
-                                board[moveToStr] = ""
-                                break
-                            # Declares check if the board is in check
-                            elif checkState != None:
-                                check = checkState
-                            # Resets check if need be
-                            elif checkState == None and check != None:
-                                check = None
-                            
-                            # Extra pawn functions
-                            if pieces[piece].type == "pawn":
-                                # Activates promotion
-                                if pieces[piece].position[1] == 1:
-                                    promotion = pieces[piece].position + \
-                                        [pieces[piece].color]
-
-                                # Makes the pawn have movedTwo equal to true if it movedTwo(used for En Passant)
-                                if abs(firstLocation[1] - int(moveToList[1])) == 2:
-                                    pieces[piece].movedTwo = [True, turn[0]+1]
-                                # Deletes the pawn that got En Passant-ed
-                                if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveToList[0])) == 1 and board[moveToStr] == pieces[piece].name:
-                                    delete = [board[moveToList[0] + str(int(moveToList[1])+ 1)]]
-                                    board[moveToList[0] + str(int(moveToList[1])-1)] = ""
-                            
-                            T.start()
-                            if promotion == "": 
-                                nextTurn(globalVariables())
-                            pieces[piece].completedMove()
-                            break
-                        else:
-                            pieces[piece].follow = False
-                            
-                # Developer Controls(activated by the left control if developer is True)
-                elif pygame.key.get_pressed()[pygame.K_LCTRL] and developer:
-                    developerControl = input("What would you like to do? ")
-                    if developerControl.lower() == "override canmove":
-                        if not overRideCanMove:
-                            overRideCanMove = True
-                        else:
-                            overRideCanMove = False
-                    elif developerControl.lower() == "remove piece":
-                        if not removePiece:
-                            removePiece = True
-                        else:
-                            removePiece = False
-                    elif developerControl.lower() == "override turns":
-                        if not overRideTurns:
-                            overRideTurns = True
-                        else:
-                            overRideTurns = False
-                    elif developerControl.lower() == "reset":
-                        reset()
-                    elif developerControl.lower() == "print":
-                        for piece in pieces:
-                            print(pieces[piece].position)
-                    elif developerControl.lower() == "editor":
-                        if not editorOn:
-                            editorOn = True
-                        else:
-                            editorOn = False
     else:
         editor(globalVariables())
-        for event in eventGet:
-            if event.type == pygame.QUIT:
-                running = False
+    for event in eventGet:
+
+        if event.type == pygame.QUIT:
+            running = False
+
+        if promotion == "" and not editorOn:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if not removePiece:
+                    # Picks up a piece
+                    for piece in pieces:
+                        if (turn[0] % 2 == 0 if pieces[piece].color == topColor else turn[0] % 2 == 1) or overRideTurns:
+                            if mouseXY[0] // squareSize + 1 == (boardSize - alphabet.index(pieces[piece].position[0])) and mouseXY[1] // squareSize + 1 == pieces[piece].position[1]:
+                                pieces[piece].follow = True
+                else:
+                    # Removes a piece if that mode is on
+                    if not board[alphabet[int(boardSize - mouseXY[0] // squareSize - 1)] + str(int(mouseXY[1] // squareSize + 1))] == "":
+                        del pieces[board[alphabet[int(
+                            boardSize - mouseXY[0] // squareSize - 1)] + str(int(mouseXY[1] // squareSize + 1))]]
+                        board[alphabet[int(boardSize - mouseXY[0] // squareSize - 1)] +
+                            str(int(mouseXY[1] // squareSize + 1))] = ""
+            elif event.type == pygame.MOUSEBUTTONUP:
+                for piece in pieces:
+                    # Finds the coords of where a piece was dropped
+                    moveToList = [alphabet[int(
+                        boardSize - mouseXY[0] // squareSize - 1)], mouseXY[1] // squareSize + 1]
+                    moveToStr = moveToList[0] + str(int(moveToList[1]))
+                    if pieces[piece].follow and not pieces[piece].position == moveToList and canMove(piece, moveToList, globalVariables()):
+                        # Saves the original location of the piece
+                        firstLocation = pieces[piece].position
+                        pieces[piece].follow = False
+
+                        if canCastle(piece, moveToList, globalVariables()):
+                            castle(piece, moveToList, globalVariables())
+                        
+                        # How it moves the piece and what to do if the new position isn't empty
+                        else:
+                            board[pieces[piece].position[0] +
+                                str(int(pieces[piece].position[1]))] = ""
+                            if board[moveToStr] != "":
+                                takenPieceName = board[moveToStr]
+                                delete = [takenPieceName]
+                                if pieces[takenPieceName].type == "king":
+                                    winner = pieces[board[moveToList[0] +
+                                                        str(int(moveToList[1]))]].color
+                                    break
+                                pieces[takenPieceName] = ""
+                                T = threading.Thread(target=playSound, args=("take", globalVariables()))
+
+                            else:
+                                board[moveToStr] = pieces[piece].name
+                                T = threading.Thread(target=playSound, args=("move", globalVariables()))
+                            pieces[piece].moveTo(moveToList) 
+                            
+                            
+                        # Deals with Check
+                        checkState = inCheck(globalVariables())
+                        # Resets the piece if it makes their king get into check because of the movement
+                        if (checkState != None and check != None) or (checkState == pieces[piece].color):
+                            pieces[piece].moveTo(firstLocation)
+                            board[pieces[piece].position[0] +
+                                str(int(pieces[piece].position[1]))] = pieces[piece].name
+                            board[moveToStr] = ""
+                            break
+                        # Declares check if the board is in check
+                        elif checkState != None:
+                            check = checkState
+                        # Resets check if need be
+                        elif checkState == None and check != None:
+                            check = None
+                        
+                        # Extra pawn functions
+                        if pieces[piece].type == "pawn":
+                            # Activates promotion
+                            if pieces[piece].position[1] == 1:
+                                promotion = pieces[piece].position + \
+                                    [pieces[piece].color]
+
+                            # Makes the pawn have movedTwo equal to true if it movedTwo(used for En Passant)
+                            if abs(firstLocation[1] - int(moveToList[1])) == 2:
+                                pieces[piece].movedTwo = [True, turn[0]+1]
+                            # Deletes the pawn that got En Passant-ed
+                            if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveToList[0])) == 1 and board[moveToStr] == pieces[piece].name:
+                                delete = [board[moveToList[0] + str(int(moveToList[1])+ 1)]]
+                                board[moveToList[0] + str(int(moveToList[1])-1)] = ""
+                        
+                        T.start()
+                        if promotion == "": 
+                            nextTurn(globalVariables())
+                        pieces[piece].completedMove()
+                        break
+                    else:
+                        pieces[piece].follow = False
+                        
+            # Developer Controls(activated by the left control if developer is True)
+            elif pygame.key.get_pressed()[pygame.K_LCTRL] and developer:
+                developerControl = input("What would you like to do? ")
+                if developerControl.lower() == "override canmove":
+                    if not overRideCanMove:
+                        overRideCanMove = True
+                    else:
+                        overRideCanMove = False
+                elif developerControl.lower() == "remove piece":
+                    if not removePiece:
+                        removePiece = True
+                    else:
+                        removePiece = False
+                elif developerControl.lower() == "override turns":
+                    if not overRideTurns:
+                        overRideTurns = True
+                    else:
+                        overRideTurns = False
+                elif developerControl.lower() == "reset":
+                    reset()
+                elif developerControl.lower() == "print":
+                    for piece in pieces:
+                        print(pieces[piece].position)
+                elif developerControl.lower() == "editor":
+                    if not editorOn:
+                        editorOn = True
+                    else:
+                        editorOn = False
+        
             
 
     # Updates the frames of the game

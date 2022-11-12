@@ -5,4 +5,10 @@ import pygame
 
 def editor(vars):
     screen = vars["screen"]
-    screen.fill((0, 0, 0))
+    running = True
+    while running:
+        screen.fill((255, 0, 0))
+        eventGet = pygame.event.get()
+        for event in eventGet:
+            if event.type == pygame.QUIT:
+                running = False
