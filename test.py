@@ -1,20 +1,10 @@
 from PIL import Image
 import numpy as np
 
-im = Image.open('icon.png')
-im = im.convert('RGBA')
-
-data = np.array(im)   # "data" is a height x width x 4 numpy array
-red, green, blue, alpha = data.T # Temporarily unpack the bands for readability
-for i in range(len(red)):
-    for x in range(len(red[i])):
-        if red[i][x] == 255:
-            print(red[i][x], green[i][x], blue[i][x])
-
-# Replace white with red... (leaves alpha values alone...)
-white_areas = (red == 0) & (blue == 0) & (green == 0)
-data[..., :-1][white_areas.T] = (0, 0, 255) # Transpose back needed
-
-im2 = Image.fromarray(data)
-im2.show()
-im2.save("icon2.png", "png")
+orig_color = (254,200,94)
+replacement_color = (0,0,0)
+img = Image.open("icon.png").convert('RGB')
+data = np.array(img)
+data[(data == orig_color).all(axis = -1)] = replacement_color
+img2 = Image.fromarray(data, mode='RGB')
+img2.show()
