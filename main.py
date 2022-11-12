@@ -218,8 +218,11 @@ while running:
                                                         str(int(moveToList[1]))]].color
                                     break
                                 pieces[takenPieceName] = ""
+                                T = threading.Thread(target=playSound, args=("take", globalVariables()))
+
                             else:
                                 board[moveToStr] = pieces[piece].name
+                                T = threading.Thread(target=playSound, args=("move", globalVariables()))
                             pieces[piece].moveTo(moveToList) 
                             
                             
@@ -254,14 +257,11 @@ while running:
                             if abs(alphabet.index(firstLocation[0]) - alphabet.index(moveToList[0])) == 1 and board[moveToStr] == pieces[piece].name:
                                 delete = [board[moveToList[0] + str(int(moveToList[1])+ 1)]]
                                 board[moveToList[0] + str(int(moveToList[1])-1)] = ""
+                        
+                        T.start()
                         if promotion == "": 
                             nextTurn(globalVariables())
                         pieces[piece].completedMove()
-                        if board[moveToStr] == "":
-                            T = threading.Thread(target=playSound, args=("move",))
-                        else:
-                            T = threading.Thread(target=playSound, args=("take",))
-                        T.start()
                         break
                     else:
                         pieces[piece].follow = False

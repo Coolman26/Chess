@@ -19,5 +19,7 @@
     "queen":[["diagonal", "", "", ""], ["up", "", "", ""], ["down", "", "", ""], ["left", "", "", ""], ["right", "", "", ""]],
     "knight":[["L", "", "", ""]],
     "rook":[["up", "", "", ""], ["down", "", "", ""], ["left", "", "", ""], ["right", "", "", ""]],
-    "knook": [["up", "", "", ""], ["down", "", "", ""], ["left", "", "", ""], ["right", "", "", ""], ["L", "", "", ""]]
+    "knook": [["up", "", "", ""], ["down", "", "", ""], ["left", "", "", ""], ["right", "", "", ""], ["L", "", "", ""]],
+    "takeSoundFileName": "takeSound.mp3",
+    "moveSoundFileName": "moveSound.mp3"
 }

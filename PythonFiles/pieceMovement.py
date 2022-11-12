@@ -74,7 +74,7 @@ def canMove(piece, moveTo, vars):
                 if movementType[3] == "move":
                     canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
                 elif movementType[3] == "take":
-                    canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
+                    canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] != ""
 
             if not(isAmtMovedCorrect and isTurnCorrect and canMoveToThatSpot and isMovingInDirection):
                 continue
@@ -134,9 +134,9 @@ def nextTurn(vars):
             board[pieces[piece].position[0] +
                   str(int(pieces[piece].position[1]))] = piece
 
-def playSound(sound):
+def playSound(sound, vars):
     if sound == "move":
-        playsound.playsound("assets/SoundEffects/moveSound.mp3")
+        playsound.playsound("assets/SoundEffects/" + vars["settings"]["moveSoundFileName"])
     elif sound == "take":
-        playsound.playsound("assets/SoundEffects/takeSound.mp3")
+        playsound.playsound("assets/SoundEffects/" + vars["settings"]["takeSoundFileName"])
     
