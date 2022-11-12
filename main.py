@@ -257,7 +257,11 @@ while running:
                         if promotion == "": 
                             nextTurn(globalVariables())
                         pieces[piece].completedMove()
-                        T = threading.Thread.start() 
+                        if board[moveToStr] == "":
+                            T = threading.Thread(target=playSound, args=("move",))
+                        else:
+                            T = threading.Thread(target=playSound, args=("take",))
+                        T.start()
                         break
                     else:
                         pieces[piece].follow = False

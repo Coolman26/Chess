@@ -137,4 +137,6 @@ def nextTurn(vars):
 def playSound(sound):
     if sound == "move":
         playsound.playsound("assets/SoundEffects/moveSound.mp3")
+    elif sound == "take":
+        playsound.playsound("assets/SoundEffects/takeSound.mp3")
     
