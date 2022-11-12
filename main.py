@@ -254,8 +254,8 @@ while running:
                                 delete = [board[moveToList[0] + str(int(moveToList[1])+ 1)]]
                                 board[moveToList[0] + str(int(moveToList[1])-1)] = ""
                         if promotion == "": 
-                            for i in range(3):
-                                nextTurn(globalVariables())
+                            nextTurn(globalVariables())
+                        pieces[piece].completedMove()
                         break
                     else:
                         pieces[piece].follow = False

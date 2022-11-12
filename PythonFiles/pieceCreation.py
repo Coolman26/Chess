@@ -14,9 +14,13 @@ class Piece():
         vars["board"][position[0] + str(position[1])] = name
         if type == "pawn":
             self.movedTwo = False
+        self.timesMoved = 0
 
     def moveTo(self, XY):
         self.position = [XY[0], int(XY[1])]
+    
+    def completedMove(self):
+        self.timesMoved += 1
 
 def imgload(img): 
     return pygame.image.load(img)
