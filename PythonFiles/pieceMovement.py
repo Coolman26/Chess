@@ -37,20 +37,34 @@ def canMove(piece, moveTo, vars):
             isAmtMovedCorrect = True
             isTurnCorrect = True
             canMoveToThatSpot = True
+            if move == "up":
+                isMovingInDirection = moveY > 0 and moveX == 0
+            elif move == "down":
+                isMovingInDirection = moveY < 0 and moveX == 0
+            elif move == "left":
+                isMovingInDirection = moveY == 0 and moveX < 0
+            elif move == "right":
+                isMovingInDirection = moveY == 0 and moveX > 0
+            elif move == "diagonal":
+                isMovingInDirection = moveY != 0 and moveX != 0 and abs(moveY) == abs(moveX)
+            elif move == "L":
+                isMovingInDirection = (abs(moveX) == 1 and abs(moveY) == 2) or (abs(moveY) == 1 and abs(moveX) == 2)
+            elif move == "en passant":
+                isMovingInDirection = moveY != 0 and moveX != 0 and moveY == 1 and abs(moveX) == 1 and type in board[moveTo[0] + str(int(moveTo[1])+1)]
+
+
             if movementType[1] != "":
-                if not pieceInBetween(piece, moveTo, vars):
-                    if move == "up":
-                        isAmtMovedCorrect = int(movementType[1]) == moveY
-                    elif move == "down":
-                        isAmtMovedCorrect = int(movementType[1])*-1 == moveY
-                    elif move == "left":
-                        isAmtMovedCorrect = int(movementType[1]) == moveX
-                    elif move == "right":
-                        isAmtMovedCorrect = movementType[1]*-1 == moveX
-                    elif move == "diagonal":
-                        isAmtMovedCorrect = moveX == int(movementType[1]) and moveY == int(movementType[1])
-                else:
-                    isAmtMovedCorrect = False
+                if move == "up":
+                    isAmtMovedCorrect = int(movementType[1]) == moveY
+                elif move == "down":
+                    isAmtMovedCorrect = int(movementType[1])*-1 == moveY
+                elif move == "left":
+                    isAmtMovedCorrect = int(movementType[1]) == moveX
+                elif move == "right":
+                    isAmtMovedCorrect = movementType[1]*-1 == moveX
+                elif move == "diagonal":
+                    isAmtMovedCorrect = moveX == int(movementType[1]) and moveY == int(movementType[1])
+                
 
             if movementType[2] != "":
                 isAmtMovedCorrect = movementType[2] == pieces[piece].timesMoved
@@ -61,7 +75,7 @@ def canMove(piece, moveTo, vars):
                 elif movementType[3] == "take":
                     canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
             
-            return isAmtMovedCorrect and isTurnCorrect and canMoveToThatSpot
+            return isAmtMovedCorrect and isTurnCorrect and canMoveToThatSpot and isMovingInDirection
 
         # for movementType in movementTypes:
         #     if moveX == 0 and moveY != 0:
