@@ -125,7 +125,7 @@ while running:
                     pieces[piece].movedTwo = False
 
     # This checks if the game is inTie if it is then it checks if one side is in check.
-    if not removePiece and promotion != "":
+    if not removePiece and promotion != "" and False:
         # If they are in check then it is a checkmate and it ends.
         if inTie(globalVariables()):
             if check != None:
@@ -226,22 +226,22 @@ while running:
                             pieces[piece].moveTo(moveToList) 
                             
                             
-
-                        # Deals with Check
-                        checkState = inCheck(globalVariables())
-                        # Resets the piece if it makes their king get into check because of the movement
-                        if (checkState != None and check != None) or (checkState == pieces[piece].color):
-                            pieces[piece].moveTo(firstLocation)
-                            board[pieces[piece].position[0] +
-                                  str(int(pieces[piece].position[1]))] = pieces[piece].name
-                            board[moveToStr] = ""
-                            break
-                        # Declares check if the board is in check
-                        elif checkState != None:
-                            check = checkState
-                        # Resets check if need be
-                        elif checkState == None and check != None:
-                            check = None
+                        if False:
+                            # Deals with Check
+                            checkState = inCheck(globalVariables())
+                            # Resets the piece if it makes their king get into check because of the movement
+                            if (checkState != None and check != None) or (checkState == pieces[piece].color):
+                                pieces[piece].moveTo(firstLocation)
+                                board[pieces[piece].position[0] +
+                                    str(int(pieces[piece].position[1]))] = pieces[piece].name
+                                board[moveToStr] = ""
+                                break
+                            # Declares check if the board is in check
+                            elif checkState != None:
+                                check = checkState
+                            # Resets check if need be
+                            elif checkState == None and check != None:
+                                check = None
                         
                         # Extra pawn functions
                         if pieces[piece].type == "pawn":
