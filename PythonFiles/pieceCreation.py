@@ -7,7 +7,6 @@ class Piece():
         self.position = position
         self.color = color
         self.type = type
-        print()
         self.png = loadpiece(color + type, vars)
         self.follow = False
         self.name = name

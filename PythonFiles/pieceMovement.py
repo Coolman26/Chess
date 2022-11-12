@@ -33,7 +33,7 @@ def canMove(piece, moveTo, vars):
         for movementType in movementTypes:
             move = movementType[0]
             if move in ["up", "down", "left", "right", "diagonal"] and pieceInBetween(piece, moveTo, vars):
-                return False
+                continue
             isAmtMovedCorrect = True
             isTurnCorrect = True
             canMoveToThatSpot = True
@@ -50,11 +50,12 @@ def canMove(piece, moveTo, vars):
             elif move == "L":
                 isMovingInDirection = (abs(moveX) == 1 and abs(moveY) == 2) or (abs(moveY) == 1 and abs(moveX) == 2)
             elif move == "en passant":
-                isMovingInDirection = moveY != 0 and moveX != 0 and moveY == 1 and abs(moveX) == 1 and type in board[moveTo[0] + str(int(moveTo[1])+1)]
+                isMovingInDirection = moveY == 1 and abs(moveX) == 1 and type in board[moveTo[0] + str(int(moveTo[1])+1)]
 
-
+            
             if movementType[1] != "":
                 if move == "up":
+                    print("Hi")
                     isAmtMovedCorrect = int(movementType[1]) == moveY
                 elif move == "down":
                     isAmtMovedCorrect = int(movementType[1])*-1 == moveY
@@ -67,15 +68,19 @@ def canMove(piece, moveTo, vars):
                 
 
             if movementType[2] != "":
-                isAmtMovedCorrect = movementType[2] == pieces[piece].timesMoved
+                isAmtMovedCorrect = movementType[2] == pieces[piece].timesMoved+1
             
             if movementType[3] != "":
                 if movementType[3] == "move":
                     canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
                 elif movementType[3] == "take":
                     canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
+            print(isAmtMovedCorrect)
             
-            return isAmtMovedCorrect and isTurnCorrect and canMoveToThatSpot and isMovingInDirection
+            if not(isAmtMovedCorrect and isTurnCorrect and canMoveToThatSpot and isMovingInDirection):
+                continue
+            else:
+                return True
 
         # for movementType in movementTypes:
         #     if moveX == 0 and moveY != 0:
