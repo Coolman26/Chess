@@ -1,3 +1,4 @@
+import playsound
 alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 def pieceInBetween(piece, moveTo, vars):
     pieces = vars["pieces"]
@@ -74,92 +75,11 @@ def canMove(piece, moveTo, vars):
                     canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
                 elif movementType[3] == "take":
                     canMoveToThatSpot = board[moveTo[0] + str(int(moveTo[1]))] == ""
-                                
+
             if not(isAmtMovedCorrect and isTurnCorrect and canMoveToThatSpot and isMovingInDirection):
                 continue
             else:
                 return True
-
-        # for movementType in movementTypes:
-        #     if moveX == 0 and moveY != 0:
-        #         if "up" in movementType:
-        #             if movementType == "up":
-        #                 if moveY > 0:
-        #                     if not pieceInBetween(piece, moveTo, vars):
-        #                         return True
-        #             elif len(movementType.split()) == 1:
-        #                 if int(movementType[2]) == moveY:
-        #                     if not pieceInBetween(piece, moveTo, vars):
-        #                         return True
-        #             elif len(movementType.split()) == 2:
-        #                 if int(movementType[2]) == moveY:
-        #                     if movementType.split()[1] == "first":
-        #                         if pieces[piece].timesMoved == 0:
-        #                             if not pieceInBetween(piece, moveTo, vars):
-        #                                 return True
-        #         elif "down" in movementType:
-        #             if movementType == "down":
-        #                 if moveY < 0:
-        #                     if not pieceInBetween(piece, moveTo, vars):
-        #                         return True
-        #             elif len(movementType.split()) == 1:
-        #                 if movementType[2]*-1 == moveY:
-        #                     if not pieceInBetween(piece, moveTo, vars):
-        #                         return True
-        #             elif len(movementType.split()) == 2:
-        #                 if movementType[2]*-1 == moveY:
-        #                     if movementType.split()[1] == "first":
-        #                         if pieces[piece].timesMoved == 0:
-        #                             if not pieceInBetween(piece, moveTo, vars):
-        #                                 return True
-        #     elif moveX != 0 and moveY != 0:
-        #         if movementType == "en passant":
-        #             if abs(moveX) == 1 and moveY == 1 and 2 <= moveTo[1] <= 8 and int(moveTo[1]) + 1 < boardSize and type in board[moveTo[0] + str(int(moveTo[1])+1)]:
-        #                 if pieces[board[moveTo[0] + str(int(moveTo[1]) + 1)]].movedTwo != False:
-        #                     if not pieceInBetween(piece, moveTo, vars):
-        #                         return True
-        #         elif "diagonal" in movementType:
-        #             if len(movementType.split()) == 3:
-        #                 if moveX == int(movementType.split()[1]) and moveY == int(movementType.split()[1]):
-        #                     if movementType.split()[2] == "take":
-        #                         if board[moveTo[0] + str(int(moveTo[1]))] != "":
-        #                             if not pieceInBetween(piece, moveTo, vars):
-        #                                 return True
-        #             elif abs(moveX) == abs(moveY) and not pieceInBetween(piece, moveTo, vars):
-        #                 return True
-        #         elif "L" in movementType:
-        #             if (abs(moveX) == 1 and abs(moveY) == 2) or (abs(moveY) == 1 and abs(moveX) == 2):
-        #                 return True
-                    
-            
-        #     elif moveX != 0 and moveY == 0:
-        #         if "left" in movementType:
-        #             if movementType == "left":
-        #                 if moveX < 0:
-        #                     return True
-        #             elif len(movementType.split()) == 1:
-        #                 if int(movementType[-1]) == moveX:
-        #                     return True
-        #             elif len(movementType.split()) == 2:
-        #                 if int(movementType.split()[0][-1]) == moveX:
-        #                     if movementType.split()[1] == "first":
-        #                         if pieces[piece].timesMoved == 0:
-        #                             if not pieceInBetween(piece, moveTo, vars):
-        #                                 return True
-        #         elif "right" in movementType:
-        #             if movementType == "right":
-        #                 if moveX > 0:
-        #                     return True
-        #             elif len(movementType.split()) == 1:
-        #                 if movementType[-1]*-1 == moveX:
-        #                     return True
-        #             elif len(movementType.split()) == 2:
-        #                 if movementType.split()[0][-1]*-1 == moveX:
-        #                     if movementType.split()[1] == "first":
-        #                         if pieces[piece].timesMoved == 0:
-        #                             if not pieceInBetween(piece, moveTo, vars):
-        #                                 return True
-
         
     else:
         return True
@@ -213,4 +133,8 @@ def nextTurn(vars):
                 alphabet[7 - alphabet.index(pieces[piece].position[0])], 9 - pieces[piece].position[1]]
             board[pieces[piece].position[0] +
                   str(int(pieces[piece].position[1]))] = piece
+
+def playSound(sound):
+    if sound == "move":
+        playsound.playsound("assets/SoundEffects/moveSound.mp3")
     

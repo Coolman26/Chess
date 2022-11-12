@@ -2,7 +2,8 @@ import json
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 import pygame
-from PythonFiles.pieceMovement import canCastle, canMove, castle, nextTurn
+import threading
+from PythonFiles.pieceMovement import canCastle, canMove, castle, nextTurn, playSound
 from PythonFiles.pieceCreation import imgload, numberOf, Piece
 from PythonFiles.chessGameStates import inCheck, inTie
 from PythonFiles.promotion import promotionBoard
@@ -256,6 +257,7 @@ while running:
                         if promotion == "": 
                             nextTurn(globalVariables())
                         pieces[piece].completedMove()
+                        T = threading.Thread.start() 
                         break
                     else:
                         pieces[piece].follow = False
