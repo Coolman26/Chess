@@ -7,8 +7,7 @@ font = pygame.font.SysFont('Comic Sans MS', 30)
  
 # create a text surface object,
 # on which text is drawn on it.
-text = font.render('GeeksForGeeks', True, "green", "blue")
- 
+text = font.render('Chess Editor', True, (28, 144, 147)) 
 # create a rectangular object for the
 # text surface object
 textRect = text.get_rect()
@@ -18,10 +17,10 @@ textRect = text.get_rect()
 
 def editor(vars):
     screen = vars["screen"]
-    screen.fill((255, 0, 0))
+    screen.fill((89, 22, 160))
     width = screen.get_width()
     height = screen.get_height()
-    textRect.center = (width // 2, height // 2)
+    textRect.center = (width // 2, 60)
     screen.blit(text, textRect)
 
     
