@@ -171,11 +171,11 @@ while running:
         if tie:
             screen.blit(tieLogo, [0, 0])
 
-        eventGet = pygame.event.get()
         if promotion != "":
             promotion = promotionBoard(globalVariables(), eventGet, mouseXY)
     else:
         editor(globalVariables())
+    eventGet = pygame.event.get()
     for event in eventGet:
 
         if event.type == pygame.QUIT:
@@ -270,33 +270,33 @@ while running:
                         pieces[piece].follow = False
                         
             # Developer Controls(activated by the left control if developer is True)
-            elif pygame.key.get_pressed()[pygame.K_LCTRL] and developer:
-                developerControl = input("What would you like to do? ")
-                if developerControl.lower() == "override canmove":
-                    if not overRideCanMove:
-                        overRideCanMove = True
-                    else:
-                        overRideCanMove = False
-                elif developerControl.lower() == "remove piece":
-                    if not removePiece:
-                        removePiece = True
-                    else:
-                        removePiece = False
-                elif developerControl.lower() == "override turns":
-                    if not overRideTurns:
-                        overRideTurns = True
-                    else:
-                        overRideTurns = False
-                elif developerControl.lower() == "reset":
-                    reset()
-                elif developerControl.lower() == "print":
-                    for piece in pieces:
-                        print(pieces[piece].position)
-                elif developerControl.lower() == "editor":
-                    if not editorOn:
-                        editorOn = True
-                    else:
-                        editorOn = False
+        if pygame.key.get_pressed()[pygame.K_LCTRL] and developer:
+            developerControl = input("What would you like to do? ")
+            if developerControl.lower() == "override canmove":
+                if not overRideCanMove:
+                    overRideCanMove = True
+                else:
+                    overRideCanMove = False
+            elif developerControl.lower() == "remove piece":
+                if not removePiece:
+                    removePiece = True
+                else:
+                    removePiece = False
+            elif developerControl.lower() == "override turns":
+                if not overRideTurns:
+                    overRideTurns = True
+                else:
+                    overRideTurns = False
+            elif developerControl.lower() == "reset":
+                reset()
+            elif developerControl.lower() == "print":
+                for piece in pieces:
+                    print(pieces[piece].position)
+            elif developerControl.lower() == "editor":
+                if not editorOn:
+                    editorOn = True
+                else:
+                    editorOn = False
         
             
 
