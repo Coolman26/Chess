@@ -3,7 +3,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = 'hide'
 
 import pygame
 pygame.font.init()
-font = pygame.font.SysFont('Comic Sans MS', 30)
+font = pygame.font.SysFont('Comic Sans MS', 45)
  
 # create a text surface object,
 # on which text is drawn on it.
