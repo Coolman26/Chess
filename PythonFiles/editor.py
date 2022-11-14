@@ -5,15 +5,10 @@ import pygame
 pygame.font.init()
 font = pygame.font.SysFont('Product Sans', 60)
  
-# create a text surface object,
-# on which text is drawn on it.
 text = font.render('Chess Editor', True, (222,202,175)) 
-# create a rectangular object for the
-# text surface object
 textRect = text.get_rect()
- 
-# set the center of the rectangular object.
-
+boardEditingIcon = pygame.image.load("assets\EditingIcons\BoardEditIcon.png")
+boardEditingIcon = pygame.transform.smoothscale(boardEditingIcon, )
 
 def editor(vars):
     screen = vars["screen"]
@@ -22,6 +17,7 @@ def editor(vars):
     height = screen.get_height()
     textRect.center = (width // 2, 45)
     screen.blit(text, textRect)
+    screen.blit(boardEditingIcon, (width//2-width//4, height//2-height//4))
 
     
     
