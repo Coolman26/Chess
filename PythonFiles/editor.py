@@ -8,7 +8,7 @@ font = pygame.font.SysFont('Product Sans', 60)
 text = font.render('Chess Editor', True, (222,202,175)) 
 textRect = text.get_rect()
 boardEditingIcon = pygame.image.load("assets\EditingIcons\BoardEditIcon.png")
-boardEditingIcon = pygame.transform.smoothscale(boardEditingIcon, )
+boardEditingIcon = pygame.transform.smoothscale(boardEditingIcon, (200, 200))
 
 def editor(vars):
     screen = vars["screen"]
