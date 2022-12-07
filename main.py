@@ -47,7 +47,7 @@ def reset():
     promotion = ""
     turn = [1]
     winner = ""
-    editorOn = False
+    editorOn = True
     for x in range(boardSize):
         for y in range(boardSize):
             board[alphabet[x] + str(y+1)] = ""
@@ -187,7 +187,11 @@ while running:
                     # Picks up a piece
                     for piece in pieces:
                         if (turn[0] % 2 == 0 if pieces[piece].color == topColor else turn[0] % 2 == 1) or overRideTurns:
-                            if mouseXY[0] // squareSize + 1 == (boardSize - alphabet.index(pieces[piece].position[0])) and mouseXY[1] // squareSize + 1 == pieces[piece].position[1]:
+                            actualX = boardSize - alphabet.index(pieces[piece].position[0])
+                            mouseX = mouseXY[0] // squareSize + 1
+                            actualY = pieces[piece].position[1]
+                            mouseY = mouseXY[1] // squareSize + 1
+                            if mouseX == actualX and mouseX == actualY:
                                 pieces[piece].follow = True
                 else:
                     # Removes a piece if that mode is on

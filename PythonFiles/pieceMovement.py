@@ -91,7 +91,7 @@ def pieceCanTakeDiagonal(piece, vars):
     pieces = vars["pieces"]
     board = vars["board"]
     for x in [-1, 1]:
-        if board[alphabet[alphabet.index(pieces[piece].position[0]) + x] + str(int(pieces[piece].position[1] + 1))] != "":
+        if board[alphabet[alphabet.index(pieces[piece].position[0]) + x] + str(int(pieces[piece].position[1] + 1))] != "" and pieces[board[alphabet[alphabet.index(pieces[piece].position[0]) + x] + str(int(pieces[piece].position[1] + 1))]].color == pieces[piece].color:
             return True
     
 

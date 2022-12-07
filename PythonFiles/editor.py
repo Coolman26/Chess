@@ -17,7 +17,7 @@ def editor(vars):
     height = screen.get_height()
     textRect.center = (width // 2, 45)
     screen.blit(text, textRect)
-    screen.blit(boardEditingIcon, (width//2-width//4, height//2-height//4))
+    screen.blit(boardEditingIcon, (125, 200))
 
     
     
